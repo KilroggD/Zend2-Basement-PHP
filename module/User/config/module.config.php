@@ -104,6 +104,7 @@ return array(
              'User\Controller\Register' => 'User\Controller\RegistrationController',
             'User\Controller\Login' => 'User\Controller\LoginController',
              'User\Controller\Password' => 'User\Controller\PasswordController',
+            'User\Controller\Profile'=>'User\Controller\ProfileController'                
         ),
     ),
         'service_manager' => array(
