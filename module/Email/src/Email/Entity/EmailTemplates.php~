@@ -1,0 +1,47 @@
+<?php
+
+namespace Email\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * EmailTemplates
+ *
+ * @ORM\Table(name="email_templates")
+ * @ORM\Entity
+ */
+class EmailTemplates
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="email_templates_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="key", type="string", length=32, nullable=false)
+     */
+    private $key;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="template", type="text", nullable=false)
+     */
+    private $template;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="subject", type="string", length=256, nullable=true)
+     */
+    private $subject;
+
+
+}

@@ -123,8 +123,13 @@ class LoginController extends MyAbstractController{
             }
     
             
-    public function logoutAction(){
-        
+     public function logoutAction()
+    {   
+       $this->getContainer()->number=0;
+       $this->getAuthService()->getStorage()->forgetMe();
+       $this->getAuthService()->clearIdentity();
+       $this->flashmessenger()->addMessage("Вы вышли из системы");
+       return $this->redirect()->toRoute('home');
     }
     
     
