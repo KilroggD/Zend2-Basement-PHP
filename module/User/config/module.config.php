@@ -75,38 +75,28 @@ return array(
                               ),
                 ),
             
-            'register'=>array(
-                      'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/register',
+                        "profile"=>array(
+            'type' => 'Segment',
+                          'options' => array(
+                    'route'    => '/id_:uid',
                     'defaults' => array(
-                        'controller' => 'User\Controller\Register',
+                        'controller' => 'User\Controller\Profile',
                         'action'     => 'index',
                     ),
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'activate' => array(
+                    'edit' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/activate',
+                            'route'    => '/edit',
                             'defaults' => array(
-                                'action'     => 'activate',
+                                'action'     => 'edit',
                             ),
                            ),
-                    ),
-                        'success' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/success',
-                            'defaults' => array(
-                                'action'     => 'success',
-                            ),
-                       
-                        ),
-                    ),
+                    ),                
                 ),
-            ), 
+            ),
         ),
     ),    
         'controllers' => array(
@@ -129,6 +119,9 @@ return array(
                     $authService = $serviceManager->get('doctrine.authenticationservice.orm_default');
                     return $authService;
           },
+                  'tokenService'=>function(){
+              return new User\Service\TokenService();              
+                  }
        ),
         'abstract_factories' => array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
@@ -142,11 +135,26 @@ return array(
            'factories' => array(
                'User\Form\LoginForm'=>function() {
                 $form = new \User\Form\LoginForm();
-                $form->setInputFilter(new \User\Form\LoginFilter);
+                $form->setInputFilter(new \User\Form\LoginFilter());
                 $form->setHydrator(new \Zend\Stdlib\Hydrator\ObjectProperty());
                 return $form;
             },  
-                    ),
+                'User\Form\ForgotPassword'=>function(){
+                    $form=new \User\Form\ForgotPasswordForm();
+                    $form->setInputFilter(new User\Form\ForgotPasswordFilter());
+                    $form->setHydrator(new \Zend\Stdlib\Hydrator\ObjectProperty());
+                    return $form;
+                    },
+                'User\Form\NewPassword'=>function(){
+                    $form=new \User\Form\NewPasswordForm();
+                    $form->setInputFilter(new User\Form\NewPasswordFilter());
+                    $form->setHydrator(new \Zend\Stdlib\Hydrator\ObjectProperty());
+                    return $form;
+                },
+                'User\Form\Profile'=>function(){
+                    
+                },
+                        ),
        ),
            'doctrine' => array(
         'driver' => array(

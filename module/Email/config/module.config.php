@@ -15,9 +15,11 @@ return array(
         ),
                    ),
     "service_manager"=>array(
+        'factories' => array(
         "emailService"=>function($sm){
             $service=new Email\Service\EmailService($sm);
             return $service;
         }
+        )
     )
 );

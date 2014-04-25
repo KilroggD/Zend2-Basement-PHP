@@ -17,12 +17,12 @@ class UserListener  implements ListenerAggregateInterface {
     /**
      * @var \Zend\Stdlib\CallbackHandler[]
      */
-        protected $listeners=array(),$_sm;
+        protected $listeners=array(),$_sm,$target;
         /**
          * В конструкторе определяем сервис-менеджер
          * @param type $sm
          */
-    public function __construct($sm) {
+    public function __construct($sm) {        
         $this->_sm=$sm;
     }
         /**
@@ -32,7 +32,9 @@ class UserListener  implements ListenerAggregateInterface {
     public function attach(EventManagerInterface $events) {
         $sharedEvents=$events->getSharedManager();
         $this->listeners[]=$sharedEvents->attach('User\Controller\LoginController', 'successfulLogin', array($this,'onSuccessfulLogin'), 100);
+        $this->listeners[]=$sharedEvents->attach('User\Controller\PasswordController','passwordForgot',array($this,'onForgotPassword'),100);
         $this->listeners[]=$sharedEvents->attach('Zend\Mvc\Controller\AbstractActionController', 'dispatch', array($this,'checkAuth'), 200);
+        $this->listeners[]=$sharedEvents->attach('Zend\Mvc\Controller\AbstractActionController', 'dispatch', array($this,'getBase'), 100);
     }
     
     public function detach(EventManagerInterface $events) {
@@ -59,9 +61,7 @@ class UserListener  implements ListenerAggregateInterface {
      */
     public function checkAuth($e){
         $authObject=null; 
-        $app = $e->getApplication();
-         $locator = $app->getServiceManager();
-        $authService = $locator->get('authService');
+       $authService = $this->_sm->get('authService');
         $authAdapter=$authService->getAdapter();
         $controller=$e->getTarget();
         if($authService->hasIdentity()===true){
@@ -69,8 +69,29 @@ class UserListener  implements ListenerAggregateInterface {
             $authObject=$authService->getStorage()->read();
             $controller->userParams=$authObject;
         }
-        $controller->layout()->setVariable('userLogged',$authObject);
+        $controller->layout()->setVariable('userLogged',$authObject);        
         return true;
+    }
+    
+    public function getBase($e){
+        $controller=$e->getTarget();
+        $request=$controller->getRequest();
+        $base=null;
+          if(!$request instanceof ConsoleRequest) {
+     $uri = $request->getUri();
+     $scheme = $uri->getScheme();
+     $host = $uri->getHost();
+     $base = sprintf('%s://%s', $scheme, $host);
+               }
+      $controller->base=$base;
+      return true;
+    }
+    
+    public function onForgotPassword($e){
+         $params=$e->getParams();
+         $emailService=$this->_sm->get('emailService');
+         $emailService->sendPasswordChange($params["email"],$params["login"],$params["link"]);
+         return true;
     }
     
     

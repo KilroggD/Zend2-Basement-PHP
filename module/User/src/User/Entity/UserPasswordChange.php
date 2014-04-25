@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="user_password_change", indexes={@ORM\Index(name="IDX_DF620397A76ED395", columns={"user_id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class UserPasswordChange
 {
@@ -126,4 +127,13 @@ class UserPasswordChange
     {
         return $this->user;
     }
+    
+/**
+* @ORM\PrePersist
+*/
+    public function prePersist() {
+    if(!$this->created){
+        $this->setCreated(new \DateTime());
+    }
+}
 }

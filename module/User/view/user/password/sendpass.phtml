@@ -5,9 +5,6 @@ $errors=$this->errors;
 <?=$this->form()->openTag($form) ?>
 <?=$this->formCollection($form) ?>
 <?=$this->form()->closeTag($form) ?>
-<div class="forgot-link-container">
-    <a href="<?=$this->url("password") ?>">Забыли пароль?</a>
-    </div>
 <div class="login-errors">
        <?=$this->htmlList($this->errors); ?>
     </div>

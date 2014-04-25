@@ -15,7 +15,9 @@ use Zend\Mvc\Controller\AbstractActionController;
  */
 class MyAbstractController extends AbstractActionController{
     //put your code here
+    
     protected $em,$viewrenderer;
+    public $base,$userParams;
     /**
      * Обработчик события dispatch - проверка на ошибку
      * @param \Zend\Mvc\MvcEvent $e
@@ -24,7 +26,7 @@ class MyAbstractController extends AbstractActionController{
     public function onDispatch(\Zend\Mvc\MvcEvent $e) {
         if($e->getError()){
             return false;            
-        }
+        }        
             parent::onDispatch($e);
     }
     /**
@@ -72,5 +74,15 @@ class MyAbstractController extends AbstractActionController{
   {
     $this->viewrenderer = $em;
     return $this;
+  }
+  /**
+   * Вернуть форму
+   * @param string $key
+   * @return form
+   */
+    public function getFormByKey($key){         
+      $formManager = $this->getServiceLocator()->get('FormElementManager');
+      $form = $formManager->get($key);         
+      return $form;
   }
 }

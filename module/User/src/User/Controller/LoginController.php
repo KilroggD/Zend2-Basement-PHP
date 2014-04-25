@@ -100,7 +100,7 @@ class LoginController extends MyAbstractController{
                         //событие об успешном логине юзера  - передаем айдишник
                     $this->getEventManager()->trigger("successfulLogin", null, array("id"=>$userLogged->getId()));
                     //переадресуем на главную
-                    return $this->redirect('home');
+                    return $this->redirect()->toRoute('home');
                 }
                 else {
                     $errors[]="Логин или пароль неверный, или учетная запись неактивна.";
