@@ -1,0 +1,71 @@
+<?php
+
+namespace User\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * UserProfile
+ *
+ * @ORM\Table(name="user_profile", indexes={@ORM\Index(name="IDX_D95AB405A76ED395", columns={"user_id"})})
+ * @ORM\Entity
+ */
+class UserProfile
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="user_profile_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="first_name", type="string", length=64, nullable=true)
+     */
+    private $firstName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="last_name", type="string", length=64, nullable=true)
+     */
+    private $lastName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="middle_name", type="string", length=64, nullable=true)
+     */
+    private $middleName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="occupation", type="string", length=64, nullable=true)
+     */
+    private $occupation;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phone", type="string", length=32, nullable=true)
+     */
+    private $phone;
+
+    /**
+     * @var \User\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="User\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * })
+     */
+    private $user;
+
+
+}
