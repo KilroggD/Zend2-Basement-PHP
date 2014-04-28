@@ -1,0 +1,32 @@
+<?php
+//
+$labelsArray=array(
+  "email"=>"Электронная почта",
+  "login"=>"Имя пользователя",
+  "firstName"=>"Имя",
+  "lastName"=>"Фамилия",
+  "middleName"=>"Отчество",
+  "occupation"=>"Должность",
+   "phone"=>"Телефон",
+    "oldpassword"=>"Старый пароль",
+    "newpassword"=>"Новый пароль",
+    "confirmpassword"=>"Подтвердите пароль",
+);
+$form=$this->form;
+$form->setAttribute("action",$this->url("profile/edit"));
+$form->prepare();
+?>
+<div class="profile-form-container">
+    <?=$this->form()->openTag($form)?>
+    <?=$this->formCollection($form) ?>
+    <?=$this->form()->closeTag($form) ?>
+    </div>
+<div class="profile-errors-container">
+    <?php 
+    if($this->errors) {
+    ?>
+ <?=$this->htmlList($this->errors); ?>
+    <?php
+    }
+    ?>
+    </div>

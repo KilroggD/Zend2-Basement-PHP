@@ -42,6 +42,30 @@ class EmailService {
         $this->to=$to;
         return $this->send();
     }
+    /**
+     * 
+     * @param string $oldemail
+     * @param string $newemail
+     * @param string $login
+     */
+    public function sendEmailChange($oldemail,$newemail,$login=null) {
+        $templateFrom=$this->repository->findOneByKey("emailChangeFrom");
+        $templateTo=$this->repository->findOneByKey("emailChangeTo");
+        $login=is_null($login)?'':$login;
+        $textFrom= str_replace("{{LOGIN}}", $login, $templateFrom->getTemplate()); 
+        $textFrom=  str_replace("{{EMAIL}}", $oldemail, $textFrom);
+        $textTo= str_replace("{{LOGIN}}", $login, $templateTo->getTemplate()); 
+        $textTo=  str_replace("{{EMAIL}}", $newemail, $textTo);
+        $this->subj=$templateFrom->getSubject();
+        $this->text=$textFrom;
+        $this->to=$oldemail;
+        $this->send();
+        $this->subj=$templateTo->getSubject();
+        $this->text=$textTo;
+        $this->to=$newemail;
+        $this->send();
+        return true;
+    }
     
         protected function send(){
         try {

@@ -76,9 +76,9 @@ return array(
                 ),
             
                         "profile"=>array(
-            'type' => 'Segment',
+            'type' => 'Zend\Mvc\Router\Http\Literal',
                           'options' => array(
-                    'route'    => '/id_:uid',
+                    'route'    => '/profile',
                     'defaults' => array(
                         'controller' => 'User\Controller\Profile',
                         'action'     => 'index',
@@ -87,7 +87,7 @@ return array(
                 'may_terminate' => true,
                 'child_routes' => array(
                     'edit' => array(
-                        'type'    => 'Segment',
+                        'type'    => 'Zend\Mvc\Router\Http\Literal',
                         'options' => array(
                             'route'    => '/edit',
                             'defaults' => array(
@@ -153,7 +153,10 @@ return array(
                     return $form;
                 },
                 'User\Form\Profile'=>function(){
-                    
+                    $form=new \User\Form\ProfileForm();
+                    $form->setInputFilter(new User\Form\ProfileFilter());
+                    $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods());
+                    return $form;
                 },
                         ),
        ),

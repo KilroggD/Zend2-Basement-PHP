@@ -33,6 +33,7 @@ class UserListener  implements ListenerAggregateInterface {
         $sharedEvents=$events->getSharedManager();
         $this->listeners[]=$sharedEvents->attach('User\Controller\LoginController', 'successfulLogin', array($this,'onSuccessfulLogin'), 100);
         $this->listeners[]=$sharedEvents->attach('User\Controller\PasswordController','passwordForgot',array($this,'onForgotPassword'),100);
+        $this->listeners[]=$sharedEvents->attach('User\Controller\ProfileController','emailChange',array($this,'onEmailChange'),100);
         $this->listeners[]=$sharedEvents->attach('Zend\Mvc\Controller\AbstractActionController', 'dispatch', array($this,'checkAuth'), 200);
         $this->listeners[]=$sharedEvents->attach('Zend\Mvc\Controller\AbstractActionController', 'dispatch', array($this,'getBase'), 100);
     }
@@ -94,5 +95,14 @@ class UserListener  implements ListenerAggregateInterface {
          return true;
     }
     
+    /**
+     * Действия на смену емэйла пользователем
+     */
+    public function onEmailChange($e){
+            $params=$e->getParams();
+            $emailService=$this->_sm->get('emailService');
+            $emailService->sendEmailChange($params["oldemail"],$params["newemail"],$params["login"]);
+            return true;
+    }
     
 }

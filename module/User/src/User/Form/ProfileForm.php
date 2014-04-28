@@ -14,7 +14,7 @@ use Zend\Stdlib\Hydrator\ClassMethods;
  *
  * @author kopychev
  */
-class ProfileForm extends AbstractForm{
+class ProfileForm extends MyAbstractForm{
     public function __construct($name = null, $options = array()) {
         parent::__construct($name, $options);
           $this->setName('profile');
@@ -32,14 +32,14 @@ class ProfileForm extends AbstractForm{
                 'maxlength'=>64,
                            ),
             'options'=>array(
-                'label'=>'E-mail*:',
+                'label'=>'E-mail:',
                 'label_attributes'=>array(
                     'class'=>'col-md-3 control-label'
                 )
             )
         ));
         $this->add(array(
-            'name' => 'firstName',
+            'name' => 'first_name',
             'attributes' => array(
                 'type' => 'text',
                 'class'=>'medium-input form-control',
@@ -55,7 +55,7 @@ class ProfileForm extends AbstractForm{
             )
         ));
          $this->add(array(
-            'name' => 'lastName',
+            'name' => 'last_name',
             'attributes' => array(
                 'type' => 'text',
                 'class'=>'medium-input form-control',
@@ -71,7 +71,7 @@ class ProfileForm extends AbstractForm{
             )
         ));
          $this->add(array(
-            'name' => 'middleName',
+            'name' => 'middle_name',
             'attributes' => array(
                 'type' => 'text',
                 'class'=>'medium-input form-control',
@@ -118,11 +118,64 @@ class ProfileForm extends AbstractForm{
                 )
             )
         ));
+                  
+                    $this->add(array(
+                    'name' => 'oldpassword',
+            'attributes'=>array(
+              'type' => 'password',
+              'class'=>'form-control',
+               'id'=>'oldpassword',
+                'size'=>50,
+                'maxlength'=>64,
+            ),
+            'options' => array(
+               'label'=>'Старый пароль:',
+                'label_attributes'=>array(
+                    'class'=>'col-md-3 control-label'
+                )
+            )              
+                
+            ));
+     
+                $this->add(array(
+            'name' => 'password',
+            'attributes'=>array(
+              'type' => 'password',
+              'class'=>'medium-input form-control',
+               'id'=>'password',
+                'size'=>50,
+                'maxlength'=>64,
+            ),
+            'options' => array(
+               'label'=>'Новый пароль:',
+                'label_attributes'=>array(
+                    'class'=>'col-md-3 control-label'
+                )
+            )
+        ));
+         $this->add(array(
+            'name' => 'confirmpassword',
+            'attributes'=>array(
+              'type' => 'password',
+              'class'=>'medium-input form-control',
+              'id'=>'confirmpassword',
+                'size'=>50,
+                'maxlength'=>64,
+            ),
+            'options' => array(
+               'label'=>'Подтверждение пароля:',
+                'label_attributes'=>array(
+                    'class'=>'col-md-3 control-label'
+                )
+            )
+        ));
+                  
+                  
                         $this->add(array(
             'name' => 'submit',
             'attributes' => array(
                 'type' => 'submit',
-                'value' => 'Submit',
+                'value' => 'Сохранить',
                 'class'=>'btn btn-primary submit-enter'
             ),
                 'options'=>array(

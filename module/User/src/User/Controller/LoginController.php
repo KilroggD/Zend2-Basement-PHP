@@ -16,7 +16,6 @@ use Zend\Form\Element\Captcha, Zend\Captcha\Image as CaptchaImage;
  * @author kopychev
  */
 class LoginController extends MyAbstractController{
-    public $userParams;
     public $form;
     protected $storage;
     protected $authservice;

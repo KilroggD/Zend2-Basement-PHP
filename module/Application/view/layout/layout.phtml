@@ -47,7 +47,7 @@
       
                         <li class="menu-profile">
                        <div class="row text-center" ><a href="<?php echo $this->url('logout') ?>" class="profile-links btn btn-default">Выход</a></div>
-                     <div class="row text-center"><a href="<?=$this->url('profile',array('uid'=>$this->userLogged->getId())) ?>"><?=$this->userLogged->getLogin(); ?></a></div>
+                     <div class="row text-center"><a href="<?=$this->url('profile')?>"><?=$this->userLogged->getLogin(); ?></a></div>
                      </li>
                         <?php
                     }
