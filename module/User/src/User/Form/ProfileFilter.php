@@ -152,7 +152,6 @@ class ProfileFilter extends InputFilter{
                          $this->add(array(
                 'name'=>'oldpassword',
                                             'required'=>false,
-
                'validators' => array(          
                 array(
                     'name'=>'User\Validator\Opposite',

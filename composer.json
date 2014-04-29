@@ -7,14 +7,15 @@
         "zf2"
     ],
     "homepage": "http://framework.zend.com/",
-      "require": {
+       "minimum-stability": "alpha",
+    "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.2.*",
           "doctrine/orm": "*",
         "doctrine/doctrine-orm-module": "0.*",
-         "doctrine/mongodb-odm":"dev-master",
-     "doctrine/doctrine-mongo-odm-module": "dev-master",
       "gedmo/doctrine-extensions": "2.3.*",
-       "zendframework/zend-developer-tools": "dev-master"
+       "zendframework/zend-developer-tools": "dev-master",
+        "doctrine/doctrine-mongo-odm-module": "dev-master",
+       "doctrine/migrations": "*"
     }
 }

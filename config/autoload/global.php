@@ -113,6 +113,13 @@ return array(
         ),
 
         // authentication service configuration
-
+       'migrations_configuration' => array(
+            'orm_default' => array(
+                'directory' => 'sql/migrations',
+                'name'      => 'Doctrine Database Migrations',
+                'namespace' => 'DoctrineORMModule\Migrations',
+                'table'     => 'migrations',
+            ),
+        ),
 )
   );
