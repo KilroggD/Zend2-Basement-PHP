@@ -93,7 +93,7 @@ class ProfileController extends MyAbstractController{
     private function checkUserData($user,$post){
             $uFound=$this->getRepository("User\Entity\Users")->findOneByEmail($post["email"]);
             if($uFound && $uFound->getId()!==$user->getId()){
-                $this->errors["email"]="Пользователь с таки email уже зарегистрирован";               
+                $this->errors["email"]="Пользователь с таким email уже зарегистрирован";               
                 return false;
             }
             elseif($user->getEmail()!==$post["email"]) {

@@ -137,7 +137,8 @@ class ProfileFilter extends InputFilter{
         ));
         $this->add(array(
     'name' => 'confirmpassword', // add second password field
-    'validators' => array(
+                'required'=>false,
+            'validators' => array(
         array(
             'name' => 'Identical',
             'options' => array(
@@ -150,6 +151,8 @@ class ProfileFilter extends InputFilter{
      
                          $this->add(array(
                 'name'=>'oldpassword',
+                                            'required'=>false,
+
                'validators' => array(          
                 array(
                     'name'=>'User\Validator\Opposite',
