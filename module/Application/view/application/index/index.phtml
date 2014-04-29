@@ -2,57 +2,44 @@
        <?=$this->htmlList($this->messages); ?>
     </div>
 <div class="demo-section">
-
 <?php
-    $treeview = new \Kendo\UI\TreeView('treeview-left');
-    $treeview->dragAndDrop(true);
+    $treeview = new \Kendo\UI\TreeView('treeview');
 
-    $furniture = new \Kendo\UI\TreeViewItem('Furniture');
-    $furniture->expanded(true);
-    $furniture->addItem(
-        new \Kendo\UI\TreeViewItem('Tables & Chairs'),
-        new \Kendo\UI\TreeViewItem('Sofas'),
-        new \Kendo\UI\TreeViewItem('Occasional Furniture')
-    );
+    // helper function that creates TreeViewItem with spriteCssClass
+    function TreeViewItem($text, $spriteCssClass) {
+        $item = new \Kendo\UI\TreeViewItem($text);
+        $item->spriteCssClass($spriteCssClass);
+        return $item;
+    }
 
-    $decor = new \Kendo\UI\TreeViewItem('Decor');
-    $decor->addItem(
-        new \Kendo\UI\TreeViewItem('Bed Linen'),
-        new \Kendo\UI\TreeViewItem('Curtains & Blinds'),
-        new \Kendo\UI\TreeViewItem('Carpets')
-    );
+    $site = TreeViewItem('My Web Site', 'folder');
 
-    $datasource = new \Kendo\Data\HierarchicalDataSource();
-    $datasource->data(array( $furniture, $decor));
+    $images = TreeViewItem('images', 'folder');
+    $images->expanded(true);
+    $images->addItem(TreeViewItem('logo.png', 'image'))
+           ->addItem(TreeViewItem('body-back.png', 'image'))
+           ->addItem(TreeViewItem('my-photo.jpg', 'image'));
 
-    $treeview->dataSource($datasource);
+    $pdfs = TreeViewItem('pdf', 'folder');
+    $pdfs->expanded(true);
+    $pdfs->addItem(TreeViewItem('brochure.pdf', 'pdf'))
+         ->addItem(TreeViewItem('prices.pdf', 'pdf'));
 
-    echo $treeview->render();
-?>
+    $resources = TreeViewItem('resources', 'folder');
+    $resources->expanded(true);
+    $resources->addItem($pdfs)
+              ->addItem(TreeViewItem('zip', 'folder'));
 
-<?php
-    $treeview = new \Kendo\UI\TreeView('treeview-right');
-    $treeview->dragAndDrop(true);
 
-    $storage = new \Kendo\UI\TreeViewItem('Storage');
-    $storage->expanded(true);
-    $storage->addItem(
-        new \Kendo\UI\TreeViewItem('Wall Shelving'),
-        new \Kendo\UI\TreeViewItem('Floor Shelving'),
-        new \Kendo\UI\TreeViewItem('Kids Storage')
-    );
+    $site->expanded(true);
+    $site->addItem($images)
+         ->addItem($resources)
+         ->addItem(TreeViewItem('about.html', 'html'))
+         ->addItem(TreeViewItem('contacts.html', 'html'))
+         ->addItem(TreeViewItem('index.html', 'html'))
+         ->addItem(TreeViewItem('portfolio.html', 'html'));
 
-    $lights = new \Kendo\UI\TreeViewItem('Lights');
-    $lights->addItem(
-        new \Kendo\UI\TreeViewItem('Ceiling'),
-        new \Kendo\UI\TreeViewItem('Table'),
-        new \Kendo\UI\TreeViewItem('Floor')
-    );
-
-    $datasource = new \Kendo\Data\HierarchicalDataSource();
-    $datasource->data(array( $storage, $lights));
-
-    $treeview->dataSource($datasource);
+    $treeview->addItem($site);
 
     echo $treeview->render();
 ?>
