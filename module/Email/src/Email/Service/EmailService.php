@@ -53,9 +53,9 @@ class EmailService {
         $templateTo=$this->repository->findOneByKey("emailChangeTo");
         $login=is_null($login)?'':$login;
         $textFrom= str_replace("{{LOGIN}}", $login, $templateFrom->getTemplate()); 
-        $textFrom=  str_replace("{{EMAIL}}", $oldemail, $textFrom);
+        $textFrom=  str_replace("{{EMAIL}}", $newemail, $textFrom);
         $textTo= str_replace("{{LOGIN}}", $login, $templateTo->getTemplate()); 
-        $textTo=  str_replace("{{EMAIL}}", $newemail, $textTo);
+        $textTo=  str_replace("{{EMAIL}}", $oldemail, $textTo);
         $this->subj=$templateFrom->getSubject();
         $this->text=$textFrom;
         $this->to=$oldemail;

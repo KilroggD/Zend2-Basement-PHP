@@ -91,7 +91,7 @@ class UserListener  implements ListenerAggregateInterface {
     public function onForgotPassword($e){
          $params=$e->getParams();
          $emailService=$this->_sm->get('emailService');
-         $emailService->sendPasswordChange($params["email"],$params["login"],$params["link"]);
+         $emailService->sendPasswordChange($params["email"], $params["link"],$params["login"]);
          return true;
     }
     
