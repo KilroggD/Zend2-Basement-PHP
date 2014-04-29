@@ -1,6 +1,7 @@
 <?php
 namespace User\Form;
 use Zend\InputFilter\InputFilter;
+use User\Validator\Opposite;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -112,40 +113,10 @@ class ProfileFilter extends InputFilter{
         ));
                      
                      $this->add(array(
-           'name'=>'oldpassword',
-              'required'=>false,
-               'attributes'=>array(
-              'type' => 'password',
-              'class'=>'medium-input form-control',
-              'id'=>'oldpassword',
-                'size'=>50,
-                'maxlength'=>64,
-            ),
-            'validators' => array(          
-                array(
-                    'name'=>'User\Validator\Opposite',
-                    'options'=>array(
-                        'token'=>'password',
-                        'messages'=>array(
-                          'notSame'=>"Старый и новый пароли должны отличаться"  
-                        ),
-                    )
-                )
-    
-                )
-        ));
-                   $this->add(array(
            'name'=>'password',
                'required'=>false,
-                  'attributes'=>array(
-              'type' => 'password',
-              'class'=>'medium-input form-control',
-              'id'=>'password',
-                'size'=>50,
-                'maxlength'=>64,
-            ),
-            'validators' => array(
-                array(
+                  'validators' => array(
+                       array(
                     'name' => 'regex',
                      'options' => array(
                         'pattern' => '/[^а-яё]/ui',
@@ -166,14 +137,6 @@ class ProfileFilter extends InputFilter{
         ));
         $this->add(array(
     'name' => 'confirmpassword', // add second password field
-    'required'=>false,
-            'attributes'=>array(
-              'type' => 'password',
-              'class'=>'medium-input form-control',
-              'id'=>'confirmpassword',
-                'size'=>50,
-                'maxlength'=>64,
-            ),
     'validators' => array(
         array(
             'name' => 'Identical',
@@ -184,6 +147,22 @@ class ProfileFilter extends InputFilter{
         ),
     ),
 ));
-                     
+     
+                         $this->add(array(
+                'name'=>'oldpassword',
+               'validators' => array(          
+                array(
+                    'name'=>'User\Validator\Opposite',
+                    'options'=>array(
+                        'token'=>'password',
+                        'messages'=>array(
+                          'notSame'=>"Старый и новый пароли должны отличаться"  
+                        ),
+                    )
+                )
+    
+                )
+        ));
+        
     }
 }
