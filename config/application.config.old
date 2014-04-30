@@ -10,8 +10,9 @@ return array(
         'DoctrineModule',
         'DoctrineORMModule',
         'Application',
-            'Email',
-        'User'
+        'Email',
+        'User',
+        'Kendo'
         ),
     'module_listener_options' => array(
         'module_paths' => array(

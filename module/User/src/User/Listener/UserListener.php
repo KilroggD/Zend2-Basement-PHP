@@ -24,6 +24,7 @@ class UserListener  implements ListenerAggregateInterface {
          */
     public function __construct($sm) {        
         $this->_sm=$sm;
+    
     }
         /**
          * Стандартные методы attach и detach - установка и снятие событий
@@ -34,7 +35,7 @@ class UserListener  implements ListenerAggregateInterface {
         $this->listeners[]=$sharedEvents->attach('User\Controller\LoginController', 'successfulLogin', array($this,'onSuccessfulLogin'), 100);
         $this->listeners[]=$sharedEvents->attach('User\Controller\PasswordController','passwordForgot',array($this,'onForgotPassword'),100);
         $this->listeners[]=$sharedEvents->attach('User\Controller\ProfileController','emailChange',array($this,'onEmailChange'),100);
-        $this->listeners[]=$sharedEvents->attach('Zend\Mvc\Controller\AbstractActionController', 'dispatch', array($this,'checkAuth'), 200);
+        $this->listeners[]=$sharedEvents->attach('Zend\Mvc\Controller\AbstractActionController', 'dispatch', array($this,'checkAuth'), 500);
         $this->listeners[]=$sharedEvents->attach('Zend\Mvc\Controller\AbstractActionController', 'dispatch', array($this,'getBase'), 100);
     }
     
@@ -90,9 +91,14 @@ class UserListener  implements ListenerAggregateInterface {
     
     public function onForgotPassword($e){
          $params=$e->getParams();
-         $emailService=$this->_sm->get('emailService');
+             try {
+         $emailService=$this->_sm->get("emailService");
          $emailService->sendPasswordChange($params["email"], $params["link"],$params["login"]);
          return true;
+                }
+        catch (\Exception $e){
+            return false;
+        }
     }
     
     /**
@@ -100,9 +106,14 @@ class UserListener  implements ListenerAggregateInterface {
      */
     public function onEmailChange($e){
             $params=$e->getParams();
-            $emailService=$this->_sm->get('emailService');
+                try {                    
+            $emailService=$this->_sm->get("emailService");
             $emailService->sendEmailChange($params["oldemail"],$params["newemail"],$params["login"]);
             return true;
+                }
+       catch (\Exception $e){
+            return false;
+       }
     }
     
 }

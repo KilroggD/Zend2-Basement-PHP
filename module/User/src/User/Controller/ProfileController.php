@@ -76,7 +76,7 @@ class ProfileController extends MyAbstractController{
              $this->getEntityManager()->persist($user);
              $this->getEntityManager()->flush();
              if($this->myevent){
-                 $this->getEventManager()->trigger($this->myevent,null,array("id"=>$user->getId(),"oldemail"=>$oldemail,"newemail"=>$user->getEmail(),"login"=>$user->getLogin()));
+                 $this->getEventManager()->trigger($this->myevent,$this,array("id"=>$user->getId(),"oldemail"=>$oldemail,"newemail"=>$user->getEmail(),"login"=>$user->getLogin()));
              }
              return $this->redirect()->toRoute('profile');
             }       

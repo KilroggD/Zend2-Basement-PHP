@@ -17,6 +17,9 @@ return array(
                     'defaults' => array(
                         'controller' => 'Application\Controller\Index',
                         'action'     => 'index',
+                        'description'=>'Доступ к главной странице приложения',
+                        'group'=>'homepage',
+                         'exclude'=>1
                     ),
                 ),
             ),

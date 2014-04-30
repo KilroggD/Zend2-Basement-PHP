@@ -4,11 +4,13 @@ return array(
         'routes' => array(
                 'login' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
+                    'options' => array(
                     'route'    => '/login',
                     'defaults' => array(
                         'controller' => 'User\Controller\Login',
                         'action'     => 'login',
+                        'description'=>'Вход на страницу логина',                         
+                        'group'=>"user",
                     ),
                 ),
                       'may_terminate'=>true,
@@ -19,6 +21,7 @@ return array(
                             'route'    => '/authenticate',
                             'defaults' => array(
                                 'action'     => 'authenticate',
+                                'description'=>'Авторизация пользователя',                                
                             ),
                                                   ),
                     ),
@@ -31,6 +34,8 @@ return array(
                     'defaults' => array(
                         'controller' => 'User\Controller\Login',
                         'action'     => 'logout',
+                        'description'=> 'Выход из учетной записи',
+                        'group'=>"user",
                     ),
                 ),
                 ),
@@ -41,6 +46,8 @@ return array(
                     'defaults' => array(
                         'controller' => 'User\Controller\Password',
                         'action'     => 'sendpass',
+                        'description'=> 'Доступ к форме "Забыл пароль"',
+                        'group'=>"user",
                     ),
                 ),
                                      'may_terminate' => true,
@@ -51,27 +58,12 @@ return array(
                             'route'    => '/new/:uid/:token',
                             'defaults' => array(
                                 'action'     => 'new',
+                                'description'=> 'Восстановление пароля по ссылке',
+                                'group'=>"user",
                             ),
                            ),
                     ),
-                               'change' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/new',
-                            'defaults' => array(
-                                'action'     => 'change',
-                            ),
-                           ),
-                    ),
-                                   'success' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/success',
-                            'defaults' => array(
-                                'action'     => 'success',
-                            ),
-                           ),
-                    ),
+             
                               ),
                 ),
             
@@ -82,6 +74,8 @@ return array(
                     'defaults' => array(
                         'controller' => 'User\Controller\Profile',
                         'action'     => 'index',
+                        'description'=> 'Просмотр своего профайла',
+                        'group'=>"user",
                     ),
                 ),
                 'may_terminate' => true,
@@ -92,6 +86,8 @@ return array(
                             'route'    => '/edit',
                             'defaults' => array(
                                 'action'     => 'edit',
+                                'description'=> 'Редактирование своего профайла',
+                                'group'=>"user",
                             ),
                            ),
                     ),                

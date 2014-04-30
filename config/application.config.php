@@ -12,7 +12,8 @@ return array(
         'Application',
         'Email',
         'User',
-        'Kendo'
+        'Kendo',
+        'Acl'
         ),
     'module_listener_options' => array(
         'module_paths' => array(

@@ -41,7 +41,7 @@ class PasswordController extends MyAbstractController{
                 $userFound->setPasswordChange($passReq);
                 $this->getEntityManager()->flush();
                 //событие для отправки почты
-                $this->getEventManager()->trigger('passwordForgot', null, array("email"=>$userFound->getEmail(),"login"=>$userFound->getLogin(),"link"=>$link));
+                $this->getEventManager()->trigger('passwordForgot', $this, array("email"=>$userFound->getEmail(),"login"=>$userFound->getLogin(),"link"=>$link));
                 $this->flashMessenger()->addMessage("Дальнейшие инструкции высланы на указанный email");
                 return $this->redirect()->toRoute("home");
                    }

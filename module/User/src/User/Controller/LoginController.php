@@ -97,7 +97,7 @@ class LoginController extends MyAbstractController{
                         }       
                         
                         //событие об успешном логине юзера  - передаем айдишник
-                    $this->getEventManager()->trigger("successfulLogin", null, array("id"=>$userLogged->getId()));
+                    $this->getEventManager()->trigger("successfulLogin", $this, array("id"=>$userLogged->getId()));
                     //переадресуем на главную
                     return $this->redirect()->toRoute('home');
                 }
