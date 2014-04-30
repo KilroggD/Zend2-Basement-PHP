@@ -1,4 +1,7 @@
 <?php
+/**
+ * Конфигурация модуля
+ */
 return array(
                'doctrine' => array(
         'driver' => array(
