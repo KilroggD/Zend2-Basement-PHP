@@ -1,0 +1,11 @@
+<div class="acl-update-container">
+<h3>Записи о следующих разрешениях будут добавлены:</h3>
+<?=$this->aclList($this->toAdd)?>
+<br/>
+<br/>
+<h3>Записи о следующих разрешениях будут удалены:</h3>
+<?=$this->aclList($this->toDelete)?>
+</div>
+<div class="acl-load-button-container">
+<a class="acl-button btn btn-primary" href="<?=$this->url("acl\\admin/update",array("flag"=>"load"))?>">Применить изменения</a>
+    </div>

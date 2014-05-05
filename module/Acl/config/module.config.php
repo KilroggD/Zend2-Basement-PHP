@@ -5,8 +5,10 @@
 return array(
         'controllers' => array(
         'invokables' => array(
-            'Acl\Controller\Admin' => 'Acl\Controller\AdminController'
-             ),
+            'Acl\Controller\Acl' => 'Acl\Controller\AclController',
+            'Acl\Controller\Permissions'=>'Acl\Controller\PermissionsController',
+            'Acl\Controller\Role'=>'Acl\Controller\RoleController'
+                         ),
     ),
                'doctrine' => array(
         'driver' => array(
@@ -31,13 +33,13 @@ return array(
         )
     ),
                     'router' => array(
-        'routes' => array(
+        'routes' => array(            
             'acl\admin' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route' => '/admin/acl',
                     'defaults' => array(
-                        'controller' => 'Acl\Controller\Admin',
+                        'controller' => 'Acl\Controller\Acl',
                         'action' => 'index',
                         'description'=>'Доступ к странице управления разрешениями',
                         'group'=>'admin'
@@ -45,19 +47,85 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'modules' => array(
-                        'type' => 'Literal',
+                    'update' => array(
+                        'type' => 'Segment',
                         'options' => array(
-                            'route' => '/modules',
+                            'route' => "/update[/:flag]",
                             'defaults' => array(
-                                'action' => 'modules',
+                                'action' => 'update',
                                 'description'=>'Обновление разрешений в БД',
                                 'group'=>'admin'
                             ),
                         ),
                     ),
+                   'edit'=>array(
+                         'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/edit/:id',
+                            'defaults' => array(
+                                'action' => 'edit',
+                                'description'=>'Редактирование свойств разрешения',
+                                'group'=>'admin'
+                            ),
+                        ),  
+                   ),
+                    'delete'=>array(
+                           'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/delete/:id',
+                            'defaults' => array(
+                                'action' => 'delete',
+                                'description'=>'Удаление разрешения из БД',
+                                'group'=>'admin'
+                            ),
+                        ),   
+                    )
                 ),
             ),
+            
+                        'acl\admin\permissions' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/admin/permissions',
+                    'defaults' => array(
+                        'controller' => 'Acl\Controller\Permissions',
+                        'action' => 'index',
+                        'description'=>'Доступ к странице изменений прав ролей',
+                        'group'=>'admin'
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+
+                ),
+            ),
+            
             ),
                         ),
+                
+                                        'view_manager' => array(
+        'display_not_found_reason' => true,
+        'display_exceptions'       => true,
+        'doctype'                  => 'HTML5',
+        'not_found_template'       => 'error/404',
+        'exception_template'       => 'error/index',
+        'template_map' => array(
+            'layout/layout'           => __DIR__ . '/../../Application/view/layout/layout.phtml',
+            'error/404'               => __DIR__ . '/../../Application/view/error/404.phtml',
+            'error/index'             => __DIR__ . '/../../Application/view/error/index.phtml',
+            'acl/acl/update'       => __DIR__ . '/../view/acl/update.phtml',
+            'acl/acl/index'       => __DIR__ . '/../view/acl/index.phtml',
+            ),
+                                            
+        
+        'template_path_stack' => array(
+            __DIR__ . '/../view',
+        ),
+    
+    ),
+                'view_helpers'=>array(
+                  'invokables'=>array(
+                    'aclList'=>'Acl\View\Helper\AclListHelper',  
+                  ),
+                ),
 );
