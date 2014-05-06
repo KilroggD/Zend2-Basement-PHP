@@ -60,9 +60,23 @@ class AclPermissions
     /**
      * @var string
      *
-     * @ORM\Column(name="group", type="string", length=140, nullable=true)
+     * @ORM\Column(name="grp", type="string", length=140, nullable=true)
      */
-    private $group;
+    private $grp;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Acl\Entity\AclRoles", mappedBy="permissions")
+     */
+    private $roles;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 }

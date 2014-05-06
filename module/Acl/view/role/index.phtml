@@ -1,0 +1,43 @@
+<div class="row flash-messages">
+                <?=$this->htmlList($this->messages); ?>
+    </div>
+<div class="roles-container">
+        <div class="row roles-header">
+        <div class="col-md-6 text-left">
+            Роль
+            </div>
+        <div class="col-md-6 text-right">
+            Действие
+            </div>
+        </div>
+  <?php
+  foreach($this->roles as $role) {
+  ?>
+    <div class="row role-item">   
+    <div class="col-md-6 text-left">
+        <?=$role["name"]; ?>
+       </div>
+        <?php
+        //админ и юзер - встроенные роли, их не удаляем - потом поместить в константы классов
+        if(!$role["builtIn"]) { 
+            ?>
+        <div class="col-md-6 text-right">
+            <span><a href="<?=$this->url('acl\\admin\\roles/edit',array("id"=>$role["id"]))?>" class="role-edit-link">Изменить</a></span>
+            <span><a href="<?=$this->url('acl\\admin\\roles/delete',array("id"=>$role["id"]))?>" class="role-delete-link">Удалить</a></span>
+        </div>
+        
+    <?php
+        }
+        ?>
+        </div>
+        <?php
+    }
+    ?>
+    <div class="row add-role-container role-item">
+    <?=$this->form()->openTag($this->form); ?>
+        <div class="form-group">
+    <?=$this->formCollection($this->form); ?>
+            </div>
+     <?=$this->form()->closeTag($this->form); ?>
+        </div>
+    </div>

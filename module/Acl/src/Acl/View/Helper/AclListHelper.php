@@ -34,7 +34,15 @@ class AclListHelper extends AbstractHelper{
         }
         foreach($actions as $action=>$permission){
                 $html.="<tr>"
-                 . "<td>".$permission['description']."</td><td>$module</td><td>$action</td><td>".$permission['system']."</td><td>".$permission['exclude']."</td>"
+                 . "<td>".$permission['description']."";
+                if($editable){
+                    $html.="<span class='acl-editable-links'>"
+                            . "  <a href='".$this->getView()->url("acl\\admin/edit",array("id"=>$permission["id"]))."' class='btn btn-sm btn-default'><span class='glyphicon glyphicon-pencil'></span></a>";
+                    $html.="<a href='".$this->getView()->url("acl\\admin/delete",array("id"=>$permission["id"]))."' class='btn btn-sm btn-danger'><span class='glyphicon glyphicon-remove'></span></a>"
+                            . "</span>";
+                
+                }
+                        $html.= "</td><td>$module</td><td>$action</td><td>".$permission['system']."</td><td>".$permission['exclude']."</td>"
                  . "</tr>";            
         }
        

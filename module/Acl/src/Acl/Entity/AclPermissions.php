@@ -62,8 +62,22 @@ class AclPermissions
      *
      * @ORM\Column(name="grp", type="string", length=140, nullable=true)
      */
-    private $group;
+    private $grp;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Acl\Entity\AclRoles", mappedBy="permissions")
+     */
+    private $roles;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -192,25 +206,58 @@ class AclPermissions
     }
 
     /**
-     * Set group
+     * Set grp
      *
-     * @param string $group
+     * @param string $grp
      * @return AclPermissions
      */
-    public function setGroup($group)
+    public function setGrp($grp)
     {
-        $this->group = $group;
+        $this->grp = $grp;
 
         return $this;
     }
 
     /**
-     * Get group
+     * Get grp
      *
      * @return string 
      */
-    public function getGroup()
+    public function getGrp()
     {
-        return $this->group;
+        return $this->grp;
+    }
+
+    /**
+     * Add roles
+     *
+     * @param \Acl\Entity\AclRoles $roles
+     * @return AclPermissions
+     */
+    public function addRole(\Acl\Entity\AclRoles $roles)
+    {
+        $this->roles[] = $roles;
+
+        return $this;
+    }
+
+    /**
+     * Remove roles
+     *
+     * @param \Acl\Entity\AclRoles $roles
+     */
+    public function removeRole(\Acl\Entity\AclRoles $roles)
+    {
+        $this->roles->removeElement($roles);
+    }
+
+    /**
+     * Get roles
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRoles()
+    {
+        return $this->roles;
     }
 }

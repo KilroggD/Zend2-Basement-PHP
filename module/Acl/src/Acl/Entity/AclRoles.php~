@@ -1,0 +1,63 @@
+<?php
+
+namespace Acl\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * AclRoles
+ *
+ * @ORM\Table(name="acl_roles")
+ * @ORM\Entity
+ */
+class AclRoles
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="acl_roles_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=140, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Acl\Entity\Users", mappedBy="roles")
+     */
+    private $users;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Acl\Entity\AclPermissions", inversedBy="roles")
+     * @ORM\JoinTable(name="acl_roles_to_permissions",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="roles", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="permissions", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $permissions;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->permissions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}

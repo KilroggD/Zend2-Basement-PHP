@@ -32,6 +32,22 @@ return array(
         }
         )
     ),
+                       'form_elements'=>array(
+           'factories' => array(
+                   'Acl\Form\AclForm'=>function() {
+                $form = new \Acl\Form\AclForm();
+                $form->setInputFilter(new \Acl\Form\AclFilter());
+                $form->setHydrator(new \Zend\Stdlib\Hydrator\ClassMethods());
+                return $form;
+            },  
+                    'Acl\Form\RoleForm'=>function(){
+                $form=new \Acl\Form\RoleForm();
+                $form->setInputFilter(new \Acl\Form\RoleFilter);
+                $form->setHydrator(new \Zend\Stdlib\Hydrator\ClassMethods());
+                return $form;
+                    }
+               )
+                           ),
                     'router' => array(
         'routes' => array(            
             'acl\admin' => array(
@@ -100,6 +116,56 @@ return array(
                 ),
             ),
             
+                                'acl\admin\roles' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/admin/roles',
+                    'defaults' => array(
+                        'controller' => 'Acl\Controller\Role',
+                        'action' => 'index',
+                        'description'=>'Доступ к странице управления ролями',
+                        'group'=>'admin'
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    
+                               'add'=>array(
+                         'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/add[/:id]',
+                            'defaults' => array(
+                                'action' => 'add',
+                                'description'=>'Создание ролей',
+                                'group'=>'admin'
+                            ),
+                        ),  
+                   ),
+                               'edit'=>array(
+                         'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/edit/:id',
+                            'defaults' => array(
+                                'action' => 'edit',
+                                'description'=>'Редактирование ролей',
+                                'group'=>'admin'
+                            ),
+                        ),  
+                   ),
+                    'delete'=>array(
+                           'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/delete/:id',
+                            'defaults' => array(
+                                'action' => 'delete',
+                                'description'=>'Удаление ролей',
+                                'group'=>'admin'
+                            ),
+                        ),   
+                    )    
+                ),
+            ),
+            
             ),
                         ),
                 
@@ -115,7 +181,11 @@ return array(
             'error/index'             => __DIR__ . '/../../Application/view/error/index.phtml',
             'acl/acl/update'       => __DIR__ . '/../view/acl/update.phtml',
             'acl/acl/index'       => __DIR__ . '/../view/acl/index.phtml',
+            'acl/acl/edit'       => __DIR__ . '/../view/acl/edit.phtml',
+            'acl/role/index'       => __DIR__ . '/../view/role/index.phtml',
+            'acl/role/edit'       => __DIR__ . '/../view/role/edit.phtml',
             ),
+                                            
                                             
         
         'template_path_stack' => array(
