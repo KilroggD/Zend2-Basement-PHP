@@ -3,12 +3,12 @@
 namespace Acl\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\ORM\EntityRepository;
 /**
  * AclPermissions
  *
  * @ORM\Table(name="acl_permissions")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Acl\Repository\AclPermissionsRepository")
  */
 class AclPermissions
 {

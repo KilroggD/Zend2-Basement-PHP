@@ -1,0 +1,54 @@
+<?php
+$count=count($this->roles);
+$cols=$count+1;
+?>
+<div class="row flash-messages">
+                <?=$this->htmlList($this->messages); ?>
+    </div>
+<div class="permissions-container row">
+    <form name="permission-form" class="multicheck-form" id="permission-form" method="POST" action="<?=$this->saveUrl ?>">
+    <table class="table table-bordered">
+        <thead>
+            <tr><td>Выполняемое действие</td>
+            <?php
+            foreach($this->roles as $role) {
+                $enabled=$role["id"]==1?0:1;                        
+                ?>
+                <td><?=$role["name"]?><input type="hidden" name="acl[<?=$role["id"] ?>][enabled]" value="<?=$enabled?>" ></td>
+                <?php
+            }
+            ?>
+            </tr>
+            </thead>
+        <tbody>
+     <?php if($this->permissions) {
+         $grp=$this->permissions[0]['grp'];
+        foreach($this->permissions as $key=>$permission){
+            if($permission["grp"]!==$grp) {
+            ?>
+            <tr class="permissions-group-delimiter"><td colspan="<?=$cols?>"></td></tr>
+            <?php 
+            }
+            ?>
+        <tr>
+          <td><?=$permission["description"]; ?></td>
+            <?php foreach($this->roles as $role){ 
+                //имя чекбокса acl[permission_id][role_id]
+                $cname="acl[".$role["id"]."][permissions][]"; 
+                $state=  in_array($permission["id"], $role["permissions"]) || ($role["id"]==1)  ?"checked":"";
+                $av=!($role["id"]==1)?"":"disabled";
+                                                                                ?>
+            <td><input <?=$av?> class="checkbox" type="checkbox" value="<?=$permission["id"] ?>" name="<?=$cname?>" <?=$state?> /></td>
+                            <?php     }
+                                                ?>
+         </tr>
+        <?php 
+        $grp=$permission["grp"];           
+     }
+     }
+     ?>
+             </tbody>
+     </table>
+        <input type="submit" name="submit" value="Сохранить" class="btn btn-default" />
+        </form>
+ </div>

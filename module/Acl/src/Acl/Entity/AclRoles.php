@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AclRoles
  *
  * @ORM\Table(name="acl_roles")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Acl\Repository\AclRolesRepository")
  */
 class AclRoles
 {

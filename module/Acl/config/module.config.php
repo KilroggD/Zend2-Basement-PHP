@@ -112,7 +112,17 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-
+                               'save'=>array(
+                         'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/save',
+                            'defaults' => array(
+                                'action' => 'save',
+                                'description'=>'Изменение разрешений ролей',
+                                'group'=>'admin'
+                            ),
+                        ),  
+                   ),   
                 ),
             ),
             
@@ -184,6 +194,7 @@ return array(
             'acl/acl/edit'       => __DIR__ . '/../view/acl/edit.phtml',
             'acl/role/index'       => __DIR__ . '/../view/role/index.phtml',
             'acl/role/edit'       => __DIR__ . '/../view/role/edit.phtml',
+             'acl/permissions/index'       => __DIR__ . '/../view/permissions/index.phtml',
             ),
                                             
                                             
