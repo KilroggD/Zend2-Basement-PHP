@@ -30,6 +30,176 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: acl_permissions; Type: TABLE; Schema: public; Owner: rcp; Tablespace: 
+--
+
+CREATE TABLE acl_permissions (
+    id integer NOT NULL,
+    controller character varying(255) NOT NULL,
+    action character varying(255),
+    description character varying(255),
+    system smallint DEFAULT 0,
+    exclude smallint DEFAULT 0,
+    grp character varying(140)
+);
+
+
+ALTER TABLE public.acl_permissions OWNER TO rcp;
+
+--
+-- Name: acl_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: rcp
+--
+
+CREATE SEQUENCE acl_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.acl_permissions_id_seq OWNER TO rcp;
+
+--
+-- Name: acl_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rcp
+--
+
+ALTER SEQUENCE acl_permissions_id_seq OWNED BY acl_permissions.id;
+
+
+--
+-- Name: acl_roles; Type: TABLE; Schema: public; Owner: rcp; Tablespace: 
+--
+
+CREATE TABLE acl_roles (
+    id integer NOT NULL,
+    name character varying(140) NOT NULL,
+    built_in smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.acl_roles OWNER TO rcp;
+
+--
+-- Name: TABLE acl_roles; Type: COMMENT; Schema: public; Owner: rcp
+--
+
+COMMENT ON TABLE acl_roles IS 'роли пользователей';
+
+
+--
+-- Name: COLUMN acl_roles.built_in; Type: COMMENT; Schema: public; Owner: rcp
+--
+
+COMMENT ON COLUMN acl_roles.built_in IS 'встроенная роль или нет';
+
+
+--
+-- Name: acl_roles_id_seq; Type: SEQUENCE; Schema: public; Owner: rcp
+--
+
+CREATE SEQUENCE acl_roles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.acl_roles_id_seq OWNER TO rcp;
+
+--
+-- Name: acl_roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rcp
+--
+
+ALTER SEQUENCE acl_roles_id_seq OWNED BY acl_roles.id;
+
+
+--
+-- Name: acl_roles_to_permissions; Type: TABLE; Schema: public; Owner: rcp; Tablespace: 
+--
+
+CREATE TABLE acl_roles_to_permissions (
+    roles integer NOT NULL,
+    permissions integer DEFAULT nextval('acl_permissions_id_seq'::regclass) NOT NULL
+);
+
+
+ALTER TABLE public.acl_roles_to_permissions OWNER TO rcp;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: rcp; Tablespace: 
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    login character varying(64) NOT NULL,
+    password character varying(256) NOT NULL,
+    email character varying(64) NOT NULL,
+    status smallint DEFAULT 0 NOT NULL,
+    created timestamp without time zone,
+    last_login timestamp without time zone,
+    grp integer
+);
+
+
+ALTER TABLE public.users OWNER TO rcp;
+
+--
+-- Name: COLUMN users.status; Type: COMMENT; Schema: public; Owner: rcp
+--
+
+COMMENT ON COLUMN users.status IS 'Статус 0 - неактивен 1 - активен 2 - блокирован 3 - смена пароля';
+
+
+--
+-- Name: COLUMN users.created; Type: COMMENT; Schema: public; Owner: rcp
+--
+
+COMMENT ON COLUMN users.created IS 'дата-время создания юзера';
+
+
+--
+-- Name: COLUMN users.last_login; Type: COMMENT; Schema: public; Owner: rcp
+--
+
+COMMENT ON COLUMN users.last_login IS 'дата последнего логина';
+
+
+--
+-- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: rcp
+--
+
+CREATE SEQUENCE user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_id_seq OWNER TO rcp;
+
+--
+-- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rcp
+--
+
+ALTER SEQUENCE user_id_seq OWNED BY users.id;
+
+
+--
+-- Name: acl_users_to_roles; Type: TABLE; Schema: public; Owner: rcp; Tablespace: 
+--
+
+CREATE TABLE acl_users_to_roles (
+    users integer DEFAULT nextval('user_id_seq'::regclass) NOT NULL,
+    roles integer NOT NULL
+);
+
+
+ALTER TABLE public.acl_users_to_roles OWNER TO rcp;
+
+--
 -- Name: email_templates; Type: TABLE; Schema: public; Owner: rcp; Tablespace: 
 --
 
@@ -93,63 +263,15 @@ ALTER SEQUENCE email_templates_id_seq OWNED BY email_templates.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: rcp; Tablespace: 
+-- Name: migrations; Type: TABLE; Schema: public; Owner: rcp; Tablespace: 
 --
 
-CREATE TABLE users (
-    id integer NOT NULL,
-    login character varying(64) NOT NULL,
-    password character varying(256) NOT NULL,
-    email character varying(64) NOT NULL,
-    status smallint DEFAULT 0 NOT NULL,
-    created timestamp without time zone,
-    last_login timestamp without time zone
+CREATE TABLE migrations (
+    version character varying(255) NOT NULL
 );
 
 
-ALTER TABLE public.users OWNER TO rcp;
-
---
--- Name: COLUMN users.status; Type: COMMENT; Schema: public; Owner: rcp
---
-
-COMMENT ON COLUMN users.status IS 'Статус 0 - неактивен 1 - активен 2 - блокирован 3 - смена пароля';
-
-
---
--- Name: COLUMN users.created; Type: COMMENT; Schema: public; Owner: rcp
---
-
-COMMENT ON COLUMN users.created IS 'дата-время создания юзера';
-
-
---
--- Name: COLUMN users.last_login; Type: COMMENT; Schema: public; Owner: rcp
---
-
-COMMENT ON COLUMN users.last_login IS 'дата последнего логина';
-
-
---
--- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: rcp
---
-
-CREATE SEQUENCE user_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.user_id_seq OWNER TO rcp;
-
---
--- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rcp
---
-
-ALTER SEQUENCE user_id_seq OWNED BY users.id;
-
+ALTER TABLE public.migrations OWNER TO rcp;
 
 --
 -- Name: user_password_change; Type: TABLE; Schema: public; Owner: rcp; Tablespace: 
@@ -284,6 +406,20 @@ ALTER SEQUENCE user_profile_id_seq OWNED BY user_profile.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: rcp
 --
 
+ALTER TABLE ONLY acl_permissions ALTER COLUMN id SET DEFAULT nextval('acl_permissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: rcp
+--
+
+ALTER TABLE ONLY acl_roles ALTER COLUMN id SET DEFAULT nextval('acl_roles_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: rcp
+--
+
 ALTER TABLE ONLY email_templates ALTER COLUMN id SET DEFAULT nextval('email_templates_id_seq'::regclass);
 
 
@@ -309,6 +445,70 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('user_id_seq'::regcla
 
 
 --
+-- Data for Name: acl_permissions; Type: TABLE DATA; Schema: public; Owner: rcp
+--
+
+COPY acl_permissions (id, controller, action, description, system, exclude, grp) FROM stdin;
+1	Application\\Controller\\Index	index	Доступ к главной странице приложения	0	1	homepage
+2	User\\Controller\\Login	login	Вход на страницу логина	0	0	user
+3	User\\Controller\\Login	authenticate	Авторизация пользователя	0	0	user
+4	User\\Controller\\Login	logout	Выход из учетной записи	0	0	user
+5	User\\Controller\\Password	sendpass	Доступ к форме "Забыл пароль"	0	0	user
+6	User\\Controller\\Password	new	Восстановление пароля по ссылке	0	0	user
+7	User\\Controller\\Profile	index	Просмотр своего профайла	0	0	user
+8	User\\Controller\\Profile	edit	Редактирование своего профайла	0	0	user
+9	Acl\\Controller\\Acl	index	Доступ к странице управления разрешениями	0	0	admin
+10	Acl\\Controller\\Acl	update	Обновление разрешений в БД	0	0	admin
+11	Acl\\Controller\\Acl	edit	Редактирование свойств разрешения	0	0	admin
+13	Acl\\Controller\\Permissions	index	Доступ к странице изменений прав ролей	0	0	admin
+14	Acl\\Controller\\Acl	delete	Удаление разрешения из БД	0	0	admin
+\.
+
+
+--
+-- Name: acl_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rcp
+--
+
+SELECT pg_catalog.setval('acl_permissions_id_seq', 14, true);
+
+
+--
+-- Data for Name: acl_roles; Type: TABLE DATA; Schema: public; Owner: rcp
+--
+
+COPY acl_roles (id, name, built_in) FROM stdin;
+1	Администратор	1
+2	Пользователь	1
+3	Гость	1
+5	Заказчик	0
+4	Тестировщик1	0
+\.
+
+
+--
+-- Name: acl_roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rcp
+--
+
+SELECT pg_catalog.setval('acl_roles_id_seq', 5, true);
+
+
+--
+-- Data for Name: acl_roles_to_permissions; Type: TABLE DATA; Schema: public; Owner: rcp
+--
+
+COPY acl_roles_to_permissions (roles, permissions) FROM stdin;
+\.
+
+
+--
+-- Data for Name: acl_users_to_roles; Type: TABLE DATA; Schema: public; Owner: rcp
+--
+
+COPY acl_users_to_roles (users, roles) FROM stdin;
+\.
+
+
+--
 -- Data for Name: email_templates; Type: TABLE DATA; Schema: public; Owner: rcp
 --
 
@@ -324,6 +524,14 @@ COPY email_templates (id, key, template, subject) FROM stdin;
 --
 
 SELECT pg_catalog.setval('email_templates_id_seq', 3, true);
+
+
+--
+-- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: rcp
+--
+
+COPY migrations (version) FROM stdin;
+\.
 
 
 --
@@ -354,7 +562,7 @@ SELECT pg_catalog.setval('user_password_change_id_seq', 6, true);
 
 COPY user_profile (id, first_name, last_name, middle_name, user_id, occupation, phone) FROM stdin;
 3	Владимир	Копычев	Александрович	1	Веб-разработчик	9957501
-4	Петр	Иванов	Иваныч	2	Слесарь	777-00-71
+4	Петр	sfdrgsgsrg	Иваныч	2	Слесарь	777-00-71
 \.
 
 
@@ -369,10 +577,18 @@ SELECT pg_catalog.setval('user_profile_id_seq', 4, true);
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: rcp
 --
 
-COPY users (id, login, password, email, status, created, last_login) FROM stdin;
-1	admin	609dd60febf9b92772caf9e97c2d9523	kopych888@gmail.com	1	2014-04-24 16:00:47	2014-04-28 15:41:08
-2	user	e10adc3949ba59abbe56e057f20f883e	v.kopychev@alekongroup.ru	1	\N	2014-04-28 17:20:22
+COPY users (id, login, password, email, status, created, last_login, grp) FROM stdin;
+2	user	3d186804534370c3c817db0563f0e461	v.kopychev@alekongroup.ru	1	\N	2014-04-29 17:28:41	\N
+1	admin	609dd60febf9b92772caf9e97c2d9523	kopych888@gmail.com	1	2014-04-24 16:00:47	2014-05-05 10:28:05	\N
 \.
+
+
+--
+-- Name: PK_acl_role; Type: CONSTRAINT; Schema: public; Owner: rcp; Tablespace: 
+--
+
+ALTER TABLE ONLY acl_roles
+    ADD CONSTRAINT "PK_acl_role" PRIMARY KEY (id);
 
 
 --
@@ -408,6 +624,38 @@ ALTER TABLE ONLY user_profile
 
 
 --
+-- Name: acl_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: rcp; Tablespace: 
+--
+
+ALTER TABLE ONLY acl_permissions
+    ADD CONSTRAINT acl_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: acl_roles_to_permissions_pk; Type: CONSTRAINT; Schema: public; Owner: rcp; Tablespace: 
+--
+
+ALTER TABLE ONLY acl_roles_to_permissions
+    ADD CONSTRAINT acl_roles_to_permissions_pk PRIMARY KEY (roles, permissions);
+
+
+--
+-- Name: acl_users_to_roles_pk; Type: CONSTRAINT; Schema: public; Owner: rcp; Tablespace: 
+--
+
+ALTER TABLE ONLY acl_users_to_roles
+    ADD CONSTRAINT acl_users_to_roles_pk PRIMARY KEY (users, roles);
+
+
+--
+-- Name: migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: rcp; Tablespace: 
+--
+
+ALTER TABLE ONLY migrations
+    ADD CONSTRAINT migrations_pkey PRIMARY KEY (version);
+
+
+--
 -- Name: FK_user_password_change; Type: FK CONSTRAINT; Schema: public; Owner: rcp
 --
 
@@ -424,6 +672,38 @@ ALTER TABLE ONLY user_profile
 
 
 --
+-- Name: acl_permissions_fk; Type: FK CONSTRAINT; Schema: public; Owner: rcp
+--
+
+ALTER TABLE ONLY acl_roles_to_permissions
+    ADD CONSTRAINT acl_permissions_fk FOREIGN KEY (permissions) REFERENCES acl_permissions(id) MATCH FULL ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: acl_roles_fk; Type: FK CONSTRAINT; Schema: public; Owner: rcp
+--
+
+ALTER TABLE ONLY acl_roles_to_permissions
+    ADD CONSTRAINT acl_roles_fk FOREIGN KEY (roles) REFERENCES acl_roles(id) MATCH FULL ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: acl_roles_fk; Type: FK CONSTRAINT; Schema: public; Owner: rcp
+--
+
+ALTER TABLE ONLY acl_users_to_roles
+    ADD CONSTRAINT acl_roles_fk FOREIGN KEY (roles) REFERENCES acl_roles(id) MATCH FULL ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: users_fk; Type: FK CONSTRAINT; Schema: public; Owner: rcp
+--
+
+ALTER TABLE ONLY acl_users_to_roles
+    ADD CONSTRAINT users_fk FOREIGN KEY (users) REFERENCES users(id) MATCH FULL ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
@@ -431,6 +711,7 @@ REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;
 GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
+GRANT ALL ON SCHEMA public TO rcp;
 
 
 --
