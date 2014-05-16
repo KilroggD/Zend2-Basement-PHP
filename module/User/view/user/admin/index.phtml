@@ -1,0 +1,159 @@
+<?php  $this->headScript()->prependFile($this->basePath() .    '/js/user/admin.js'); ?>
+<?php
+$status=array(
+  "Неактивен",
+   "Активен",
+    "Восстановление пароля",
+    "Блокирован"
+);
+$searchquery=$this->query;
+//при поиске вернуть 1ю страницу
+$searchquery["page"]=1;
+$this->form->setAttribute("action", $this->url("user\\admin",array(),array()))->prepare();
+$this->gform->setAttribute("action",$this->url("user\\admin/group",array(),array("query"=>$this->query)))->prepare();
+//при повторном нажатии на сортировку надо поменять порядок
+$sortquery=$this->query;
+if(isset($this->query["sortorder"]) && $this->query["sortorder"]==='asc'){
+    $sortquery["sortorder"]='desc';
+}
+else {
+    $sortquery["sortorder"]='asc';
+}
+?>
+<div class="row search-form-container">
+    <div class="col-md-12">
+    <?=$this->form()->openTag($this->form) ?>
+        <div class="row">
+          <label class="col-md-3 text-center">Показать пользователей:</label>
+            </div>
+    <div class="row">
+        <div class="col-md-3 text-right">
+        <?=$this->formRow($this->form->get('role'),'prepend',false); ?>
+            </div>
+        <div class="col-md-2 text-center">
+            <?=$this->formInput($this->form->get('submit')) ?>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-md-3 text-right">
+  <?=$this->formRow($this->form->get('status'),'prepend',false); ?>
+            </div>
+                      <div class="col-md-2 text-center">
+                  <a class="btn btn-link" href="<?=$this->url("user\\admin")?>">Сброс</a>            </div>
+          </div>
+    <?=$this->form()->closeTag($this->form) ?>
+        </div>
+</div>
+
+<?php
+//if($this->layout()->acl->isAllowed($this->layout()->role,$this->layout()->controllerName,"group")) {
+?>
+
+<div class="row group-operation-container">
+    <div class="col-md-12">
+    <?=$this->form()->openTag($this->gform) ?>
+    <div class="row">
+    <div class="col-md-3 text-center">
+        <?=$this->formLabel($this->gform->get("actiontype")) ?>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 text-right">
+                <?=$this->formSelect($this->gform->get("actiontype")) ?>
+                </div>
+            <div class="col-md-2 text-center">
+                <?=$this->formInput($this->gform->get("submit")) ?>
+             </div>
+         </div>
+        <div class="row" id="assign-role-container">
+            <div class="col-md-3 text-right">
+                <?=$this->formSelect($this->gform->get("role")) ?>
+             </div>
+         </div>
+    <?=$this->form()->closeTag($this->gform)?>
+        </div>
+</div>
+
+<?php
+//}
+?>
+
+<div class="row flash-messages">
+            <?=$this->htmlList($this->messages); ?>
+    </div>
+<div class="roles-container">
+        <div class="row roles-header">
+              <div class="col-md-1 text-center">
+                  #
+      </div>
+       <div class="col-md-1 text-center">
+                   <input type="checkbox" name="users-checkall" class="checkall" data-items="user" id="users-checkall"/>
+      </div>
+    <div class="col-md-3 text-left">
+        <?php $logquery=$sortquery;
+            $logquery["sortby"]='login';
+        ?>
+      <a class="btn btn-link" href="<?=$this->url("user\\admin", array(),array("query"=>$logquery))?>">Логин</a>
+             </div>
+          <div class="col-md-2 text-left">
+              Статус
+       </div>
+                <div class="col-md-2 text-left">
+                    Роли
+       </div>
+             <div class="col-md-3 text-center">
+                 Действия
+        </div>
+        </div>
+  <?php
+  foreach($this->users as $user) {
+  ?>
+    <div class="row role-item">  
+             <div class="col-md-1 text-center">
+         <span><?=$user->getId() ?></span>
+      </div>
+     <div class="col-md-1 text-center">
+         <input type="checkbox" class="user-check-item" data-item="user" name="users[]" id="users[<?=$user->getId()?>]" value="<?=$user->getId()?>"/>
+      </div>
+    <div class="col-md-3 text-left">
+        <a target="_blank" href="<?=$this->url('profile',array('uid'=>$user->getId())); ?>"><?=$user->getLogin() ?></a>
+       </div>
+          <div class="col-md-2 text-left">
+        <?=$status[$user->getStatus()]; ?>
+       </div>
+                <div class="col-md-2 text-left">
+<?php
+foreach($user->getRoles() as $role) {
+?>
+                    <p><?=$role->getName() ?></p>
+                    
+                    <?php
+}
+                    ?>
+                </div>
+        <?php
+        //админ и юзер - встроенные роли, их не удаляем - потом поместить в константы классов
+        if(!$user->getBuiltIn()) { 
+            ?>
+        <div class="col-md-3 text-center">
+            <p><a href="<?=$this->url('user\\admin/edit',array("id"=>$user->getId()))?>" class="user-edit-link">Изменить</a></p>
+             <p><a href="<?=$this->url('user\\admin/toadmin',array("id"=>$user->getId()))?>" class="user-delete-link">Сделать администратором</a></p>
+        </div>
+        
+    <?php
+        } else {
+        ?>
+                <div class="col-md-3 text-center">
+        <p>Встроенная учетная запись</p>
+        </div>
+        <?php
+        }
+        ?>
+        </div>
+        <?php
+    }
+    ?>
+        <div class="row paginator text-center" id="paginator">
+<?=$this->pagination($this->pages,$this->pagelimit,$this->currentPage,'user\\admin',$this->query) ?>
+     </div>
+    </div>

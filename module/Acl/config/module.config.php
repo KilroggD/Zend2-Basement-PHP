@@ -7,7 +7,7 @@ return array(
         'invokables' => array(
             'Acl\Controller\Acl' => 'Acl\Controller\AclController',
             'Acl\Controller\Permissions'=>'Acl\Controller\PermissionsController',
-            'Acl\Controller\Role'=>'Acl\Controller\RoleController'
+            'Acl\Controller\Role'=>'Acl\Controller\RoleController',
                          ),
     ),
                'doctrine' => array(
@@ -207,6 +207,7 @@ return array(
                 'view_helpers'=>array(
                   'invokables'=>array(
                     'aclList'=>'Acl\View\Helper\AclListHelper',  
+                    'Allowed'=>'Acl\View\Helper\AllowedHelper',  
                   ),
                 ),
 );

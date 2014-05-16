@@ -1,6 +1,9 @@
 <?php
 namespace Acl\Service;
 use Acl\Entity\AclPermissions;
+use Zend\Permissions\Acl;
+use Zend\Permissions\Acl\Role\GenericRole;
+use Zend\Permissions\Acl\Resource\GenericResource;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,9 +15,18 @@ use Acl\Entity\AclPermissions;
  * Служба для проверки прав доступа
  * @author kopychev
  */
+
+
+
 class AclService {
     //put your code here
-            private $invokables,$controllers,$permissions;
+            private $invokables,$controllers,$permissions,$_sm,$_em, $acl;
+            public function __construct($sm) {
+                $this->_sm=$sm;
+                $locator = $sm;
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $this->_em=$em;
+            }
 /**
  * Текущие маршруты с пермишнами из конфига приложения
  * @param array $config
@@ -36,13 +48,21 @@ class AclService {
     }     
     
     /**
-     * Получить Acl-ки из БД
+     * Получить ресурсы и white пермишны Acl-ки из БД
      */
-    public function getDbAcl(){
-        
-    }
-    
-  
+    public function getDbResorces(){
+              $permissions=$this->_em->getRepository("Acl\Entity\AclPermissions")->findAll();
+              return $permissions;
+     }
+    /**
+     * Получаем все роли из БД
+     * @return type
+     */
+     public function getDbRoles(){
+         return $this->_em->getRepository("Acl\Entity\AclRoles")->findAll();
+     }
+
+
     /**
      * Добавить разрешение в текущий массив
      * @param array $route
@@ -77,6 +97,18 @@ class AclService {
      * Вспомогательная функция для сканирования директорий контроллеров и извлечения имен классов
      * @return array
      */
+    
+    public function allowed($acl,$roles,$res,$action){
+        //проверяем, разрешено ли хотя бы 1 роли это действие
+        foreach($roles as $role){
+            if($acl->isAllowed((string)$role,$res,$action)) {
+                return true;
+            }
+        }
+        //если не нашли совпадений - действие запрещено
+        return false;
+    }
+    
     private function scanDir(){
         $modules=array();
                 foreach (glob("module/*", GLOB_ONLYDIR) as $module) {
@@ -94,5 +126,8 @@ class AclService {
         }
         return $modules;
     }
+    
+    
+    
     
 }

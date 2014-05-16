@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Users
  *
  * @ORM\Table(name="`users`")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\User\Repository\UsersRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Users
@@ -80,7 +80,14 @@ class Users
      * @ORM\Column(name="last_login", type="datetime", nullable=true)
      */
     private $lastLogin;
-
+    
+            /**
+     * @var integer
+     *
+     * @ORM\Column(name="built_in", type="smallint", nullable=true)
+     */
+    private $builtIn = '0';
+    
     /**
      * @ORM\OneToOne(targetEntity="User\Entity\UserPasswordChange", mappedBy="user", cascade={"remove"})
      */    
@@ -92,6 +99,22 @@ class Users
      */
     private $profile;
 
+        /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Acl\Entity\AclRoles", inversedBy="users", cascade={"persist"})
+     * @ORM\JoinTable(name="acl_users_to_roles",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="users", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="roles", referencedColumnName="id")
+     *   }
+     * )
+     */
+    
+   private $roles;
+    
     /**
      * Get id
      *
@@ -239,6 +262,28 @@ class Users
     {
         return $this->lastLogin;
     }
+    
+        /**
+     * Set builtIn
+     * 
+     * @param integer $builtIn
+     * @return Users
+     */
+    public function setBuiltIn($builtIn){
+        $this->builtIn=$builtIn;
+        return $this;
+    }
+    
+        /**
+     * Get builtIn
+     *
+     * @return integer 
+     */
+    public function getBuiltIn()
+    {
+        return $this->builtIn;
+    }
+    
     /**
      * Get password change request
      * @return User\Entity\UserPasswordChange
@@ -270,8 +315,61 @@ class Users
      */   
     public function setProfile(\User\Entity\UserProfile $profile){
         $this->profile=$profile;
+        $profile->setUser($this);
         return $this;
     }
+    
+    /**
+     * Add roles
+     *
+     * @param \Acl\Entity\AclRoles $role
+     * @return AclRoles
+     */
+    public function addRole(\Acl\Entity\AclRoles $role)
+    {
+        $this->roles[] = $role;
+
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \Acl\Entity\AclRoles $role
+     */
+    public function removeRole(\Acl\Entity\AclRoles $role)
+    {
+        $this->roles->removeElement($role);
+    }
+    
+    public function addRoles($roles) {
+        foreach($roles as $role){
+            $this->addRole($role);
+            $role->addUser($this);
+        }
+        return $this;
+    }
+    
+    
+    public function removeRoles($roles){
+        foreach($roles as $role){
+            $this->removeRole($role);
+            $role->removeUser($this);
+        }
+        return $this;
+    }
+    
+    
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+    
 /**
 * @ORM\PrePersist
 */

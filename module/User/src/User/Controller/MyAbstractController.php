@@ -17,7 +17,7 @@ class MyAbstractController extends AbstractActionController{
     //put your code here
     
     protected $em,$viewrenderer;
-    public $base,$userParams;
+    public $base,$userParams,$query,$refUrl;
     /**
      * Обработчик события dispatch - проверка на ошибку
      * @param \Zend\Mvc\MvcEvent $e
@@ -26,7 +26,15 @@ class MyAbstractController extends AbstractActionController{
     public function onDispatch(\Zend\Mvc\MvcEvent $e) {
         if($e->getError()){
             return false;            
-        }        
+        }     
+        else {
+            //сохраним данные из URL гет-запроса
+            $referer=$this->getRequest()->getHeader('Referer');
+            $this->refUrl=$referer?$referer->getUri():$this->url()->fromRoute("home");
+           if($this->params()->fromQuery()){
+            $this->query=$this->params()->fromQuery();            
+           }
+        }
             parent::onDispatch($e);
     }
     /**

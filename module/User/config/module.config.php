@@ -93,6 +93,69 @@ return array(
                     ),                
                 ),
             ),
+            
+              "user\admin"=>array(
+            'type' => 'Zend\Mvc\Router\Http\Literal',
+                          'options' => array(
+                    'route'    => '/admin/users',
+                    'defaults' => array(
+                        'controller' => 'User\Controller\Admin',
+                        'action'     => 'index',
+                        'description'=> 'Доступ к разделу "управление пользователями"',
+                        'group'=>"admin",
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'edit' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Segment',
+                        'options' => array(
+                            'route'    => '/edit/:id',
+                            'defaults' => array(
+                                'action'     => 'edit',
+                                'description'=> 'Редактирование профиля любого пользователя',
+                                'group'=>"admin",
+                            ),
+                           ),
+                    ),
+                    
+                    'toadmin' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Segment',
+                        'options' => array(
+                            'route'    => '/toadmin/:id',
+                            'defaults' => array(
+                                'action'     => 'toadmin',
+                                'description'=> 'Предоставление пользователю прав системного администратора',
+                                'group'=>"admin",
+                            ),
+                           ),
+                    ),  
+                    
+                                'delete' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Segment',
+                        'options' => array(
+                            'route'    => '/delete/:id',
+                            'defaults' => array(
+                                'action'     => 'delete',
+                                'description'=> 'Удаление любого пользователя',
+                                'group'=>"admin",
+                            ),
+                           ),
+                    ),
+                              'group' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Segment',
+                        'options' => array(
+                            'route'    => '/group',
+                            'defaults' => array(
+                                'action'     => 'group',
+                                'description'=> 'Групповые операции с пользователями',
+                                'group'=>"admin",
+                            ),
+                           ),
+                    ),
+                ),
+            ),
+            
         ),
     ),    
         'controllers' => array(
@@ -100,9 +163,17 @@ return array(
              'User\Controller\Register' => 'User\Controller\RegistrationController',
             'User\Controller\Login' => 'User\Controller\LoginController',
              'User\Controller\Password' => 'User\Controller\PasswordController',
-            'User\Controller\Profile'=>'User\Controller\ProfileController'                
+            'User\Controller\Profile'=>'User\Controller\ProfileController',
+            'User\Controller\Admin' => 'User\Controller\AdminController'
         ),
     ),
+       'controller_plugins' => array(
+        'invokables' => array(
+            'Paginator' => 'Application\Controller\Plugin\PaginatorPlugin',
+            'Hydrator' => 'Application\Controller\Plugin\HydratorPlugin',
+        )
+    ),
+
         'service_manager' => array(
           'factories' => array(
           'userSession' => function() {
@@ -130,6 +201,7 @@ return array(
     ),
        'form_elements'=>array(
            'factories' => array(
+               //формы
                'User\Form\LoginForm'=>function() {
                 $form = new \User\Form\LoginForm();
                 $form->setInputFilter(new \User\Form\LoginFilter());
@@ -154,7 +226,48 @@ return array(
                     $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods());
                     return $form;
                 },
+                  'User\Form\User'=>function($sm){                    
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $form= new \User\Form\UserForm($em);
+                $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods())->setInputFilter(new \Zend\InputFilter\InputFilter());
+                    return $form;
+                  },
+                   'User\Form\Search'=>function($sm){                    
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $form= new \User\Form\SearchForm($em);
+                $form->setHydrator(new Zend\Stdlib\Hydrator\ObjectProperty());
+                return $form;
+                  },
+                  'User\Form\Group'=>function($sm){                    
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $form= new \User\Form\GroupForm($em);
+                $form->setHydrator(new Zend\Stdlib\Hydrator\ObjectProperty());
+                return $form;
+                  },
+                          //филдсеты
+                 'ProfileFieldset'=>function($sm){
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $fs= new \User\Form\ProfileFieldset($em);
+                    return $fs; 
+                 },
+                              'UserFieldset'=>function($sm){
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $fs= new \User\Form\UserFieldset($em);
+                    return $fs; 
+                 },
+                                     'RoleFieldset'=>function($sm){
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $fs= new \User\Form\RoleFieldset($em);
+                    return $fs; 
+                 },     
                         ),
+   
        ),
            'doctrine' => array(
         'driver' => array(
@@ -204,10 +317,16 @@ return array(
             'profile/edit'=>__DIR__ . '/../view/user/profile/edit.phtml',
             'profile/profile'=>__DIR__ . '/../view/user/profile/profile.phtml',
            'profile/info'=>__DIR__ . '/../view/user/profile/info.phtml',
+            'admin/edit'=>__DIR__ . '/../view/user/admin/edit.phtml',
             ),
         
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
     ),
+                            'view_helpers'=>array(
+                  'invokables'=>array(
+                    'pagination'=>'Application\View\Helper\PaginatorHelper',  
+                  ),
+                ),
 );

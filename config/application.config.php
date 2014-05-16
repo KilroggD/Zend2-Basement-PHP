@@ -13,7 +13,9 @@ return array(
         'Email',
         'User',
         'Kendo',
-        'Acl'
+        'Acl',
+        'Navigation',
+        'Admin'
         ),
     'module_listener_options' => array(
         'module_paths' => array(

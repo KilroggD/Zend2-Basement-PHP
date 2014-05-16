@@ -10,7 +10,11 @@ class Module
         public function onBootstrap($e)
     {
     $eventManager = $e->getTarget()->getEventManager();
-    $eventManager->attach(new Listener\AclListener($e->getApplication()->getServiceManager()));
+    $listener=new Listener\AclListener($e->getApplication()->getServiceManager());
+   //формируем acl-ки
+    $listener->initAcl($e);
+    //привязываем менеджер событий
+    $eventManager->attach($listener);
     }    
     public function getConfig()
     {

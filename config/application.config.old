@@ -12,7 +12,9 @@ return array(
         'Application',
         'Email',
         'User',
-        'Kendo'
+        'Kendo',
+        'Acl',
+        'Navigation'
         ),
     'module_listener_options' => array(
         'module_paths' => array(
