@@ -15,7 +15,7 @@ use Zend\View\Model\ViewModel;
  */
 class AdminController extends MyAbstractController{
     //put your code here
-    public $query, $refUrl;
+    public $query, $refUrl, $errors=array();
     public function indexAction(){
             $page=isset($this->query["page"])?$this->query["page"]:1;
             $form=$this->getFormByKey('User\Form\Search');
@@ -39,14 +39,15 @@ class AdminController extends MyAbstractController{
                 if($request->isPost()){
                     $post=$request->getPost();
                     $form->setData($post);
-                    if($form->isValid()){
+                    if($form->isValid()){            
+                        if($user=$this->checkUserData($user, $post)){
                         $this->getEntityManager()->persist($user);
-                        $this->getEntityManager()->flush(); 
-                        
-                        //return $this->redirect()->toRoute("user\\admin");
+                        $this->getEntityManager()->flush();                         
+                        return $this->redirect()->toRoute("user\\admin");
+                        }
                     }
                            }
-                return array("form"=>$form );
+                return array("form"=>$form, "errors"=>$this->errors);
             }
                     }
         else {
@@ -181,6 +182,27 @@ class AdminController extends MyAbstractController{
         }
         return $this->redirect()->toRoute("user\\admin");
     }
+    
+        private function checkUserData($user,$post){
+           // var_dump($post);
+            //exit();
+            $uFound=$this->getRepository("User\Entity\Users")->findOneByEmail($post["user"]["email"]);
+            if($uFound && $uFound->getId()!==$user->getId()){
+                $this->errors["user"]["email"]="Пользователь с таким email уже зарегистрирован";               
+                return false;
+            }
+        if($post["user"]["password"] && $post["user"]["confirmpassword"]) {            
+            if($post["user"]["password"]===$post["user"]["confirmpassword"]){
+            $user->setPassword(md5($post["user"]["password"]));
+            }
+            else {
+                $this->errors["user"]["password"]="Пароль и подтверждение не совпадают";
+                return false;
+            }
+        }
+        return $user;
+    }
+    
     
     
 }

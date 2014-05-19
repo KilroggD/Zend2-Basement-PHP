@@ -43,6 +43,22 @@ class UserForm extends MyAbstractForm{
                  'value' => 'Сохранить',
              ),
          ));
+         $this->setValidationGroup(array(
+            "user"=>array(
+                "login",
+                "email",
+                "roles",
+                "status",
+                    "profile"=>array(
+                 "firstName",
+                 "lastName",
+                "middleName",
+                "occupation",
+                "phone"
+             ),  
+            ),       
+             
+         ));
     }
   
 }

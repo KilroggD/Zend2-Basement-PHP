@@ -14,6 +14,7 @@ use Zend\Mvc\Controller\AbstractActionController;
  */
 class IndexController extends AbstractActionController{
     //put your code here
+    public $userParams;
     public function indexAction() {
         
     }

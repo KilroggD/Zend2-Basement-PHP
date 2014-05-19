@@ -15,7 +15,8 @@ return array(
         'Kendo',
         'Acl',
         'Navigation',
-        'Admin'
+        'Admin',
+        'Log'
         ),
     'module_listener_options' => array(
         'module_paths' => array(

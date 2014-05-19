@@ -74,7 +74,7 @@ class RoleController extends MyAbstractController{
     public function editAction(){
                 $id=$this->params()->fromRoute('id');
         if(!$id) {
-            $this->redirect()->toRoute("admin\\roles");
+            $this->redirect()->toRoute("acl\\admin\\roles");
         }
         $role=$this->repository->find($id);
         if(!$role){
