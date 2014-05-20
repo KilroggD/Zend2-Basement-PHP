@@ -171,6 +171,42 @@ return array(
       'roles'=>array(
       'required'=>false,
   ),
+    'password'=>array(
+        'required'=>true,        
+        'validators'=>array(
+                     array(
+                    'name' => 'NotEmpty',
+                    'options'=>array(
+                    //    'useMxCheck'=>true,
+                        'messages'=>array(
+     'isEmpty' => "Поле обязательно для заполнения",
+                        )
+                    )
+                              ),
+          
+        ),
+    ),
+    'confirmpassword'=>array(
+        'required'=>true,
+            'validators' => array(
+              array(
+                    'name' => 'NotEmpty',
+                    'options'=>array(
+                    //    'useMxCheck'=>true,
+                        'messages'=>array(
+     'isEmpty' => "Поле обязательно для заполнения",
+                        )
+                    )
+                              ),
+        array(
+            'name' => 'Identical',
+            'options' => array(
+                'token' => 'password', // name of first password field
+                'messages'=>array('notSame'=>'Пароли не совпадают')
+            ),
+        ),
+    ),
+    ),    
 );
     }
 }

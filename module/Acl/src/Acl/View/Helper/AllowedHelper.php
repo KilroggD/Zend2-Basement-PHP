@@ -14,8 +14,11 @@ use Zend\View\Helper\AbstractHelper;
  */
 class AllowedHelper extends AbstractHelper{
     //put your code here
-    public function __invoke($roles,$res,$action) {
-        $acl=$this->getView()->acl;
+    public function __invoke($res,$action,$roles=null) {
+        if(!$roles){
+            $roles=$this->getView()->layout()->currentRoles;
+        }
+        $acl=$this->getView()->layout()->acl;
         //проверяем, разрешено ли хотя бы 1 роли это действие
         foreach($roles as $role){
             if($acl->isAllowed((string)$role,$res,$action)) {

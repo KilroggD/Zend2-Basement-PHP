@@ -458,9 +458,6 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('user_id_seq'::regcla
 
 COPY acl_permissions (id, controller, action, description, system, exclude, grp) FROM stdin;
 1	Application\\Controller\\Index	index	Доступ к главной странице приложения	0	1	homepage
-2	User\\Controller\\Login	login	Вход на страницу логина	0	0	user
-3	User\\Controller\\Login	authenticate	Авторизация пользователя	0	0	user
-4	User\\Controller\\Login	logout	Выход из учетной записи	0	0	user
 5	User\\Controller\\Password	sendpass	Доступ к форме "Забыл пароль"	0	0	user
 6	User\\Controller\\Password	new	Восстановление пароля по ссылке	0	0	user
 7	User\\Controller\\Profile	index	Просмотр своего профайла	0	0	user
@@ -470,6 +467,21 @@ COPY acl_permissions (id, controller, action, description, system, exclude, grp)
 11	Acl\\Controller\\Acl	edit	Редактирование свойств разрешения	0	0	admin
 13	Acl\\Controller\\Permissions	index	Доступ к странице изменений прав ролей	0	0	admin
 14	Acl\\Controller\\Acl	delete	Удаление разрешения из БД	0	0	admin
+2	User\\Controller\\Login	login	Вход на страницу логина	0	1	user
+3	User\\Controller\\Login	authenticate	Авторизация пользователя	0	1	user
+4	User\\Controller\\Login	logout	Выход из учетной записи	0	1	user
+15	User\\Controller\\Admin	index	Доступ к разделу "управление пользователями"	0	0	admin
+16	User\\Controller\\Admin	edit	Редактирование профиля любого пользователя	0	0	admin
+17	User\\Controller\\Admin	toadmin	Предоставление пользователю прав системного администратора	0	0	admin
+18	User\\Controller\\Admin	delete	Удаление любого пользователя	0	0	admin
+19	User\\Controller\\Admin	group	Групповые операции с пользователями	0	0	admin
+20	Acl\\Controller\\Permissions	save	Изменение разрешений ролей	0	0	admin
+21	Acl\\Controller\\Role	index	Доступ к странице управления ролями	0	0	admin
+22	Acl\\Controller\\Role	add	Создание ролей	0	0	admin
+23	Acl\\Controller\\Role	edit	Редактирование ролей	0	0	admin
+24	Acl\\Controller\\Role	delete	Удаление ролей	0	0	admin
+25	Admin\\Controller\\Index	index	Доступ к панели администратора	0	0	
+26	User\\Controller\\Admin	add	Добавить пользователя	0	0	admin
 \.
 
 
@@ -477,7 +489,7 @@ COPY acl_permissions (id, controller, action, description, system, exclude, grp)
 -- Name: acl_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rcp
 --
 
-SELECT pg_catalog.setval('acl_permissions_id_seq', 14, true);
+SELECT pg_catalog.setval('acl_permissions_id_seq', 26, true);
 
 
 --
@@ -505,9 +517,14 @@ SELECT pg_catalog.setval('acl_roles_id_seq', 5, true);
 --
 
 COPY acl_roles_to_permissions (roles, permissions) FROM stdin;
-5	11
-5	10
-4	10
+2	8
+2	7
+3	6
+3	5
+5	25
+5	15
+4	25
+4	26
 \.
 
 
@@ -523,6 +540,7 @@ COPY acl_users_to_roles (users, roles) FROM stdin;
 5	5
 2	4
 1	1
+12	5
 \.
 
 
@@ -556,7 +574,7 @@ COPY migrations (version) FROM stdin;
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rcp
 --
 
-SELECT pg_catalog.setval('user_id_seq', 6, true);
+SELECT pg_catalog.setval('user_id_seq', 12, true);
 
 
 --
@@ -580,9 +598,10 @@ SELECT pg_catalog.setval('user_password_change_id_seq', 6, true);
 
 COPY user_profile (id, first_name, last_name, middle_name, user_id, occupation, phone) FROM stdin;
 3	Владимир	Копычев	Александрович	1	Веб-разработчик	9957501
-4	Иван	sfdrgsgsrg	Иваныч111212	2	Слесарь	777-00-710
-13	dgfdgdg	fdhdfghgd		3		
-14	tfyhtfd	fthutfdh	tfhjudtrh	4		
+4	Иван1	sfdrgsgsrg	Иваныч111212	2	Слесарь	777-00-710
+13	asdfasd121210	fdhdfghgd		3		
+14	tfyhtfd12	fthutfdh	tfhjudtrh	4		
+21	test			12		
 \.
 
 
@@ -590,7 +609,7 @@ COPY user_profile (id, first_name, last_name, middle_name, user_id, occupation, 
 -- Name: user_profile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rcp
 --
 
-SELECT pg_catalog.setval('user_profile_id_seq', 15, true);
+SELECT pg_catalog.setval('user_profile_id_seq', 21, true);
 
 
 --
@@ -598,11 +617,12 @@ SELECT pg_catalog.setval('user_profile_id_seq', 15, true);
 --
 
 COPY users (id, login, password, email, status, created, last_login, grp, built_in) FROM stdin;
-1	admin	609dd60febf9b92772caf9e97c2d9523	kopych888@gmail.com	1	2014-04-24 16:00:47	2014-05-05 10:28:05	\N	1
-3	user2	b59c67bf196a4758191e42f76670ceba	user2@imc.spb.ru	1	\N	\N	\N	0
-4	user3	b59c67bf196a4758191e42f76670ceba	user3@imc.spb.ru	3	\N	\N	\N	0
 5	user4	b59c67bf196a4758191e42f76670ceba	user4@imc.spb.ru	3	\N	\N	\N	0
-2	user1	3d186804534370c3c817db0563f0e461	v.kopychev@alekongroup.ru	0	\N	2014-04-29 17:28:41	\N	0
+2	user1		v.kopychev@alekongroup.ru	0	\N	2014-04-29 17:28:41	\N	0
+4	user3	b51e8dbebd4ba8a8f342190a4b9f08d7	user33@imc.spb.ru	3	\N	\N	\N	0
+1	admin	609dd60febf9b92772caf9e97c2d9523	kopych888@gmail.com	1	2014-04-24 16:00:47	2014-05-20 13:49:00	\N	1
+3	user2	098f6bcd4621d373cade4e832627b4f6	user2@imc.spb.ru	1	\N	\N	\N	0
+12	test	098f6bcd4621d373cade4e832627b4f6	test@test.ru	1	2014-05-20 15:34:09	2014-05-20 15:34:16	\N	0
 \.
 
 

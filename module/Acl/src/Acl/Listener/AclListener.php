@@ -82,8 +82,10 @@ const ADMIN="1", USER="2", GUEST="3";
         $user=$controller->userParams;      
         //если не задан юзер
         $roles=$this->getUserRoles($user);
-        $view=$e->getViewModel();
-        if(!$this->_sm->get("aclService")->allowed($this->acl,$roles,$controllerName,$actionName)){
+        $e->getViewModel()->currentRoles=$roles;
+        $e->getViewModel()->acl=$this->acl;
+        //if(!$this->_sm->get("aclService")->allowed($this->acl,$roles,$controllerName,$actionName)){      
+        if(!$this->acl->isAllowed($roles,$controllerName,$actionName)){
           $e->setError('ACL_ACCESS_DENIED'); 
           $controller->getEventManager()->trigger('forbidden.error', $e);
           exit("Forbidden!");
@@ -146,21 +148,22 @@ const ADMIN="1", USER="2", GUEST="3";
    */
     public function getUserRoles($user){
                if(!$user){
-         $roles=array(self::GUEST);      
+         $roles=self::GUEST;      
         }
         else{
+         $roles=self::USER;
          $userRoles=$user->getRoles();
          $count=$userRoles->count();
          //если ролей нет
-         if(!$count){
-             $roles=array(self::USER);
-         }
-         else {
-             $roles=array();
+         if($count) {
+             //если у юзера несколько ролей, организуем новую временную роль по логину пользователя  с "родителсьскими" ролями
+           $parents=array(self::USER);
            foreach($userRoles as $role){
-               $roles[]=(string)$role->getId();
-           }  
-         }
+               $parents[]=(string)$role->getId();
+           }
+           $roles=$user->getLogin();
+           $this->acl->addRole(new GenericRole($roles), $parents);           
+                   }
         }
         return $roles;
     }

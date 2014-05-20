@@ -48,7 +48,7 @@ return array(
                  array(
             'label' => 'Права доступа',
             'route' => 'acl\admin\permissions',
-            'resource'=>'Acl\Controller\Permission',
+            'resource'=>'Acl\Controller\Permissions',
              'privilege' => 'index',
                             ),
      

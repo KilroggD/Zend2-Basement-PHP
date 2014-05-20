@@ -27,6 +27,34 @@ class AdminController extends MyAbstractController{
             $paginated=$this->Paginator()->paginate($records,20,$page);
             return array("users"=>$paginated->getItems(),"pages"=>$paginated->getCount(),"currentPage"=>$page,"form"=>$form, "pagelimit"=>3, "gform"=>$gform, "messages"=>$this->flashMessenger()->getMessages(),"query"=>$this->query);        
     }
+    /**
+     * Добавить пользователя
+     */
+    public function addAction(){
+                $request=$this->getRequest();
+                $user=new \User\Entity\Users();
+                $form = $this->getFormByKey('User\Form\NewUser');
+                $form->bind($user);
+                if($request->isPost()){
+                    $post=$request->getPost();
+                    $form->setData($post);
+                    if($form->isValid()){           
+                        unset($post["user"]["password"]);
+                        if($user=$this->checkUserData($user, $post)){
+                        try{
+                            $this->getEntityManager()->persist($user);
+                        $this->getEntityManager()->flush();                         
+                        }
+                        catch (\Exception $e){
+                            var_dump($e->getTrace());
+                            exit;
+                        }
+                        return $this->redirect()->toRoute("user\\admin");
+                        }
+                    }
+                }             
+                return array("form"=>$form, "errors"=>$this->errors);
+    }
     
     public function editAction(){
         $id=$this->params()->fromRoute('id');
@@ -193,7 +221,7 @@ class AdminController extends MyAbstractController{
             }
         if($post["user"]["password"] && $post["user"]["confirmpassword"]) {            
             if($post["user"]["password"]===$post["user"]["confirmpassword"]){
-            $user->setPassword(md5($post["user"]["password"]));
+            $user->setPassword($post["user"]["password"]);
             }
             else {
                 $this->errors["user"]["password"]="Пароль и подтверждение не совпадают";

@@ -107,6 +107,17 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
+                           'add' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route'    => '/add',
+                            'defaults' => array(
+                                'action'     => 'add',
+                                'description'=> 'Добавить пользователя',
+                                'group'=>"admin",
+                            ),
+                           ),
+                    ),
                     'edit' => array(
                         'type'    => 'Zend\Mvc\Router\Http\Segment',
                         'options' => array(
@@ -231,7 +242,30 @@ return array(
                 $em = $locator->get('doctrine.entitymanager.orm_default');
                 $form= new \User\Form\UserForm($em);
                 $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods())->setInputFilter(new \Zend\InputFilter\InputFilter());
+                   $form->setValidationGroup(array(
+            "user"=>array(
+                "login",
+                "email",
+                "roles",
+                "status",
+                    "profile"=>array(
+                 "firstName",
+                 "lastName",
+                "middleName",
+                "occupation",
+                "phone"
+             ),  
+            ),       
+             
+              ));
                     return $form;
+                  },
+                                'User\Form\NewUser'=>function($sm){                    
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $form= new \User\Form\UserForm($em);
+                $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods())->setInputFilter(new \Zend\InputFilter\InputFilter());             
+                return $form;
                   },
                    'User\Form\Search'=>function($sm){                    
                 $locator = $sm->getServiceLocator();

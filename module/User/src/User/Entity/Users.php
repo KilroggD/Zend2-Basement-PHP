@@ -115,6 +115,10 @@ class Users
     
    private $roles;
     
+   public function __construct() {
+       $this->roles=new \Doctrine\Common\Collections\ArrayCollection();
+   }
+   
     /**
      * Get id
      *
@@ -384,6 +388,5 @@ class Users
         $this->setPassword(md5($this->password));
     }
 }
-    
     
 }

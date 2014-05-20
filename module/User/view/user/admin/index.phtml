@@ -20,6 +20,16 @@ else {
     $sortquery["sortorder"]='asc';
 }
 ?>
+<div class="row add-user-container">
+    <?php
+    if($this->layout()->acl->isAllowed($this->layout()->currentRoles,'User\Controller\Admin','add')){
+    ?>
+    <a class="add-user-link btn btn-default" href="<?=$this->url("user\\admin/add")?>">Добавить пользователя</a>
+            
+            <?php
+    }
+            ?>
+</div>    
 <div class="row search-form-container">
     <div class="col-md-12">
     <?=$this->form()->openTag($this->form) ?>
@@ -116,7 +126,7 @@ else {
          <input type="checkbox" class="user-check-item" data-item="user" name="users[]" id="users[<?=$user->getId()?>]" value="<?=$user->getId()?>"/>
       </div>
     <div class="col-md-3 text-left">
-        <a target="_blank" href="<?=$this->url('profile',array('uid'=>$user->getId())); ?>"><?=$user->getLogin() ?></a>
+     <?=$user->getLogin() ?>
        </div>
           <div class="col-md-2 text-left">
         <?=$status[$user->getStatus()]; ?>
