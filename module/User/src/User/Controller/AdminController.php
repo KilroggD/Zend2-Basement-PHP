@@ -204,7 +204,13 @@ class AdminController extends MyAbstractController{
         if($id){
             $user=$this->getRepository("User\Entity\Users")->find($id);
             if($user) {
-                $user->addRole($this->getRepository("Acl\Entity\AclRoles")->find(1));
+                $adminRole=$this->layout()->adminRole;
+                if(!$user->getRoles()->contains($adminRole)){
+                $user->addRole($adminRole);
+                }
+                else {
+                    $user->removeRole($adminRole);
+                }
                 $this->getEntityManager()->flush();
             }
         }

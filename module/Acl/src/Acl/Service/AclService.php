@@ -61,8 +61,10 @@ class AclService {
      public function getDbRoles(){
          return $this->_em->getRepository("Acl\Entity\AclRoles")->findAll();
      }
-
-
+//выдернуть 1 роль
+    public function getDbRole($id){
+    return $this->_em->getRepository("Acl\Entity\AclRoles")->find($id);
+    }
     /**
      * Добавить разрешение в текущий массив
      * @param array $route

@@ -146,8 +146,22 @@ foreach($user->getRoles() as $role) {
         if(!$user->getBuiltIn()) { 
             ?>
         <div class="col-md-3 text-center">
+                <?php
+    if($this->layout()->acl->isAllowed($this->layout()->currentRoles,'User\Controller\Admin','edit')){
+    ?>
             <p><a href="<?=$this->url('user\\admin/edit',array("id"=>$user->getId()))?>" class="user-edit-link">Изменить</a></p>
-             <p><a href="<?=$this->url('user\\admin/toadmin',array("id"=>$user->getId()))?>" class="user-delete-link">Сделать администратором</a></p>
+            <?php
+    }
+    ?>
+            <?php
+    if($this->layout()->acl->isAllowed($this->layout()->currentRoles,'User\Controller\Admin','toadmin')){
+    ?>
+             <p><a href="<?=$this->url('user\\admin/toadmin',array("id"=>$user->getId()))?>" class="user-delete-link">
+      Сделать администратором/снять привелегии              
+                 </a></p>
+             <?php
+    }
+             ?>
         </div>
         
     <?php

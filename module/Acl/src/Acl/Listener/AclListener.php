@@ -102,7 +102,9 @@ const ADMIN="1", USER="2", GUEST="3";
         $adminRole=new GenericRole(self::ADMIN);
         $this->acl->allow($adminRole);
         $e->getViewModel()->acl=$this->acl;
-            }
+        //передадим роль главного админа в лэйаут
+        $e->getViewModel()->adminRole=$this->_sm->get("aclService")->getDbRole(self::ADMIN);
+        }
     /**
      * Грузим начальные ресурсы 
      * @param type $resources

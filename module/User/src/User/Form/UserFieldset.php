@@ -164,6 +164,27 @@ implements InputFilterProviderInterface
 return array(
   'email'=>array(
       'required'=>true,
+             'validators' => array(
+                array(
+                    'name' => 'EmailAddress',
+                    'options'=>array(
+                        'messages'=>array(
+'emailAddressInvalidFormat' => "E-mail имеет недопустимый формат",
+"emailAddressInvalidHostname"=>"Недопустимое доменное имя для Email",
+"hostnameUnknownTld"=>"Недопустимое доменное имя для Email",
+"hostnameLocalNameNotAllowed"=>"Недопустимое доменное имя для Email"                           
+                        )
+                    )
+                              ),
+                    array(
+                    'name' => 'NotEmpty',
+                    'options'=>array(
+                        'messages'=>array(
+     'isEmpty' => "Поле обязательно для заполнения",
+                        )
+                    )
+                              ),
+                                       ),
   ),
     'login'=>array(
       'required'=>true,
