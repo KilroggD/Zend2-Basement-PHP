@@ -89,7 +89,17 @@ class RoleController extends MyAbstractController{
      * Удалить роль
      */
     public function deleteAction(){
-        
+                        $id=$this->params()->fromRoute('id');
+                        if($id){
+                            $role=$this->getRepository('Acl\Entity\AclRoles')->find($id);
+                            if($role){
+                                $this->getEntityManager()->remove($role);
+                                $this->getEntityManager()->flush();
+                                $this->flashMessenger()->addMessage("Роль удалена");
+                            }
+                        }
+                                  
+            $this->redirect()->toRoute("acl\\admin\\roles");     
     }   
     
 }
