@@ -52,6 +52,14 @@ class LogDocumentLogHydrator implements HydratorInterface
         }
 
         /** @Field(type="string") */
+        if (isset($data['url'])) {
+            $value = $data['url'];
+            $return = (string) $value;
+            $this->class->reflFields['url']->setValue($document, $return);
+            $hydratedData['url'] = $return;
+        }
+
+        /** @Field(type="string") */
         if (isset($data['text'])) {
             $value = $data['text'];
             $return = (string) $value;

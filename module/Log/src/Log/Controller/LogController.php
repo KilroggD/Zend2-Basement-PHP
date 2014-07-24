@@ -15,11 +15,17 @@ class LogController extends \Log\Controller\MyAbstractController{
     //put your code here
     public function indexAction() {
         $dm=$this->getDocumentManager();
+        $repo1=$this->getRepository("Log\Entity\Log");
         $repo=$dm->getRepository("Log\Document\Log");
         $logs=$repo->findAll();
         //$this->getEventManager()->trigger("log",$this, array("category"=>"logs", "importance"=>"notification", "text"=>"тест логов"));
-        var_dump($logs);
-        exit("das ist log!");
+        echo "From mongo: <br/>";
+        print_r($logs);
+        $logs=$repo1->findAll();
+        echo "<br/>From Pg: <br/>";
+        print_r($logs);
+        exit;
+        
     }
     
     public function addAction(){
