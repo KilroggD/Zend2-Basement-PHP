@@ -11,8 +11,8 @@ return array(
                 'server'           => 'localhost',
                 'port'             => '27017',
 //                'connectionString' => null,
-                'user'             => "admin",
-                'password'         =>  "admin",                
+                'user'             => "rcp",
+                'password'         =>  "rcp",                
                 'dbname'           => "rcp",
                 'options'          => array()
             ),
@@ -32,7 +32,7 @@ return array(
                 'hydrator_dir'       => 'data/DoctrineMongoODMModule/Hydrator',
                 'hydrator_namespace' => 'DoctrineMongoODMModule\Hydrator',
 //
-//                'default_db'         => null,
+                'default_db'         => "rcp",
 //
                 'filters'            => array(),  // array('filterName' => 'BSON\Filter\Class'),
 //
@@ -41,14 +41,26 @@ return array(
         ),
 
         'driver' => array(
+            //драйверы для монго
             'Log_odm_driver' => array(
-                'class' => 'Doctrine\ODM\Mapping\Driver\AnnotationDriver',
+                'class' => 'Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(__DIR__ . '/../src/Log/Document')
             ),
             'odm_default' => array(
                 'drivers' => array(
                      'Log\Document' =>  'Log_odm_driver'
+                ),
+            ),
+            //для постгри
+            'Log_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/Log/Entity')
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                     'Log\Entity' =>  'Log_driver'
                 ),
             ),
         ),
@@ -81,7 +93,30 @@ return array(
                          'exclude'=>1
                     ),
                 ),
+                'may_terminate'=>true,
+                         'child_routes' => array(
+                           'add' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route'    => '/add',
+                            'defaults' => array(
+                                'action'     => 'add',
+                                'description'=> 'Добавить лог',
+                                'group'=>"admin",
+                                'exclude'=>1
+                            ),
+                           ),
+                    ),
+                             )
             ),
             )
-            )
+            ),
+        "service_manager"=>array(
+        'factories' => array(
+        "logService"=>function($sm){
+            $service=new Log\Service\LogService($sm);
+            return $service;
+        }
+        )
+    )
 );

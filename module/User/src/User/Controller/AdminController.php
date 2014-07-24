@@ -143,7 +143,7 @@ class AdminController extends MyAbstractController{
      * Блокировать выбранных
      */
     public function blockAction($users){
-   
+        $blocked=array();
             foreach($users as $user){
                 if($user==1){
                     //админа не изменяем
@@ -151,10 +151,12 @@ class AdminController extends MyAbstractController{
                 }
                     $userFound=$this->getRepository('User\Entity\Users')->find($user);
                if($userFound){
+                   $blocked[]=$user;
                    $userFound->setStatus(\User\Entity\Users::BLOCKED);
                } 
             }
              $this->getEntityManager()->flush();
+             $this->getEventManager()->trigger("log",$this, array("importance"=>"notififcation","category"=>"admin","type"=>"m", "text"=>"Блокированы пользователи: ".implode(", ", $blocked)));
             $this->flashMessenger()->addMessage("Выбранные пользователи блокированы");
         return;
     }
@@ -162,6 +164,7 @@ class AdminController extends MyAbstractController{
      * Разблокировать выбранных
      */
     public function unblockAction($users){
+        $unblocked=array();
             foreach($users as $user){
                 if($user==1){
                     //админа не изменяем
@@ -169,10 +172,12 @@ class AdminController extends MyAbstractController{
                 }
                     $userFound=$this->getRepository('User\Entity\Users')->find($user);
                if($userFound){
+                   $unblocked[]=$user;
                    $userFound->setStatus(\User\Entity\Users::ACTIVE);
                } 
             }
         $this->getEntityManager()->flush();
+         $this->getEventManager()->trigger("log",$this, array("importance"=>"notififcation","category"=>"admin","type"=>"pg", "text"=>"Разблокированы пользователи: ".implode(", ", $unblocked)));
         $this->flashMessenger()->addMessage("Выбранные пользователи разблокированы");
         return;      
     }

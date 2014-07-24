@@ -61,9 +61,9 @@ class MyAbstractController extends AbstractActionController{
   
   protected  function getDocumentManager(){
          if (null === $this->dm) {
-      $this->setEntityManager($this->getServiceLocator()->get('doctrine.documentmanager.odm_default'));
+      $this->setDocumentManager($this->getServiceLocator()->get('doctrine.documentmanager.odm_default'));
     }
-    return $this-dem;
+    return $this->dm;
   }
 
   protected function setDocumentManager($dm){
