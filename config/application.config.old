@@ -8,6 +8,7 @@
 return array(
     'modules' => array(
         'DoctrineModule',
+        'DoctrineMongoODMModule',
         'DoctrineORMModule',
         'Application',
         'Email',

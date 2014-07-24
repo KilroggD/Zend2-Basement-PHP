@@ -47,7 +47,7 @@ class AclController extends MyAbstractController{
             }
             else {
                 $toDelete[$group][$controller][$action]=array(
-                  "description"=>$record->getDesctiption(),
+                  "description"=>$record->getDescription(),
                   "system"=>$record->getSystem(),
                    "exclude"=>$record->getExclude()
                 );

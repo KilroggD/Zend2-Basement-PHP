@@ -367,17 +367,17 @@ class ProgressBarTest extends \PHPUnit_Framework_TestCase
             $this->generateOutput(
                 " \033[44;37m Starting the demo... fingers crossed  \033[0m\n".
                 "  0/15 ".$progress.str_repeat($empty, 26)."   0%\n".
-                " 🏁  1 sec                          \033[44;37m 0 B \033[0m"
+                " \xf0\x9f\x8f\x81  1 sec                          \033[44;37m 0 B \033[0m"
             ).
             $this->generateOutput(
                 " \033[44;37m Looks good to me...                   \033[0m\n".
                 "  4/15 ".str_repeat($done, 7).$progress.str_repeat($empty, 19)."  26%\n".
-                " 🏁  1 sec                        \033[41;37m 97 kB \033[0m"
+                " \xf0\x9f\x8f\x81  1 sec                       \033[41;37m 97 KiB \033[0m"
             ).
             $this->generateOutput(
                 " \033[44;37m Thanks, bye                           \033[0m\n".
                 " 15/15 ".str_repeat($done, 28)." 100%\n".
-                " 🏁  1 sec                       \033[41;37m 195 kB \033[0m"
+                " \xf0\x9f\x8f\x81  1 sec                      \033[41;37m 195 KiB \033[0m"
             ),
             stream_get_contents($output->getStream())
         );
@@ -401,6 +401,34 @@ class ProgressBarTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $this->generateOutput('  0/10 [>---------------------------]   0%'),
             stream_get_contents($output->getStream())
+        );
+    }
+
+    /**
+     * @dataProvider provideFormat
+     */
+    public function testFormatsWithoutMax($format)
+    {
+        $bar = new ProgressBar($output = $this->getOutputStream());
+        $bar->setFormat($format);
+        $bar->start();
+
+        rewind($output->getStream());
+        $this->assertNotEmpty(stream_get_contents($output->getStream()));
+    }
+
+    /**
+     * Provides each defined format
+     *
+     * @return array
+     */
+    public function provideFormat()
+    {
+        return array(
+            array('normal'),
+            array('verbose'),
+            array('very_verbose'),
+            array('debug'),
         );
     }
 
