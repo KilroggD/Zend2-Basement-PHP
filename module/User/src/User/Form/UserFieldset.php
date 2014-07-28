@@ -146,17 +146,6 @@ implements InputFilterProviderInterface
              ),
          ));
                  
- 
-               /*   $this->add(array(
-                'type'=>'RoleFieldset',
-                'options'=>array(
-                    'label'=>'Роли пользователя',
-                    'allow_add' => true,
-                     'allow_remove' => true,
-                   'should_create_template' => true
-                )
-            )
-                    );*/
                  
     }
     

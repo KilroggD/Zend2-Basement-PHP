@@ -2,6 +2,32 @@
 return array(
        'router' => array(
         'routes' => array(
+            
+                   'register' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                    'options' => array(
+                    'route'    => '/register',
+                    'defaults' => array(
+                        'controller' => 'User\Controller\Register',
+                        'action'     => 'register',
+                        'description'=>'Регистрация',                         
+                        'group'=>"user",
+                    ),
+                ),
+                      'may_terminate'=>true,     
+                          'child_routes' => array(
+                    'activate' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/activate/:uid/:token',
+                            'defaults' => array(
+                                'action'     => 'activate',
+                            ),
+                           ),
+                    ),
+                              ),
+                ),
+            
                 'login' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                     'options' => array(
@@ -175,7 +201,9 @@ return array(
             'User\Controller\Login' => 'User\Controller\LoginController',
              'User\Controller\Password' => 'User\Controller\PasswordController',
             'User\Controller\Profile'=>'User\Controller\ProfileController',
-            'User\Controller\Admin' => 'User\Controller\AdminController'
+            'User\Controller\Admin' => 'User\Controller\AdminController',
+            'User\Controller\Register' => 'User\Controller\RegistrationController'
+
         ),
     ),
        'controller_plugins' => array(
@@ -281,6 +309,29 @@ return array(
                 $form->setHydrator(new Zend\Stdlib\Hydrator\ObjectProperty());
                 return $form;
                   },
+                              'User\Form\Registration'=>function($sm){                    
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $form= new \User\Form\RegistrationForm($em);
+                $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods())->setInputFilter(new \Zend\InputFilter\InputFilter());             
+                               $form->setValidationGroup(array(
+            "user"=>array(
+                "login",
+                "email",
+                "password",
+                "confirmpassword",
+             "profile"=>array(
+                 "firstName",
+                 "lastName",
+                "middleName",
+                "occupation",
+                "phone"
+             ),  
+            ),       
+             "captcha"
+              ));
+                return $form;
+                  },
                           //филдсеты
                  'ProfileFieldset'=>function($sm){
                 $locator = $sm->getServiceLocator();
@@ -352,6 +403,7 @@ return array(
             'profile/profile'=>__DIR__ . '/../view/user/profile/profile.phtml',
            'profile/info'=>__DIR__ . '/../view/user/profile/info.phtml',
             'admin/edit'=>__DIR__ . '/../view/user/admin/edit.phtml',
+            "registration/register"=>__DIR__ . '/../view/user/registration/register.phtml',
             ),
         
         'template_path_stack' => array(

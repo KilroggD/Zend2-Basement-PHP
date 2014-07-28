@@ -93,6 +93,12 @@ class Users
      */    
     private $passwordChange;
     
+        
+    /**
+     * @ORM\OneToOne(targetEntity="User\Entity\UserActivation", mappedBy="user", cascade={"persist","remove"})
+     */    
+    private $userActivation;
+    
     /**
      *
      * @ORM\OneToOne(targetEntity="User\Entity\UserProfile", mappedBy="user", cascade={"persist","remove"})
@@ -305,6 +311,23 @@ class Users
         return $this;
     }
    
+        /**
+     * Get activation request
+     * @return User\Entity\UserActivation
+     */
+    public function getUserActivation(){
+        return $this->userActivation;
+    }
+    
+    /**
+     * Set password change request
+     * @return User
+     */   
+    public function setUserActivation(\User\Entity\UserActivation $userActivation){
+        $this->userActivation=$userActivation;
+        return $this;
+    }
+    
         /**
      * Get user profile
      * @return User\Entity\UserProfile

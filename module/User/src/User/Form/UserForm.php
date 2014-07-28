@@ -35,7 +35,6 @@ class UserForm extends MyAbstractForm{
                  'use_as_base_fieldset' => true,
              ),
          ));        
-
          $this->add(array(
              'name' => 'submit',
              'attributes' => array(

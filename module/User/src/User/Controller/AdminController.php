@@ -232,7 +232,7 @@ class AdminController extends MyAbstractController{
             }
         if($post["user"]["password"] && $post["user"]["confirmpassword"]) {            
             if($post["user"]["password"]===$post["user"]["confirmpassword"]){
-            $user->setPassword($post["user"]["password"]);
+            $user->setPassword(md5($post["user"]["password"]));
             }
             else {
                 $this->errors["user"]["password"]="Пароль и подтверждение не совпадают";

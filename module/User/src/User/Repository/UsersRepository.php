@@ -40,6 +40,10 @@ class UsersRepository extends EntityRepository{
         }        
         return $qb;
     }
-    
+    //валидация на уникальность по какому-либо полю
+    public function validateUnique($field,$value){
+        return $this->findOneBy(array($field=>$value));
+    }
+
     
 }
