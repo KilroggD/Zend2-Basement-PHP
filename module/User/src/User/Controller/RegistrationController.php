@@ -46,7 +46,56 @@ class RegistrationController extends MyAbstractController{
       }      
       
       public function activateAction(){
+                  /**
+         * В гет параметрах должны быть токен и мыло
+         */
+        $token=$this->params()->fromRoute('token');
+        $id=$this->params()->fromRoute('uid');
+        /**
+         * Если не задан токен и емэйл, т е кто-то рандомно попал на активацию
+         */
+       if(!$token || !$id){
+        return array("error"=>"Неверная ссылка для активации");
+        }
+        /**
+         * Если все же они есть
+         */
+        else {
+            //ищем запись юзера с нужным id
+          $user=$this->getEntityManager()->getRepository('User\Entity\Users')->find($id);
           
+          //не нашли!
+          if(!$user){
+          return array("error"=>"Такого пользователя не существует");
+          }
+          else {
+              /**
+               * ура! нашли!
+               * проверяем, вдруг уже активен
+               */
+           $activation=$user->getUserActivation();
+              if($user->getStatus()!= UserEntity::INACTIVE || !$activation){
+          return array("error"=>"Запись уже активирована");                
+              }
+              /**
+               * Или токен неверный
+               */
+                        if($activation->getToken()!==$token) {
+          return array("error"=>"Неверный ключ");        
+                        }
+                        else {
+                        /**
+                         * Все ОК, апдейтим статус
+                         */
+              $user->setStatus(UserEntity::ACTIVE);
+              $this->getEntityManager()->persist($user);
+              $this->getEntityManager()->remove($activation);
+              $this->getEntityManager()->flush();
+              $this->flashMessenger()->addMessage("Ваша учетная запись успешно активирована. Теперь Вы можете войти на сайт под своим логином и паролем");
+              $this->redirect()->toRoute("home");
+                        }
+          }
+        }
       }
       
     

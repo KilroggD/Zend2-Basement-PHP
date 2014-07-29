@@ -35,6 +35,7 @@ class UserListener  implements ListenerAggregateInterface {
         $this->listeners[]=$sharedEvents->attach('User\Controller\LoginController', 'successfulLogin', array($this,'onSuccessfulLogin'), 100);
         $this->listeners[]=$sharedEvents->attach('User\Controller\PasswordController','passwordForgot',array($this,'onForgotPassword'),100);
         $this->listeners[]=$sharedEvents->attach('User\Controller\ProfileController','emailChange',array($this,'onEmailChange'),100);
+        $this->listeners[]=$sharedEvents->attach("User\Controller\RegistrationController", "registration", array($this,'onRegister'));
         $this->listeners[]=$sharedEvents->attach('Zend\Mvc\Controller\AbstractActionController', 'dispatch', array($this,'checkAuth'), 500);
         $this->listeners[]=$sharedEvents->attach('Zend\Mvc\Controller\AbstractActionController', 'dispatch', array($this,'getBase'), 100);
     }
@@ -46,6 +47,19 @@ class UserListener  implements ListenerAggregateInterface {
             }
         }
     }
+    
+    public function onRegister($e){
+            $params=$e->getParams();
+             try {
+         $emailService=$this->_sm->get("emailService");
+         $emailService->sendActivation($params["email"], $params["link"],$params["login"]);
+         return true;
+                }
+        catch (\Exception $e){
+            return false;
+        }
+    }
+    
     /**
      * Обработчик события - возможно потом следует вынести в сервис
      * @param Event $e

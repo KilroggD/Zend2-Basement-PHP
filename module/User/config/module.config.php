@@ -22,6 +22,8 @@ return array(
                             'route'    => '/activate/:uid/:token',
                             'defaults' => array(
                                 'action'     => 'activate',
+                                   'description'=>'Активация учетной записи',                         
+                                    'group'=>"user",
                             ),
                            ),
                     ),
@@ -404,6 +406,7 @@ return array(
            'profile/info'=>__DIR__ . '/../view/user/profile/info.phtml',
             'admin/edit'=>__DIR__ . '/../view/user/admin/edit.phtml',
             "registration/register"=>__DIR__ . '/../view/user/registration/register.phtml',
+           "registration/activate"=>__DIR__ . '/../view/user/registration/activate.phtml',
             ),
         
         'template_path_stack' => array(

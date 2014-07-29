@@ -66,6 +66,24 @@ class EmailService {
         $this->send();
         return true;
     }
+    /**
+     * Отправка активационной ссылки
+     * @param string $to - адрес, куда отправлять
+     * @param string $link - ссылка, которую отправлять
+     * @param string $login - Логин юзера, которому адресовано
+     */
+    public function sendActivation($to, $link, $login=null){
+                $template=$this->repository->findOneByKey("activationLink");
+       $login=is_null($login)?'':$login;
+        $text=str_replace("{{TO}}", $to, $template->getTemplate());
+        $text=  str_replace("{{LINK}}", $link, $text);
+        $text= str_replace("{{LOGIN}}", $login, $text);
+        $this->subj=$template->getSubject();
+        $this->text=$text;
+        $this->to=$to;
+        return $this->send();
+    }
+    
     
         protected function send(){
         try {

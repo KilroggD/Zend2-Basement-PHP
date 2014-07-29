@@ -26,7 +26,7 @@ class LoginForm extends MyAbstractForm{
                 'type' => 'text',
                 'class'=>'medium-input form-control',
                 'size'=>30,
-                'id'=>'email'
+                'id'=>'login'
                            ),
             'options'=>array(
                 'label'=>'Логин пользователя:',
