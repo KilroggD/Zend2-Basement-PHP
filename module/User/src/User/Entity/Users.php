@@ -65,7 +65,7 @@ class Users
      *
      * @ORM\Column(name="status", type="smallint", nullable=false)
      */
-    private $status = '0';
+    private $status = self::INACTIVE;
 
     /**
      * @var \DateTime

@@ -174,10 +174,15 @@ class AdminController extends MyAbstractController{
                if($userFound){
                    $unblocked[]=$user;
                    $userFound->setStatus(\User\Entity\Users::ACTIVE);
+                   $activation=$userFound->getUserActivation();              
+                   if($activation){
+                      $remove=$this->getEntityManager()->remove($activation);                                             
+                   }
                } 
             }
         $this->getEntityManager()->flush();
-         $this->getEventManager()->trigger("log",$this, array("importance"=>"notififcation","category"=>"admin","type"=>"pg", "text"=>"Разблокированы пользователи: ".implode(", ", $unblocked)));
+        $this->getEntityManager()->clear();
+        $this->getEventManager()->trigger("log",$this, array("importance"=>"notififcation","category"=>"admin","type"=>"pg", "text"=>"Разблокированы пользователи: ".implode(", ", $unblocked)));
         $this->flashMessenger()->addMessage("Выбранные пользователи разблокированы");
         return;      
     }
