@@ -3,6 +3,12 @@ namespace User;
 
 class Module
 {
+    
+              public function getModuleDependencies()
+    {
+        return array('DoctrineMongoODMModule',  'DoctrineModule');   
+    }
+    
     public function onBootstrap($e)
     {
     $eventManager = $e->getTarget()->getEventManager();
