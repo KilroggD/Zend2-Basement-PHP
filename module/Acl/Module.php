@@ -5,7 +5,10 @@ use Zend\ModuleManager\ModuleManager as ModuleManager;
 class Module
 {
     
-  
+          public function getModuleDependencies()
+    {
+        return array('DoctrineMongoODMModule',  'DoctrineModule', 'User');   
+    }
     
         public function onBootstrap($e)
     {

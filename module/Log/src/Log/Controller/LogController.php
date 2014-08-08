@@ -14,6 +14,7 @@ namespace Log\Controller;
 class LogController extends \Log\Controller\MyAbstractController{
     //put your code here
     public function indexAction() {
+        
         $dm=$this->getDocumentManager();
         $repo1=$this->getRepository("Log\Entity\Log");
         $repo=$dm->getRepository("Log\Document\Log");

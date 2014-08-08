@@ -16,7 +16,9 @@ class IndexController extends AbstractActionController{
     //put your code here
     public $userParams;
     public function indexAction() {
-        
+       $mm=$this->getServiceLocator()->get("ModuleManager");
+       $modules=$mm->getModules("Log");
+       return array("modules"=>$modules);
     }
     
 }

@@ -35,7 +35,7 @@ class LogService {
         $log->setText($params["text"]);
         $log->setUrl($params["url"]);
         $proc->persist($log);
-        $proc->flush();
+        $proc->flush();        
     }
     
 }

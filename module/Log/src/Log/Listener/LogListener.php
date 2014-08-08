@@ -17,6 +17,9 @@ class LogListener implements ListenerAggregateInterface {
 /**
      * @var \Zend\Stdlib\CallbackHandler[]
      */
+        private $mongoError=array(
+            "importance"=>"error","category"=>"system","type"=>"pg", "text"=>"Ошибка подключения к MongoDB, запись логов выполняется в PostgreSQL","url"=>""
+        );
         protected $listeners=array(),$_sm, $_dm, $target;
         /**
          * В конструкторе определяем сервис-менеджер
@@ -24,6 +27,7 @@ class LogListener implements ListenerAggregateInterface {
          */
     public function __construct($sm) {        
         $this->_sm=$sm;
+         $this->_dm=$sm->get('doctrine.documentmanager.odm_default');
         }
         
            /**
@@ -44,9 +48,16 @@ class LogListener implements ListenerAggregateInterface {
     }
     
     public function log($e){
-        $url=$e->getTarget()->getRequest()->getUri()->__toString();
+        $url=$e->getTarget()->getRequest()->getUri()->__toString();        
         $params=$e->getParams();
         $params["url"]=$url;
+        //если не коннектит монго - пишем все в пг
+        try {
+            $this->_dm->getConnection()->connect();
+        } catch (\MongoConnectionException $ex) {
+            $params["type"]="pg";
+            $this->_sm->get("logService")->write($this->mongoError);
+        }
         $this->_sm->get("logService")->write($params);
         return true;
     }

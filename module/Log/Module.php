@@ -3,12 +3,18 @@ namespace Log;
 
 class Module
 {
+        public function getModuleDependencies()
+    {
+        return array('DoctrineMongoODMModule',  'DoctrineModule');   
+    }
+    
       public function onBootstrap($e)
     {
     $eventManager = $e->getTarget()->getEventManager();
-    $eventManager->attach(new Listener\LogListener($e->getApplication()->getServiceManager()));
+    $eventManager->attach(new Listener\LogListener($e->getApplication()->getServiceManager()));      
     }   
-    public function getConfig()
+    
+        public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
     }
