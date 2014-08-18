@@ -6,6 +6,7 @@ use Zend\Code\Scanner\DirectoryScanner;
 use Zend\Permissions\Acl\Acl;
 use Zend\Permissions\Acl\Role\GenericRole;
 use Zend\Permissions\Acl\Resource\GenericResource;
+use \Acl\Repository\AclRolesRepository;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -21,8 +22,10 @@ class AclListener implements \Zend\EventManager\ListenerAggregateInterface{
     /**
  * Константы встроенных ролей
  */
-const ADMIN="1", USER="2", GUEST="3";
-       /**
+
+const INSTALLER="Install\Controller\Install";
+const ACL="Acl\Controller\Acl";
+/**
      * @var \Zend\Stdlib\CallbackHandler[]
      */
         protected $listeners=array(),$_sm,$target, $acl;
@@ -94,16 +97,22 @@ const ADMIN="1", USER="2", GUEST="3";
         return true;
     }
     
-    public function initAcl($e){
+    public function initAcl($e){    
+        if(!$this->_sm->get("aclService")->checkAclExistance()) {
+            $this->initInstallPermissions();
+        }
+        else {
         $resources=$this->_sm->get("aclService")->getDbResorces();
         $roles=$this->_sm->get("aclService")->getDbRoles();
         //грузим роли, премишны и ресурсы
         $this->addResources($resources)->addRolesPermissions($roles);
-        $adminRole=new GenericRole(self::ADMIN);
+        $adminRole=new GenericRole(\Acl\Repository\AclRolesRepository::ADMIN);
         $this->acl->allow($adminRole);
+        $e->getViewModel()->adminRole=$this->_sm->get("aclService")->getDbRole(\Acl\Repository\AclRolesRepository::ADMIN);
+        }
         $e->getViewModel()->acl=$this->acl;
         //передадим роль главного админа в лэйаут
-        $e->getViewModel()->adminRole=$this->_sm->get("aclService")->getDbRole(self::ADMIN);
+        
         }
     /**
      * Грузим начальные ресурсы 
@@ -150,16 +159,16 @@ const ADMIN="1", USER="2", GUEST="3";
    */
     public function getUserRoles($user){
                if(!$user){
-         $roles=self::GUEST;      
+         $roles=  AclRolesRepository::GUEST;      
         }
         else{
-         $roles=self::USER;
+         $roles=  AclRolesRepository::USER;
          $userRoles=$user->getRoles();
          $count=$userRoles->count();
          //если ролей нет
          if($count) {
              //если у юзера несколько ролей, организуем новую временную роль по логину пользователя  с "родителсьскими" ролями
-           $parents=array(self::USER);
+           $parents=array(AclRolesRepository::USER);
            foreach($userRoles as $role){
                $parents[]=(string)$role->getId();
            }
@@ -168,6 +177,22 @@ const ADMIN="1", USER="2", GUEST="3";
                    }
         }
         return $roles;
+    }
+    
+    public function initInstallPermissions(){
+                 $resources=array(new GenericResource(self::INSTALLER), new GenericResource(self::ACL));
+                 $role=  AclRolesRepository::GUEST;
+                     if(!$this->acl->hasRole($role)){
+                $this->acl->addRole($role);
+                     }
+                     foreach($resources as $resource){
+         if(!$this->acl->hasResource($resource)){
+                $this->acl->addResource($resource);
+            }            
+                     }
+          $this->acl->allow(null,self::INSTALLER,null);
+          $this->acl->allow(null,self::ACL,null);
+
     }
     
 }

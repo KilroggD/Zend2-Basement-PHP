@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * UserProfile
  *
- * @ORM\Table(name="user_profile", indexes={@ORM\Index(name="IDX_D95AB405A76ED395", columns={"user_id"})})
+ * @ORM\Table(name="user_profile")
  * @ORM\Entity
  */
 class UserProfile
@@ -215,5 +215,33 @@ class UserProfile
     public function getUser()
     {
         return $this->user;
+    }
+    /**
+     * @var string
+     */
+    private $address;
+
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     * @return UserProfile
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string 
+     */
+    public function getAddress()
+    {
+        return $this->address;
     }
 }

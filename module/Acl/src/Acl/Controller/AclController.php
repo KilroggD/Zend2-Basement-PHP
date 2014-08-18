@@ -56,8 +56,8 @@ class AclController extends MyAbstractController{
         }
         $toAdd=$cPermissions;
         if($this->params()->fromRoute("flag")==='load'){
-            $this->removeAcls($delRecords);
-            $this->addAcls($toAdd);
+            $this->getRepository("Acl\Entity\AclPermissions")->removeAcls($delRecords);
+            $this->getRepository("Acl\Entity\AclPermissions")->addAcls($toAdd);
             return $this->redirect()->toRoute("acl\\admin");
         }
         return array("toAdd"=>$toAdd,"toDelete"=>$toDelete);       
@@ -105,7 +105,7 @@ class AclController extends MyAbstractController{
      * Добавление Acl из массива
      * @param array $acls
      */
-   private function addAcls($acls){
+ /*  private function addAcls($acls){
        foreach($acls as $group=>$modules){
               foreach($modules as $module=>$actions){
                   foreach($actions as $action=>$permission){
@@ -122,16 +122,7 @@ class AclController extends MyAbstractController{
               }
          }
                      $this->getEntityManager()->flush();
-                               }
-    /**
-     * Удаление коллекции entities Acl
-     * @param array $records
-     */
-   private function removeAcls($records){
-       foreach($records as $record){
-           $this->getEntityManager()->remove($record);
-       }
-       $this->getEntityManager()->flush();
-   } 
+                               }*/
+
    
 }

@@ -153,4 +153,80 @@ class Log
     {
         return $this->text;
     }
+
+    /**
+     * Set timestamp
+     *
+     * @param int $timestamp
+     * @return self
+     */
+    public function setTimestamp($timestamp)
+    {
+        $this->timestamp = $timestamp;
+        return $this;
+    }
+
+    /**
+     * Get timestamp
+     *
+     * @return int $timestamp
+     */
+    public function getTimestamp()
+    {
+        return $this->timestamp;
+    }
+    /**
+     * @var string $user
+     */
+    protected $user;
+
+    /**
+     * @var  $lifecycleCallbacks
+     */
+    protected $lifecycleCallbacks;
+
+
+    /**
+     * Set user
+     *
+     * @param string $user
+     * @return self
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return string $user
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set lifecycleCallbacks
+     *
+     * @param $lifecycleCallbacks
+     * @return self
+     */
+    public function setLifecycleCallbacks($lifecycleCallbacks)
+    {
+        $this->lifecycleCallbacks = $lifecycleCallbacks;
+        return $this;
+    }
+
+    /**
+     * Get lifecycleCallbacks
+     *
+     * @return $lifecycleCallbacks
+     */
+    public function getLifecycleCallbacks()
+    {
+        return $this->lifecycleCallbacks;
+    }
 }

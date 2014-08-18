@@ -111,6 +111,11 @@ class AclService {
         return false;
     }
     
+    public function checkAclExistance(){
+        $schemaManager = $this->_em->getConnection()->getSchemaManager();
+        return $schemaManager->tablesExist(array('acl_permissions'));
+    }
+    
     private function scanDir(){
         $modules=array();
                 foreach (glob("module/*", GLOB_ONLYDIR) as $module) {

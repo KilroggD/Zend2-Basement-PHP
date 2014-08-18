@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * UserActivation
  *
- * @ORM\Table(name="user_activation", indexes={@ORM\Index(name="IDX_BB0FA69BA76ED395", columns={"user_id"})})
+ * @ORM\Table(name="user_activation")
  * @ORM\Entity
  */
 class UserActivation

@@ -1,0 +1,33 @@
+User\Entity\UserActivation:
+    type: entity
+    table: user_activation
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        token:
+            type: string
+            scale: 0
+            length: 140
+            unique: false
+            nullable: true
+            precision: 0
+    oneToOne:
+        user:
+            targetEntity: User\Entity\Users
+            cascade: {  }
+            mappedBy: null
+            inversedBy: userActivation
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

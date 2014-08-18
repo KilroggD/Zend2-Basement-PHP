@@ -13,6 +13,7 @@
  */
 
 return array(
+    
     'service_manager' => array(
         'factories' => array(
             'Zend\Db\Adapter\Adapter'
@@ -54,11 +55,41 @@ return array(
 
                 // SQL filters. See http://docs.doctrine-project.org/en/latest/reference/filters.html
                 'filters'           => array()
+            ),
+      'odm_default' => array(
+                'metadata_cache'     => 'array',
+//
+                'driver'             => 'odm_default',
+//
+                'generate_proxies'   => true,
+                'proxy_dir'          => 'data/DoctrineMongoODMModule/Proxy',
+                'proxy_namespace'    => 'DoctrineMongoODMModule\Proxy',
+//
+                'generate_hydrators' => true,
+                'hydrator_dir'       => 'data/DoctrineMongoODMModule/Hydrator',
+                'hydrator_namespace' => 'DoctrineMongoODMModule\Hydrator',
+//
+                'default_db' =>'scimc',
+                'filters'            => array(),  // array('filterName' => 'BSON\Filter\Class'),
+//
+//                'logger'             => null // 'DoctrineMongoODMModule\Logging\DebugStack'
             )
         ),
 
         // Metadata Mapping driver configuration
         'driver' => array(
+            'ApplicationYamlDriver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\YamlDriver',
+                'cache' => 'array',
+                'extension' => '.dcm.yml',
+                'paths' => array('./yml')
+            ),
+            'MongoYamlDriver' => array(
+                'class' => 'Doctrine\ODM\MongoDB\Mapping\Driver\YamlDriver',
+                'cache' => 'array',
+                'extension' => '.dcm.yml',
+                'paths' => array('./yml_m')
+            ),
             // Configuration for service `doctrine.driver.orm_default` service
             'orm_default' => array(
                 // By default, the ORM module uses a driver chain. This allows multiple

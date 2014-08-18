@@ -365,7 +365,7 @@ return array(
             ),
             'orm_default' => array(
                 'drivers' => array(
-                     'User\Entity' =>  'User_driver'
+                     'User\Entity' =>  'ApplicationYamlDriver'
                 ),
             ),
         ),

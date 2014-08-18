@@ -1,79 +1,178 @@
 <?php
+
 namespace Log\Document;
+
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-/** @ODM\Document(collection="log") */
+
+/**
+ * Log\Document\Log
+ *
+ * @ODM\Document(
+ *     collection="logs"
+ * )
+ * @ODM\ChangeTrackingPolicy("DEFERRED_IMPLICIT")
+ */
 class Log
 {
-    /** @ODM\Id */
-    private $id;
+    /**
+     * @var $id
+     *
+     * @ODM\Id(strategy="AUTO")
+     */
+    protected $id;
 
-    /** @ODM\Field(type="string") */
-    private $importance;
-    
-    /** @ODM\Field(type="string") */
-    private $category;
-    
-    /** @ODM\Field(type="string") */
-    private $text;
+    /**
+     * @var string $importance
+     *
+     * @ODM\Field(name="importance", type="string", options={})
+     */
+    protected $importance;
 
-    private $timestamp;
+    /**
+     * @var string $category
+     *
+     * @ODM\Field(name="category", type="string", options={})
+     */
+    protected $category;
+  /**
+     * @var string $url
+     *
+     * @ODM\Field(name="url", type="string", options={})
+     */
+    protected $url;
+
+    /**
+     * @var string $text
+     *
+     * @ODM\Field(name="text", type="string", options={})
+     */
+    protected $text;
+/**
+     * @var string $text
+     *
+     * @ODM\Field(name="timestamp", type="int", options={})
+     */
+    protected $timestamp;
+    /**
+     * Get id
+     *
+     * @return id $id
+     */
     public function __construct() {
         $this->timestamp=time();
     }
-    /**
-     * @return the $id
-     */          
-        public function getId() {
+    
+    
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
+     * Set importance
+     *
+     * @param string $importance
+     * @return self
+     */
+    public function setImportance($importance)
+    {
+        $this->importance = $importance;
+        return $this;
+    }
+
+    /**
+     * Get importance
+     *
      * @return string $importance
      */
-    public function getImportance() {
+    public function getImportance()
+    {
         return $this->importance;
     }
-   /**
-     * @param string $importance
+
+    /**
+     * Set category
+     *
+     * @param string $category
+     * @return self
      */
-    public function setImportance($importance) {
-        $this->importance = $importance;
+    public function setCategory($category)
+    {
+        $this->category = $category;
+        return $this;
     }
-    
-        /**
+
+    /**
+     * Get category
+     *
      * @return string $category
      */
-    public function getCategory() {
+    public function getCategory()
+    {
         return $this->category;
     }
-   /**
+ /**
+     * Set category
+     *
      * @param string $category
+     * @return self
      */
-    public function setCategory($category) {
-        $this->category = $category;
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        return $this;
     }
-    
-    
-        /**
-     * @return string $importance
+
+    /**
+     * Get category
+     *
+     * @return string $category
      */
-    public function getText() {
+    public function getUrl()
+    {
+        return $this->url;
+    }
+    /**
+     * Set text
+     *
+     * @param string $text
+     * @return self
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+        return $this;
+    }
+
+    /**
+     * Get text
+     *
+     * @return string $text
+     */
+    public function getText()
+    {
         return $this->text;
     }
-   /**
-     * @param string $importance
-     */
-    public function setText($text) {
-        $this->text = $text;
-    }
-    
+
     /**
-     * @param field_type $id
+     * Set timestamp
+     *
+     * @param int $timestamp
+     * @return self
      */
-    public function setId($id) {
-        $this->id = $id;
+    public function setTimestamp($timestamp)
+    {
+        $this->timestamp = $timestamp;
+        return $this;
     }
 
- 
-
+    /**
+     * Get timestamp
+     *
+     * @return int $timestamp
+     */
+    public function getTimestamp()
+    {
+        return $this->timestamp;
+    }
 }

@@ -28,7 +28,7 @@ class ProfileFilter extends InputFilter{
                 array(
                     'name' => 'EmailAddress',
                     'options'=>array(
-                       'useMxCheck'=>true,
+                   //    'useMxCheck'=>true,
                         'messages'=>array(
 'emailAddressInvalidFormat' => "E-mail имеет недопустимый формат",
 "emailAddressInvalidHostname"=>"Недопустимое доменное имя для Email",

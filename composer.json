@@ -16,6 +16,7 @@
       "gedmo/doctrine-extensions": "2.3.*",
        "zendframework/zend-developer-tools": "dev-master",
         "doctrine/doctrine-mongo-odm-module": "dev-master",
-       "doctrine/migrations": "*"
+       "doctrine/migrations": "*",
+       "symfony/yaml": "dev-master"
     }
 }

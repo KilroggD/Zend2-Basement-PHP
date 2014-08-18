@@ -1,0 +1,67 @@
+Acl\Entity\AclPermissions:
+    type: entity
+    table: acl_permissions
+    repositoryClass: \Acl\Repository\AclPermissionsRepository
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        controller:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: false
+            precision: 0
+        action:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
+            precision: 0
+        description:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
+            precision: 0
+        system:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+        exclude:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+        grp:
+            type: string
+            scale: 0
+            length: 140
+            unique: false
+            nullable: true
+            precision: 0
+    manyToMany:
+        roles:
+            targetEntity: Acl\Entity\AclRoles
+            cascade: {  }
+            mappedBy: permissions
+            inversedBy: null
+            joinTable: {  }
+            orderBy: null
+    lifecycleCallbacks: {  }

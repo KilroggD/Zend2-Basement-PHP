@@ -14,7 +14,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class AclRolesRepository extends EntityRepository{
     //put your code here
-    
+    const ADMIN="1", USER="2", GUEST="3";
+    private $initials=array(
+        self::ADMIN=>"Администратор",
+        self::USER=>"Пользователь",
+        self::GUEST=>"Гость"
+    );
     public function getRolesWithPermissions(){
         $roles=array();
         $result=$this->findAll();
@@ -27,6 +32,19 @@ class AclRolesRepository extends EntityRepository{
             );
         }
             return $roles;
+    }
+    
+    /**
+     * создание начальных ролей (например, при инсталляции)
+     */
+    public function initRoles(){
+        foreach($this->initials as $id=>$name){
+            $role=new \Acl\Entity\AclRoles();
+            $role->setName($name);
+            $role->setBuiltIn(1);     
+            $this->getEntityManager()->persist($role);
+        }
+        $this->getEntityManager()->flush();
     }
     
 }

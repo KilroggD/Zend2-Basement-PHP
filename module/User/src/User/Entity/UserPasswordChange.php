@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * UserPasswordChange
  *
- * @ORM\Table(name="user_password_change", indexes={@ORM\Index(name="IDX_DF620397A76ED395", columns={"user_id"})})
+ * @ORM\Table(name="user_password_change")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
