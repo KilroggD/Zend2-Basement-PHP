@@ -68,23 +68,31 @@ class InstallController extends \Zend\Mvc\Controller\AbstractActionController{
      */
     public function installAction(){
         $request=$this->getRequest();
+        //получаем форму
+        $form=$this->getServiceLocator()->get('FormElementManager')->get('InstallForm');
         if($request->isPost()){
         $data=$request->getPost();
+        $form->setDate($data);
+        if($form->isValid()){
         $srv=new \Install\Service\DbService($this->getEntityManager(),$this->getDocumentManager());
         if($srv->installPg()){
+            $this->flashMessenger()->addMessage("Таблицы БД созданы успешно");
             $this->getEventManager()->trigger("aclUpdate");
             if($srv->installRoles($data) && $srv->installPermissions($this->currentPermissions) ){
-                
+                $this->flashMessenger()->addMessage("Успешно созданы роли и разрешения");
+                $this->flashMessenger()->addMessage("Установка прошла успешно, можете воспользоваться учетной записью администратора");
+                $this->redirect()->toRoute("home");
             }
             else {
-                
+                $this->flashMessenger()->addMessage("Не удалось загрузить роли и разрешения");
             }
             }
             else {
-                
+                $this->flashMessenger()->addMessage("Не удалось создать таблицы БД");                        
             }
         }
-        return;
+        }
+        return array("form"=>$form);
     }
    
     

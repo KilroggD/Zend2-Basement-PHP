@@ -37,7 +37,7 @@ class AclRolesRepository extends EntityRepository{
     /**
      * создание начальных ролей (например, при инсталляции)
      */
-    public function initRoles(){
+    public function initRoles(){        
         foreach($this->initials as $id=>$name){
             $role=new \Acl\Entity\AclRoles();
             $role->setName($name);
@@ -45,6 +45,7 @@ class AclRolesRepository extends EntityRepository{
             $this->getEntityManager()->persist($role);
         }
         $this->getEntityManager()->flush();
+        return $this;
     }
     
 }

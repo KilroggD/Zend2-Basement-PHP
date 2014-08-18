@@ -37,6 +37,18 @@ return array(
                        )
             )
                    ),
+           'form_elements'=>array(
+           'factories' => array(
+               //формы
+               'InstallForm'=>function() {
+                $form = new \Install\Form\InstallForm();
+                $form->setInputFilter(new \Install\Form\InstallFilter());
+                $form->setHydrator(new \Zend\Stdlib\Hydrator\ObjectProperty());
+                return $form;
+            },  
+                    )
+                    ),
+    
                                 'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,

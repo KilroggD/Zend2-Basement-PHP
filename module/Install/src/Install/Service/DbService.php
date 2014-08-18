@@ -65,14 +65,31 @@ class DbService {
      * @param array $data
      */
     public function installRoles($data){
-        
+        try {
+        $initRoles=$this->em->getRepository("Acl\Entity\AclRoles")->initRoles();
+        //ищем администраторскую роль
+        $adminRole=$initRoles->find(\Acl\Repository\AclRolesRepository::ADMIN);
+        //создаем дефолтного админа
+        $user=new \User\Entity\Users();
+        $user->setLogin($data["login"]);
+        $user->setPassword($data["password"]);
+        $user->setStatus(\User\Entity\Users::ACTIVE);
+        $user->setBuiltIn(1);
+        $user->addRole($adminRole);
+        $this->em->persist($user);
+        $this->em->flush();
+        return true;
+        }
+        catch(\Exception $e) {
+        return false;
+        }
     }
     
     /**
      * Установка пермишнов
      */
     public function installPermissions($permissions){
-        
+        return $this->em->getRepository("Acl\Entity\AclPermissionsRepository")->addAcls($permissions);
     }
     
 }

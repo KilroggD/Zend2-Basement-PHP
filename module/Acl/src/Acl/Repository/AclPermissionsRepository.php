@@ -38,6 +38,7 @@ class AclPermissionsRepository extends EntityRepository {
               }
          }
                      $this->getEntityManager()->flush();
+                     return true;
                                }
                                
                                    /**
