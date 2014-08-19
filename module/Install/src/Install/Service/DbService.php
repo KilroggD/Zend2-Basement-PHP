@@ -45,17 +45,23 @@ class DbService {
     
     public function installMongo(){
              try {
-        $classes=array();
-        $yml=new YamlDriverODM("./yml_m");
-            $pgTables=$yml->getAllClassNames();
-            $tool=new \Doctrine\ODM\MongoDB\Tools\Console\Command\Schema\CreateCommand();
-            foreach($pgTables as $ns){
-                $classes[]=$this->em->getClassMetadata($ns);
-            }
-            $tool->createSchema($classes);  
-            return $this;
+                 $this->dm->getConnection()->connect();
+            $helperSet = new \Symfony\Component\Console\Helper\HelperSet(array(
+    'dm' => new \Doctrine\ODM\MongoDB\Tools\Console\Helper\DocumentManagerHelper($this->dm),
+));
+            $app = new \Symfony\Component\Console\Application('Doctrine MongoDB ODM');
+$app->setHelperSet($helperSet);
+$app->addCommands(array(
+        new \Doctrine\ODM\MongoDB\Tools\Console\Command\Schema\CreateCommand(),
+    )
+        );
+  $command = $app->find('odm:schema:create');
+        $commandTester = new \Symfony\Component\Console\Tester\CommandTester($command);
+        $commandTester->execute(array('command' => $command->getName()));
+       return true;
         }
         catch (\Exception $e){
+            die($e->getMessage());
             return false;
         }   
     }
@@ -71,7 +77,7 @@ class DbService {
         $adminRole=$initRoles->find(\Acl\Repository\AclRolesRepository::ADMIN);
         //создаем дефолтного админа
         $user=new \User\Entity\Users();
-        $user->setLogin($data["login"]);
+        $user->setLogin($data["login"])->setEmail($data["login"]);
         $user->setPassword($data["password"]);
         $user->setStatus(\User\Entity\Users::ACTIVE);
         $user->setBuiltIn(1);
@@ -81,6 +87,8 @@ class DbService {
         return true;
         }
         catch(\Exception $e) {
+            echo $e->getMessage();
+            die("roles creation exception");
         return false;
         }
     }
@@ -89,7 +97,21 @@ class DbService {
      * Установка пермишнов
      */
     public function installPermissions($permissions){
-        return $this->em->getRepository("Acl\Entity\AclPermissionsRepository")->addAcls($permissions);
+        try {
+            //инсталляция повторно не понадобится
+        $this->em->getRepository("Acl\Entity\AclPermissions")->addAcls($permissions);
+        $loginPermissions=$this->em->getRepository("Acl\Entity\AclPermissions")->findByGrp("login");
+        $guestRole=$this->em->getRepository("Acl\Entity\AclRoles")->find(\Acl\Repository\AclRolesRepository::GUEST);
+        foreach($loginPermissions as $permission) {
+            $guestRole->addPermission($permission);
+        }
+        $this->em->flush();
+        return true;
+        }
+        catch (\Exception $e) {
+            echo $e->getMessage();
+            die("permissions creation exception");
+        }
     }
     
 }

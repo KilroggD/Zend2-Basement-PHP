@@ -1,13 +1,24 @@
+<div class="install-welcome-container">
+    <h3>Вас приветствует программа установки</h3>
+    <span>
+       Для установки приложения должно быть доступно подключение к базе данных. По умолчанию настройки подключения находятся в файле config/autoload/db.local.php
+       Текущее состяние подлючения представлено ниже:
+    </span>
+    </div>
 <div class="db-test">
-<h3>Тестирование PostgreSQL (обзятательно)</h3>
+    <h3>Тестирование соединения с БД (обзятательно)</h3>
 <p><?=$this->pg["message"] ?></p>
 <div class="table-list">
 
     </div>
-<h3>Тестирование MongoDB (необязательно)</h3>
+<h3>Тестирование соединения MongoDB (необязательно)</h3>
 <p><?=$this->mongo["message"] ?></p>
 </div>
 <div class="module-test">
    <p><?=$this->modules["message"] ?> </p>
       <?=$this->htmlList($this->modules["list"]) ?>
 </div>
+<?php if($this->pg["state"]){ ?>
+<p>Соединение с БД успешно</p>
+<a class="btn btn-default" id="install-btn" href="<?=$this->url("install/go",array("action"=>"install"))?>">Перейти к установке</a>
+<?php } ?>

@@ -21,7 +21,7 @@ return array(
                 ),
                 'may_terminate' => true,
                                  'child_routes' => array(
-                    'default' => array(
+                    'go' => array(
                         'type'    => 'Segment',
                         'options' => array(
                             'route'    => '/:action',
@@ -30,6 +30,7 @@ return array(
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
                             ),
                             'defaults' => array(
+                                "action"=>"install"
                             ),
                         ),
                     ),
@@ -60,6 +61,7 @@ return array(
             'error/404'               => __DIR__ . '/../../Application/view/error/404.phtml',
             'error/index'             => __DIR__ . '/../../Application/view/error/index.phtml',
             'install/install/index'=>__DIR__ . '/../view/install/index.phtml',
+            'install/install/install'=>__DIR__ . '/../view/install/install.phtml',
             ),
         
         'template_path_stack' => array(

@@ -43,6 +43,7 @@ const ACL="Acl\Controller\Acl";
     public function attach(EventManagerInterface $events) {
      $sharedEvents=$events->getSharedManager();
      $this->listeners[]=$sharedEvents->attach('Acl\Controller\AclController', 'aclUpdate', array($this,'onAclUpdate'), 100);
+     $this->listeners[]=$sharedEvents->attach('Install\Controller\InstallController', 'aclInstall', array($this,'onAclUpdate'), 100);
      $this->listeners[]=$sharedEvents->attach('Zend\Mvc\Controller\AbstractActionController','dispatch', array($this, 'checkAcl'),200);
     }
     

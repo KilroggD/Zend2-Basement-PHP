@@ -38,7 +38,7 @@ return array(
                         'controller' => 'User\Controller\Login',
                         'action'     => 'login',
                         'description'=>'Вход на страницу логина',                         
-                        'group'=>"user",
+                        'group'=>"login",
                     ),
                 ),
                       'may_terminate'=>true,

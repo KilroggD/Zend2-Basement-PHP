@@ -66,21 +66,32 @@ class InstallController extends \Zend\Mvc\Controller\AbstractActionController{
     /**
      * Генерация монго
      */
-    public function installAction(){
+    public function installAction(){   
         $request=$this->getRequest();
         //получаем форму
         $form=$this->getServiceLocator()->get('FormElementManager')->get('InstallForm');
+      
+    //    var_dump($this->currentPermissions);
         if($request->isPost()){
         $data=$request->getPost();
-        $form->setDate($data);
+        $form->setData($data);
         if($form->isValid()){
-        $srv=new \Install\Service\DbService($this->getEntityManager(),$this->getDocumentManager());
+        $srv=new \Install\Service\DbService($this->getEntityManager(),$this->getDocumentManager());        
         if($srv->installPg()){
-            $this->flashMessenger()->addMessage("Таблицы БД созданы успешно");
-            $this->getEventManager()->trigger("aclUpdate");
+            $this->flashMessenger()->addMessage("Таблицы БД созданы успешно");       
+              $this->getEventManager()->trigger("aclInstall",$this);
             if($srv->installRoles($data) && $srv->installPermissions($this->currentPermissions) ){
                 $this->flashMessenger()->addMessage("Успешно созданы роли и разрешения");
                 $this->flashMessenger()->addMessage("Установка прошла успешно, можете воспользоваться учетной записью администратора");
+             if($data["mongo"]==1){
+                if($srv->installMongo()){
+                    $this->flashMessenger()->addMessage("Коллекция Mongo создана успешно");
+                }
+                   else{
+                    $this->flashMessenger()->addMessage("Ошибка создания коллекции mongo");
+                }
+             }
+             
                 $this->redirect()->toRoute("home");
             }
             else {
@@ -92,7 +103,7 @@ class InstallController extends \Zend\Mvc\Controller\AbstractActionController{
             }
         }
         }
-        return array("form"=>$form);
+        return array("form"=>$form, "messages"=>$this->flashMessenger()->getMessages());
     }
    
     

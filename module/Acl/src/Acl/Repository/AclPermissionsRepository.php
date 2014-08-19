@@ -22,6 +22,8 @@ class AclPermissionsRepository extends EntityRepository {
     }
     
        public function addAcls($acls){
+                       //инсталляция повторно не понадобится
+      unset($acls["install"]);
        foreach($acls as $group=>$modules){
               foreach($modules as $module=>$actions){
                   foreach($actions as $action=>$permission){

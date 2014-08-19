@@ -69,7 +69,17 @@ class InstallForm extends Form {
                 )
             )
         ));  
-                    
+                         $this->add(array( 
+             'type' => 'radio',
+             'name' => 'mongo',
+             'options' => array(
+                     'label' => 'Создать коллекции MongoDB?',
+                     'value_options' => array(
+                             '0' => 'Нет',
+                             '1' => 'Да',
+                     ),
+             )
+     ));    
             $this->add(array(
             'name' => 'submit',
             'attributes' => array(
