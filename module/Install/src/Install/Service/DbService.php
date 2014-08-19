@@ -98,7 +98,6 @@ $app->addCommands(array(
      */
     public function installPermissions($permissions){
         try {
-            //инсталляция повторно не понадобится
         $this->em->getRepository("Acl\Entity\AclPermissions")->addAcls($permissions);
         $loginPermissions=$this->em->getRepository("Acl\Entity\AclPermissions")->findByGrp("login");
         $guestRole=$this->em->getRepository("Acl\Entity\AclRoles")->find(\Acl\Repository\AclRolesRepository::GUEST);
