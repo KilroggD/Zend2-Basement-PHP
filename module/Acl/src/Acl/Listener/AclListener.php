@@ -65,7 +65,7 @@ const ACL="Acl\Controller\Acl";
        $config=$controller->getServiceLocator()->get('Config');
             try {
           $aclService=$this->_sm->get("aclService");
-          $currentPermissions=$aclService->getCurrentPermissions($config);
+          $currentPermissions=$aclService->getCurrentPermissions($config);          
           $controller->currentPermissions=$currentPermissions;
           return true;
             }

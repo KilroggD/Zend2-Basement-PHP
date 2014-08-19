@@ -25,12 +25,12 @@ class InstallController extends \Zend\Mvc\Controller\AbstractActionController{
      * Варианты состояния подключения к постгре
      * @var array 
      */
-    private static $pgState=array("Не удалось подключиться к PostgreSQL. Проверьте настройки в config/autoload/local.php", "Успешное подключение");
+    private static $pgState=array("Не удалось подключиться к PostgreSQL. Проверьте настройки в config/autoload/db.local.php", "Успешное подключение");
     /**
      * Варианты состояния подключения к монге
      * @var array 
      */
-    private static $mongoState=array("Не удалось подключиться к MongoDB. Проверьте настройки в config/autoload/local.php", "Успешное подключение");
+    private static $mongoState=array("Не удалось подключиться к MongoDB. Проверьте настройки в config/autoload/db.local.php", "Успешное подключение");
       /**
      * Начальная страница инсталляции - результаты тестов соединений с БД
      */

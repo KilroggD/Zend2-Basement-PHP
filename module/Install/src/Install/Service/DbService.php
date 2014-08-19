@@ -61,7 +61,6 @@ $app->addCommands(array(
        return true;
         }
         catch (\Exception $e){
-            die($e->getMessage());
             return false;
         }   
     }

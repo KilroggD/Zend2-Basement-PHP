@@ -19,7 +19,8 @@ use Zend\Permissions\Acl\Resource\GenericResource;
 
 
 class AclService {
-    //put your code here
+    //разрешения инсталлятора
+    const INSTALL_GROUP="install";
             private $invokables,$controllers,$permissions,$_sm,$_em, $acl;
             public function __construct($sm) {
                 $this->_sm=$sm;
@@ -43,7 +44,7 @@ class AclService {
        foreach($routes as $key=>$route){
          $this->addPermission($route);           
        }
-       
+       unset($this->permissions[self::INSTALL_GROUP]);
        return $this->permissions;
     }     
     
