@@ -1,0 +1,58 @@
+AclPermissions:
+    type: entity
+    table: acl_permissions
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        controller:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+        action:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+        description:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+            comment: ''
+        system:
+            type: smallint
+            nullable: true
+            unsigned: false
+            comment: ''
+            default: '0'
+        exclude:
+            type: smallint
+            nullable: true
+            unsigned: false
+            comment: ''
+            default: '0'
+        grp:
+            type: string
+            nullable: true
+            length: 140
+            fixed: false
+            comment: ''
+    manyToMany:
+        roles:
+            targetEntity: AclRoles
+            cascade: {  }
+            mappedBy: permissions
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }
