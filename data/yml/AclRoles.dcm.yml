@@ -1,0 +1,51 @@
+AclRoles:
+    type: entity
+    table: acl_roles
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 140
+            fixed: false
+            comment: ''
+        builtIn:
+            type: smallint
+            nullable: true
+            unsigned: false
+            comment: 'встроенная роль или нет'
+            default: '0'
+            column: built_in
+    manyToMany:
+        permissions:
+            targetEntity: AclPermissions
+            cascade: {  }
+            mappedBy: null
+            inversedBy: roles
+            joinTable:
+                name: acl_roles_to_permissions
+                joinColumns:
+                    -
+                        name: roles
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: permissions
+                        referencedColumnName: id
+            orderBy: null
+        users:
+            targetEntity: Users
+            cascade: {  }
+            mappedBy: roles
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }

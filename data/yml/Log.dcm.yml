@@ -1,0 +1,42 @@
+Log:
+    type: entity
+    table: log
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        category:
+            type: string
+            nullable: true
+            length: 140
+            fixed: false
+            comment: ''
+        importance:
+            type: string
+            nullable: true
+            length: 140
+            fixed: false
+            comment: ''
+        text:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        url:
+            type: string
+            nullable: true
+            length: 140
+            fixed: false
+            comment: ''
+        timestamp:
+            type: datetime
+            nullable: true
+            comment: ''
+    lifecycleCallbacks: {  }

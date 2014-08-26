@@ -1,0 +1,73 @@
+Users:
+    type: entity
+    table: users
+    uniqueConstraints:
+        UN_user_email:
+            columns:
+                - email
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Идентификатор пользователя'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        login:
+            type: string
+            nullable: false
+            length: 64
+            fixed: false
+            comment: 'Логин пользователя'
+        password:
+            type: string
+            nullable: false
+            length: 256
+            fixed: false
+            comment: 'Пароль пользователя'
+        email:
+            type: string
+            nullable: false
+            length: 64
+            fixed: false
+            comment: 'Email пользователя'
+        status:
+            type: smallint
+            nullable: false
+            unsigned: false
+            comment: ''
+        created:
+            type: datetime
+            nullable: true
+            comment: ''
+        lastLogin:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: last_login
+        builtIn:
+            type: smallint
+            nullable: true
+            unsigned: false
+            comment: ''
+            column: built_in
+    manyToMany:
+        roles:
+            targetEntity: AclRoles
+            cascade: {  }
+            mappedBy: null
+            inversedBy: users
+            joinTable:
+                name: acl_users_to_roles
+                joinColumns:
+                    -
+                        name: users
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: roles
+                        referencedColumnName: id
+            orderBy: null
+    lifecycleCallbacks: {  }

@@ -1,0 +1,14 @@
+Migrations:
+    type: entity
+    table: migrations
+    id:
+        version:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            comment: ''
+            id: true
+            generator:
+                strategy: SEQUENCE
+    lifecycleCallbacks: {  }
