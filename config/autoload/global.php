@@ -9,7 +9,7 @@
  * @NOTE: In practice, this file will typically be INCLUDED in your source
  * control, so do not include passwords or other sensitive information in this
  * file.
- * version 0.1.0
+ * version 0.10.0
  */
 
 return array(
