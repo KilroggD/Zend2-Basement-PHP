@@ -36,10 +36,10 @@ class AdminController extends MyAbstractController{
                 $form = $this->getFormByKey('User\Form\NewUser');
                 $form->bind($user);
                 if($request->isPost()){
-                    $post=$request->getPost();
+                    $post=$request->getPost()->toArray();
                     $form->setData($post);
                     if($form->isValid()){           
-                        unset($post["user"]["password"]);
+                       unset($post["user"]["password"]);
                         if($user=$this->checkUserData($user, $post)){
                         try{
                             $this->getEntityManager()->persist($user);
@@ -65,7 +65,7 @@ class AdminController extends MyAbstractController{
                 $form = $this->getFormByKey('User\Form\User');
                 $form->bind($user);
                 if($request->isPost()){
-                    $post=$request->getPost();
+                    $post=$request->getPost()->toArray();
                     $form->setData($post);
                     if($form->isValid()){            
                         if($user=$this->checkUserData($user, $post)){
@@ -228,9 +228,7 @@ class AdminController extends MyAbstractController{
     }
     
         private function checkUserData($user,$post){
-           // var_dump($post);
-            //exit();
-            $uFound=$this->getRepository("User\Entity\Users")->findOneByEmail($post["user"]["email"]);
+             $uFound=$this->getRepository("User\Entity\Users")->findOneByEmail($post["user"]["email"]);
             if($uFound && $uFound->getId()!==$user->getId()){
                 $this->errors["user"]["email"]="Пользователь с таким email уже зарегистрирован";               
                 return false;

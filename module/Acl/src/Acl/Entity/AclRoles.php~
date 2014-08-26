@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AclRoles
  *
  * @ORM\Table(name="acl_roles")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Acl\Repository\AclRolesRepository")
  */
 class AclRoles
 {
@@ -28,11 +28,17 @@ class AclRoles
      * @ORM\Column(name="name", type="string", length=140, nullable=false)
      */
     private $name;
-
+    
+        /**
+     * @var integer
+     *
+     * @ORM\Column(name="built_in", type="smallint", nullable=true)
+     */
+    private $builtIn = '0';
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Acl\Entity\Users", mappedBy="roles")
+     * @ORM\ManyToMany(targetEntity="User\Entity\Users", mappedBy="roles")
      */
     private $users;
 
@@ -60,4 +66,152 @@ class AclRoles
         $this->permissions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return AclRoles
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    
+    /**
+     * Set builtIn
+     * 
+     * @param integer $builtIn
+     * @return AclRoles
+     */
+    public function setBuiltIn($builtIn){
+        $this->builtIn=$builtIn;
+        return $this;
+    }
+    
+        /**
+     * Get builtIn
+     *
+     * @return integer 
+     */
+    public function getBuiltIn()
+    {
+        return $this->builtIn;
+    }
+    /**
+     * Add users
+     *
+     * @param \User\Entity\Users $users
+     * @return AclRoles
+     */
+    public function addUser(\User\Entity\Users $users)
+    {
+        $this->users[] = $users;
+
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \User\Entity\Users $users
+     */
+    public function removeUser(\User\Entity\Users $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * Add permissions
+     *
+     * @param \Acl\Entity\AclPermissions $permissions
+     * @return AclRoles
+     */
+    public function addPermission(\Acl\Entity\AclPermissions $permissions)
+    {
+        $this->permissions[] = $permissions;
+
+        return $this;
+    }
+
+    /**
+     * Remove permissions
+     *
+     * @param \Acl\Entity\AclPermissions $permissions
+     */
+    public function removePermission(\Acl\Entity\AclPermissions $permissions)
+    {
+        $this->permissions->removeElement($permissions);
+    }
+
+    /**
+     * Get permissions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
+    /**
+     * @var integer
+     */
+    private $hidden;
+
+
+    /**
+     * Set hidden
+     *
+     * @param integer $hidden
+     * @return AclRoles
+     */
+    public function setHidden($hidden)
+    {
+        $this->hidden = $hidden;
+
+        return $this;
+    }
+
+    /**
+     * Get hidden
+     *
+     * @return integer 
+     */
+    public function getHidden()
+    {
+        return $this->hidden;
+    }
 }

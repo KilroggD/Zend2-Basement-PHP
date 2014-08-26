@@ -29,11 +29,19 @@ class DbService {
         public function installPg(){        
         try {
         $classes=array();
+              $cache = new \Doctrine\Common\Cache\ArrayCache();
+        $conn=$this->em->getConnection();
+          $config=$this->em->getConfiguration();
         $yml=new YamlDriverORM("./yml");
+          $drv=$config->newDefaultAnnotationDriver("./yml");
+          $evm=$this->em->getEventManager();          
+          $config->setMetadataDriverImpl($yml);
+          $config->setMetadataCacheImpl($cache);
+          $newem=  \Doctrine\ORM\EntityManager::create($conn, $config, $evm);
             $pgTables=$yml->getAllClassNames();
-            $tool=new \Doctrine\ORM\Tools\SchemaTool($this->em);
+            $tool=new \Doctrine\ORM\Tools\SchemaTool($newem);
             foreach($pgTables as $ns){
-                $classes[]=$this->em->getClassMetadata($ns);
+                $classes[]=$newem->getClassMetadata($ns);
             }
             $tool->createSchema($classes);  
             return $this;
@@ -103,7 +111,7 @@ $app->addCommands(array(
         foreach($loginPermissions as $permission) {
             $guestRole->addPermission($permission);
         }
-        $this->em->flush();
+        $this->em->flush();        
         return true;
         }
         catch (\Exception $e) {
@@ -111,5 +119,22 @@ $app->addCommands(array(
             die("permissions creation exception");
         }
     }
+    
+    
+    public function installModules($modules){
+        try {
+        foreach($modules as $module){
+            $className=$module.'\Service\InstallService';
+            if(class_exists($className)){
+                $className::install($this->em);
+            }
+        }
+        return true;
+        }
+        catch(\Exception $e) {
+            die($e->getMessage());
+        }
+    }
+    
     
 }

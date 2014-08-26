@@ -14,7 +14,8 @@ return array(
                     'defaults' => array(
                         'controller' => 'Admin\Controller\Index',
                         'action'     => 'index',
-                        'description'=>'Доступ к панели администратора',                                
+                        'description'=>'Доступ к панели администратора',   
+                        'group'=>'admin'
                     ),
                 ),
             ),

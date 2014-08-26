@@ -35,7 +35,7 @@ class Users
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="user_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="users_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
@@ -412,4 +412,39 @@ class Users
     }
 }
     
+    /**
+     * 
+     * @var \Organization\Entity\Organizations
+          *
+     * @ORM\ManyToOne(targetEntity="Organization\Entity\Organizations", inversedBy="users")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="grp", referencedColumnName="id")
+     * })
+     *
+     */
+    private $grp=null;
+
+
+    /**
+     * Set grp
+     *
+     * @param \Organization\Entity\Organizations $grp
+     * @return Users
+     */
+    public function setGrp(\Organization\Entity\Organizations $grp = null)
+    {
+        $this->grp = $grp;
+
+        return $this;
+    }
+
+    /**
+     * Get grp
+     *
+     * @return \Organization\Entity\Organizations 
+     */
+    public function getGrp()
+    {
+        return $this->grp;
+    }
 }

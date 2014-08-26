@@ -41,6 +41,9 @@ class AclRolesRepository extends EntityRepository{
         foreach($this->initials as $id=>$name){
             $role=new \Acl\Entity\AclRoles();
             $role->setName($name);
+            if($id!=self::USER){
+                $role->setHidden(1);
+            }
             $role->setBuiltIn(1);     
             $this->getEntityManager()->persist($role);
         }

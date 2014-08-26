@@ -50,14 +50,8 @@ User\Entity\UserProfile:
             length: 32
             unique: false
             nullable: true
-            precision: 0
-        address:
-            type: string
-            scale: 0
-            length: 256
-            unique: false
-            nullable: true
-            precision: 0
+            precision: 0 
+ 
     oneToOne:
         user:
             targetEntity: User\Entity\Users

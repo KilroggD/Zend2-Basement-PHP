@@ -268,16 +268,16 @@ return array(
                     return $form;
                 },
                   'User\Form\User'=>function($sm){                    
-                $locator = $sm->getServiceLocator();
+                $locator = $sm->getServiceLocator();                
                 $em = $locator->get('doctrine.entitymanager.orm_default');
                 $form= new \User\Form\UserForm($em);
                 $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods())->setInputFilter(new \Zend\InputFilter\InputFilter());
-                   $form->setValidationGroup(array(
+                $vg=array(
             "user"=>array(
                 "login",
                 "email",
                 "roles",
-                "status",
+                "status",                
                     "profile"=>array(
                  "firstName",
                  "lastName",
@@ -287,7 +287,13 @@ return array(
              ),  
             ),       
              
-              ));
+              );
+                     $mm=$locator->get("ModuleManager");
+                $modules=$mm->getModules();
+                if(in_array("Organization", $modules)){
+                    $vg["user"][]="grp";                   
+                }
+                   $form->setValidationGroup($vg);
                     return $form;
                   },
                                 'User\Form\NewUser'=>function($sm){                    
@@ -315,8 +321,8 @@ return array(
                 $locator = $sm->getServiceLocator();
                 $em = $locator->get('doctrine.entitymanager.orm_default');
                 $form= new \User\Form\RegistrationForm($em);
-                $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods())->setInputFilter(new \Zend\InputFilter\InputFilter());             
-                               $form->setValidationGroup(array(
+                $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods())->setInputFilter(new \Zend\InputFilter\InputFilter());  
+                $vg=array(
             "user"=>array(
                 "login",
                 "email",
@@ -331,7 +337,8 @@ return array(
              ),  
             ),       
              "captcha"
-              ));
+              );           
+                               $form->setValidationGroup($vg);
                 return $form;
                   },
                           //филдсеты
@@ -345,6 +352,11 @@ return array(
                 $locator = $sm->getServiceLocator();
                 $em = $locator->get('doctrine.entitymanager.orm_default');
                 $fs= new \User\Form\UserFieldset($em);
+                            $mm=$locator->get("ModuleManager");
+                $modules=$mm->getModules();
+                if(in_array("Organization", $modules)){
+                 $fs->addOrgField(); 
+                }
                     return $fs; 
                  },
                                      'RoleFieldset'=>function($sm){
@@ -365,7 +377,7 @@ return array(
             ),
             'orm_default' => array(
                 'drivers' => array(
-                     'User\Entity' =>  'ApplicationYamlDriver'
+                     'User\Entity' =>  'User_driver'
                 ),
             ),
         ),
@@ -413,7 +425,7 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
-                            'view_helpers'=>array(
+                                   'view_helpers'=>array(
                   'invokables'=>array(
                     'pagination'=>'Application\View\Helper\PaginatorHelper',  
                   ),

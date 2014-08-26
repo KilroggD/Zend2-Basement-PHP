@@ -91,6 +91,16 @@ User\Entity\Users:
             mappedBy: user
             inversedBy: null
             joinColumns: {  }
+            orphanRemoval: false          
+    manyToOne:
+        grp:
+            targetEntity: Organization\Entity\Organizations
+            cascade: {  }
+            mappedBy: null
+            inversedBy: users
+            joinColumns:
+                grp:
+                    referencedColumnName: id
             orphanRemoval: false
     manyToMany:
         roles:
@@ -119,6 +129,7 @@ User\Entity\Users:
                         columnDefinition: null
                         referencedColumnName: id
             orderBy: null
+    
     lifecycleCallbacks:
         prePersist:
             - prePersist

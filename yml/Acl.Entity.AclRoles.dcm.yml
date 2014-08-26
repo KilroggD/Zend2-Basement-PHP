@@ -29,6 +29,14 @@ Acl\Entity\AclRoles:
             nullable: true
             precision: 0
             column: built_in
+        hidden:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: hidden
     manyToMany:
         users:
             targetEntity: User\Entity\Users

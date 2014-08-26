@@ -70,7 +70,7 @@ class InstallController extends \Zend\Mvc\Controller\AbstractActionController{
         $request=$this->getRequest();
         //получаем форму
         $form=$this->getServiceLocator()->get('FormElementManager')->get('InstallForm');
-      
+        $mm=$this->getServiceLocator()->get("ModuleManager");
     //    var_dump($this->currentPermissions);
         if($request->isPost()){
         $data=$request->getPost();
@@ -80,9 +80,12 @@ class InstallController extends \Zend\Mvc\Controller\AbstractActionController{
         if($srv->installPg()){
             $this->flashMessenger()->addMessage("Таблицы БД созданы успешно");       
               $this->getEventManager()->trigger("aclInstall",$this);
-            if($srv->installRoles($data) && $srv->installPermissions($this->currentPermissions) ){
+            if($srv->installRoles($data) && $srv->installPermissions($this->currentPermissions) ){                
                 $this->flashMessenger()->addMessage("Успешно созданы роли и разрешения");
                 $this->flashMessenger()->addMessage("Установка прошла успешно, можете воспользоваться учетной записью администратора");
+                if($srv->installModules($mm->getModules())){
+                    $this->flashMessenger()->addMessage("Успешно созданы данные для модулей");
+                }
              if($data["mongo"]==1){
                 if($srv->installMongo()){
                     $this->flashMessenger()->addMessage("Коллекция Mongo создана успешно");

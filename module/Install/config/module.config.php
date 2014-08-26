@@ -68,18 +68,5 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
-               'doctrine' => array(
-        'driver' => array(
-            'Install_driver' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/Install/Entity')
-            ),
-            'orm_default' => array(
-                'drivers' => array(
-                     'Install\Entity' =>  'Install_driver'
-                ),
-            ),
-        ),
-                   )
+
 );

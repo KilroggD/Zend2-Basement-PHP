@@ -1,0 +1,48 @@
+
+<div class="org-nav">
+    <?php
+    ?>
+    <?=$this->navigation('organization_navigation')
+            ->setAcl($this->layout()->acl)
+            ->setRole($this->layout()->currentRoles)
+            ->menu()
+            ->setMinDepth(0)
+            ->setMaxDepth(0)
+            ->setUlClass('nav profile-nav nav-tabs')
+            ->render() ?>
+    </div>
+<div class="row flash-messages">
+                <?=$this->htmlList($this->messages); ?>
+    </div>
+<div class="roles-container">
+        <div class="row roles-header">
+        <div class="col-md-6 text-left">
+            Тип организации
+            </div>
+        <div class="col-md-6 text-right">
+            Действие
+            </div>
+        </div>
+  <?php
+  foreach($this->types as $type) {
+  ?>
+    <div class="row role-item">   
+    <div class="col-md-6 text-left">
+        <?=$type["name"]; ?>
+       </div> 
+        <div class="col-md-6 text-right">
+            <span><a href="<?=$this->url("organizations\admin\types/edit",array("id"=>$type["id"]))?>" class="type-edit-link">Изменить</a></span>
+            <span><a href="<?=$this->url("organizations\admin\types/delete",array("id"=>$type["id"]))?>" class="role-delete-link">Удалить</a></span>
+        </div>
+         </div>
+        <?php
+    }
+    ?>
+    <div class="row add-role-container role-item">
+    <?=$this->form()->openTag($this->form); ?>
+        <div class="form-group">
+    <?=$this->formCollection($this->form); ?>
+            </div>
+     <?=$this->form()->closeTag($this->form); ?>
+        </div>
+    </div>

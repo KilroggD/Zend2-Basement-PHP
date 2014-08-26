@@ -216,6 +216,8 @@ class UserProfile
     {
         return $this->user;
     }
+
+   
     /**
      * @var string
      */
@@ -243,5 +245,35 @@ class UserProfile
     public function getAddress()
     {
         return $this->address;
+    }
+
+
+    /**
+     * @var string
+     */
+    private $fax;
+
+
+    /**
+     * Set fax
+     *
+     * @param string $fax
+     * @return UserProfile
+     */
+    public function setFax($fax)
+    {
+        $this->fax = $fax;
+
+        return $this;
+    }
+
+    /**
+     * Get fax
+     *
+     * @return string 
+     */
+    public function getFax()
+    {
+        return $this->fax;
     }
 }

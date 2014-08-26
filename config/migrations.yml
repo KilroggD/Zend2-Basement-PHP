@@ -1,0 +1,5 @@
+name: Doctrine Database Migrations
+migrations_namespace: DoctrineORMModule\Migrations
+table_name: migrations
+migrations_directory: ./sql/migrations
+ 

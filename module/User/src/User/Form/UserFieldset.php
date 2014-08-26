@@ -19,6 +19,77 @@ class UserFieldset extends Fieldset
 implements InputFilterProviderInterface
 {
     protected $em;
+    protected $ifSpec=array(
+  'email'=>array(
+      'required'=>true,
+             'validators' => array(
+                array(
+                    'name' => 'EmailAddress',
+                    'options'=>array(
+                        'messages'=>array(
+'emailAddressInvalidFormat' => "E-mail имеет недопустимый формат",
+"emailAddressInvalidHostname"=>"Недопустимое доменное имя для Email",
+"hostnameUnknownTld"=>"Недопустимое доменное имя для Email",
+"hostnameLocalNameNotAllowed"=>"Недопустимое доменное имя для Email"                           
+                        )
+                    )
+                              ),
+                    array(
+                    'name' => 'NotEmpty',
+                    'options'=>array(
+                        'messages'=>array(
+     'isEmpty' => "Поле обязательно для заполнения",
+                        )
+                    )
+                              ),
+                                       ),
+  ),
+    'login'=>array(
+      'required'=>true,
+           ),
+      'roles'=>array(
+      'required'=>false,
+  ),
+    'password'=>array(
+        'required'=>true,        
+        'validators'=>array(
+                     array(
+                    'name' => 'NotEmpty',
+                    'options'=>array(
+                    //    'useMxCheck'=>true,
+                        'messages'=>array(
+     'isEmpty' => "Поле обязательно для заполнения",
+                        )
+                    )
+                              ),
+          
+        ),
+    ),
+    'confirmpassword'=>array(
+        'required'=>true,
+            'validators' => array(
+              array(
+                    'name' => 'NotEmpty',
+                    'options'=>array(
+                    //    'useMxCheck'=>true,
+                        'messages'=>array(
+     'isEmpty' => "Поле обязательно для заполнения",
+                        )
+                    )
+                              ),
+        array(
+            'name' => 'Identical',
+            'options' => array(
+                'token' => 'password', // name of first password field
+                'messages'=>array('notSame'=>'Пароли не совпадают')
+            ),
+        ),
+    ),
+    ),  
+        "grp"=>array(
+            "required"=>true
+        )
+);
     //put your code here
     public function __construct($em, $name = null, $options = array()) {
         parent::__construct('user');
@@ -124,7 +195,7 @@ implements InputFilterProviderInterface
             'find_method'    => array(
                 'name'   => 'findBy',
                 'params' => array(
-                    'criteria' => array('builtIn' => 0),
+                    'criteria' => array('hidden' => 0),
                     // Use key 'orderBy' if using ORM
                     'orderBy'  => array('name' => 'ASC'),
                 ),
@@ -132,6 +203,8 @@ implements InputFilterProviderInterface
         ),
     )
 );
+                                  
+                                  
        
     }
     
@@ -150,73 +223,31 @@ implements InputFilterProviderInterface
     }
     
         public function getInputFilterSpecification() {
-return array(
-  'email'=>array(
-      'required'=>true,
-             'validators' => array(
-                array(
-                    'name' => 'EmailAddress',
-                    'options'=>array(
-                        'messages'=>array(
-'emailAddressInvalidFormat' => "E-mail имеет недопустимый формат",
-"emailAddressInvalidHostname"=>"Недопустимое доменное имя для Email",
-"hostnameUnknownTld"=>"Недопустимое доменное имя для Email",
-"hostnameLocalNameNotAllowed"=>"Недопустимое доменное имя для Email"                           
-                        )
-                    )
-                              ),
-                    array(
-                    'name' => 'NotEmpty',
-                    'options'=>array(
-                        'messages'=>array(
-     'isEmpty' => "Поле обязательно для заполнения",
-                        )
-                    )
-                              ),
-                                       ),
-  ),
-    'login'=>array(
-      'required'=>true,
-           ),
-      'roles'=>array(
-      'required'=>false,
-  ),
-    'password'=>array(
-        'required'=>true,        
-        'validators'=>array(
-                     array(
-                    'name' => 'NotEmpty',
-                    'options'=>array(
-                    //    'useMxCheck'=>true,
-                        'messages'=>array(
-     'isEmpty' => "Поле обязательно для заполнения",
-                        )
-                    )
-                              ),
-          
-        ),
-    ),
-    'confirmpassword'=>array(
-        'required'=>true,
-            'validators' => array(
-              array(
-                    'name' => 'NotEmpty',
-                    'options'=>array(
-                    //    'useMxCheck'=>true,
-                        'messages'=>array(
-     'isEmpty' => "Поле обязательно для заполнения",
-                        )
-                    )
-                              ),
-        array(
-            'name' => 'Identical',
-            'options' => array(
-                'token' => 'password', // name of first password field
-                'messages'=>array('notSame'=>'Пароли не совпадают')
-            ),
-        ),
-    ),
-    ),    
-);
+return $this->ifSpec;
     }
+    public function addOrgField(){
+        $this->add(
+                          array(
+        'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+        'name' => 'grp',
+       'required' => false,
+        'options' => array(
+                            'label' => 'Организация',
+            'object_manager'     => $this->em,
+            'target_class'       => 'Organization\Entity\Organizations',
+            'property'           => 'name',   
+                      'is_method'      => true,
+            'find_method'    => array(
+                'name'   => 'findBy',
+                'params' => array(
+                    'criteria' => array(),
+                    // Use key 'orderBy' if using ORM
+                    'orderBy'  => array('name' => 'ASC'),
+                ),
+                ),
+        ),
+    )
+                         );  
+    }
+    
 }

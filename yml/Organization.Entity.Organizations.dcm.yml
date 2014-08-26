@@ -1,0 +1,88 @@
+Organization\Entity\Organizations:
+    type: entity
+    table: organizations
+    indexes:
+        IDX_427C1C7F8CDE5729:
+            columns:
+                - type
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        name:
+            type: string
+            scale: 0
+            length: 512
+            unique: false
+            nullable: false
+            precision: 0
+        shortName:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
+            precision: 0
+            column: short_name
+        inn:
+            type: string
+            scale: 0
+            length: 12
+            unique: false
+            nullable: true
+            precision: 0
+        kpp:
+            type: string
+            scale: 0
+            length: 12
+            unique: false
+            nullable: true
+            precision: 0
+        address:
+            type: string
+            scale: 0
+            length: 255
+            unique: false
+            nullable: true
+            precision: 0
+        created:
+            type: datetime
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+        builtIn:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: built_in
+    manyToOne:
+        type:
+            targetEntity: Organization\Entity\OrganizationTypes
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                type:
+                    referencedColumnName: id
+            orphanRemoval: false
+    onetoMany:
+        users:
+            targetEntity: User\Entity\Users
+            cascade: {  }
+            mappedBy: grp
+            inversedBy: null
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -23,8 +23,7 @@ class UserForm extends MyAbstractForm{
     public function __construct($em,$name = null, $options = array()) {
         parent::__construct('user-form');
           $this->setAttribute('method', 'post');
-           
-
+                     $this->setAttribute('class', 'empty-filter');
     }
     
     public function init(){

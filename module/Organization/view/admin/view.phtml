@@ -1,0 +1,35 @@
+<?php
+//
+$labelsArray=array(
+  "name"=>"Наименование",
+  "shortName"=>"Сокращенное наименование",
+  "inn"=>"ИНН",
+  "kpp"=>"КПП",
+  "address"=>"Юридический адрес",
+);
+$org=$this->org;
+$users=$this->users
+?>
+<div class="profile-container" id="profile-container">
+        <?php 
+        if(!$org) {
+        ?>
+        <p>Ошибка! Информация не найдена</p>
+    <?php    
+        }
+        else {
+            foreach($labelsArray as $key=>$value){
+    ?>
+        <div class="row"><div class="col-md-3"><label class="profile-element-label"><?=$value ?></label></div><div class="col-md-9"><p class="profile-element"><?=isset($org[$key])?$org[$key]:"" ?></p></div></div>
+        <?php
+        }
+        }
+       ?>        
+    </div>
+<div class="org-user-container">
+    <ul>
+        <?php foreach($users as $user){ ?>
+        <li><a href="<?=$this->url("user\\admin/edit",array("id"=>$user->getId()))?>"><?=$user->getName() ?></a></li>        
+        <?php } ?>
+        </ul>
+    </div>

@@ -3,7 +3,8 @@ return array(
         'service_manager' => array(
         'factories'=>array(
                     'main_navigation' => 'Navigation\Service\MainNavigationFactory', 
-                    'admin_navigation' => 'Navigation\Service\AdminNavigationFactory'  
+                    'admin_navigation' => 'Navigation\Service\AdminNavigationFactory',
+
         ),
             ),
     'navigation'=>array(
@@ -69,7 +70,33 @@ return array(
                 
                             ),
         ),   
-     
+                                  array(
+            'label' => 'Организации',
+            'route' => 'organizations\admin',
+            'resource'=>'Organization\Controller\Admin',
+            'privilege' => 'index',
+            'pages' => array(                
+                array(
+                   'route' => 'organizations\admin/add',
+                    'action' => 'add',
+                ),
+                array(
+                   'route' => 'organizations\admin/edit',
+                    'action' => 'edit',
+                ),
+               array(
+                   'route' => 'organizations\admin/view',
+                    'action' => 'view',
+                ),
+                            ),
+        ),  
+     array(
+            'label' => 'Обновление БД',
+            'route' => 'admin\update',
+            'resource'=>'Update\Controller\Update',
+            'privilege' => 'index',
+      
+        ),   
              array(
             'label' => 'Вернуться на сайт',
             'route' => 'home'

@@ -32,7 +32,7 @@ class RegistrationForm extends \User\Form\MyAbstractForm{
              ),
          ));   
                    //убираем из филдсета роль и статус                                      
- $this->get("user")->remove("roles")->remove("status");
+ $this->get("user")->remove("roles")->remove("status")->remove("grp");
  //переставим лейблы
 $this->get("user")->setLabel("Регстрационные данные")->get("profile")->setLabel("Информация о пользователе");
                              $this->add(array(
