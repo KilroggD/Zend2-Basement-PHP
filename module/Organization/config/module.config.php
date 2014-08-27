@@ -71,7 +71,7 @@ return array(
                               'view' => array(
                         'type'    => 'Zend\Mvc\Router\Http\Segment',
                         'options' => array(
-                            'route'    => '/view',
+                            'route'    => '/view/:id',
                             'defaults' => array(
                                 'action'     => 'view',
                                 'description'=> 'Просмотр карточки организации',

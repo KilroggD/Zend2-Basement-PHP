@@ -27,9 +27,10 @@ $users=$this->users
        ?>        
     </div>
 <div class="org-user-container">
+    <label>Пользователи:</labek>
     <ul>
         <?php foreach($users as $user){ ?>
-        <li><a href="<?=$this->url("user\\admin/edit",array("id"=>$user->getId()))?>"><?=$user->getName() ?></a></li>        
+        <li><a href="<?=$this->url("user\\admin/edit",array("id"=>$user->getId()))?>"><?=$user->getLogin() ?></a></li>        
         <?php } ?>
         </ul>
     </div>

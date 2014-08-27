@@ -3,14 +3,14 @@ return array(
         'doctrine' => array(
         
         'driver' => array(
-            'Program_driver' => array(
+            'File_driver' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/Program/Entity')
+                'paths' => array(__DIR__ . '/../src/File/Entity')
             ),
             'orm_default' => array(
                 'drivers' => array(
-                     'Program\Entity' =>  'Program_driver'
+                     'File\Entity' =>  'File_driver'
                 ),
             ),
         ),

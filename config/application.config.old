@@ -19,7 +19,8 @@ return array(
         'Admin',
         'Log',
         'Update',
-        'Organization'
+        'Organization',
+        'Program'
         ),
     'module_listener_options' => array(
         'module_paths' => array(

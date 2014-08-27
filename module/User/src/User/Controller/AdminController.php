@@ -53,7 +53,7 @@ class AdminController extends MyAbstractController{
                         }
                     }
                 }             
-                return array("form"=>$form, "errors"=>$this->errors);
+                return array("form"=>$form, "errors"=>$this->errors, "back"=>$this->refUrl);
     }
     
     public function editAction(){
@@ -75,7 +75,7 @@ class AdminController extends MyAbstractController{
                         }
                     }
                            }
-                return array("form"=>$form, "errors"=>$this->errors);
+                return array("form"=>$form, "errors"=>$this->errors, "back"=>$this->refUrl);
             }
                     }
         else {
