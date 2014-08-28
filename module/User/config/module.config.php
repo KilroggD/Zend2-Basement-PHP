@@ -291,9 +291,9 @@ return array(
                      $mm=$locator->get("ModuleManager");
                 $modules=$mm->getModules();
                 if(in_array("Organization", $modules)){
-                    $vg["user"][]="grp";                   
+                   // $vg["user"][]="grp";                   
                 }
-                   $form->setValidationGroup($vg);
+                   $form->setValidationGroup($vg);                   
                     return $form;
                   },
                                 'User\Form\NewUser'=>function($sm){                    
@@ -320,7 +320,7 @@ return array(
                               'User\Form\Registration'=>function($sm){                    
                 $locator = $sm->getServiceLocator();
                 $em = $locator->get('doctrine.entitymanager.orm_default');
-                $form= new \User\Form\RegistrationForm($em);
+                $form= new \User\Form\RegistrationForm($em);                
                 $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods())->setInputFilter(new \Zend\InputFilter\InputFilter());  
                 $vg=array(
             "user"=>array(

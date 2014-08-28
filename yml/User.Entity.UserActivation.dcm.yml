@@ -1,31 +1,33 @@
 User\Entity\UserActivation:
     type: entity
     table: user_activation
+    uniqueConstraints:
+        uniq_bb0fa69ba76ed395:
+            columns:
+                - user_id
     id:
         id:
             type: integer
-            scale: 0
-            length: null
-            unique: false
             nullable: false
-            precision: 0
+            unsigned: false
+            comment: ''
             id: true
             generator:
                 strategy: SEQUENCE
     fields:
         token:
             type: string
-            scale: 0
-            length: 140
-            unique: false
             nullable: true
-            precision: 0
-    oneToOne:
+            length: 140
+            fixed: false
+            options:
+                comment: 'Активационный токен'
+    manyToOne:
         user:
             targetEntity: User\Entity\Users
             cascade: {  }
             mappedBy: null
-            inversedBy: userActivation
+            inversedBy: null
             joinColumns:
                 user_id:
                     referencedColumnName: id

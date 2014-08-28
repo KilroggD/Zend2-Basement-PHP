@@ -39,6 +39,32 @@ class OrganizationsRepository extends EntityRepository{
         }        
         return $qb;
     }
+    
+    public function autocomplete($query){
+        $qb=$this->createQueryBuilder('orgs');
+        if($query){
+            $qb->orWhere($qb->expr()->like("orgs.inn",'?1'));
+            $qb->orWhere($qb->expr()->like("LOWER(orgs.shortName)",'?1'));
+            $qb->orWhere($qb->expr()->like("LOWER(orgs.name)", '?1'));
+            $qb->setParameter(1,  mb_strtolower($query["inn"])."%");
+           
+        }
+       $qb->andWhere(("orgs.builtIn!=1"));
+         $qb->orderBy('orgs.shortName','ASC');
+          $query=$qb->getQuery();
+            $result=$query->getArrayResult();           
+            return $result;
+            }
+            
+     public function getByVal($val){
+         $qb=$this->createQueryBuilder("orgs");
+         $qb->andWhere($qb->expr()->in("orgs.id", $val));
+         $qb->andWhere("orgs.builtIn!=1");
+         $query=$qb->getQuery();
+         $result=$query->getArrayResult();           
+         return $result;
+     }
+    
     //валидация на уникальность по какому-либо полю
     public function validateUnique($field,$value){
         return $this->findOneBy(array($field=>$value));

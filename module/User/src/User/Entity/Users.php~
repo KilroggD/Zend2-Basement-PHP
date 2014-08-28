@@ -412,39 +412,43 @@ class Users
     }
 }
     
+   
     /**
-     * 
-     * @var \Organization\Entity\Organizations
-          *
-     * @ORM\ManyToOne(targetEntity="Organization\Entity\Organizations", inversedBy="users")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="grp", referencedColumnName="id")
-     * })
-     *
+     * @var \Doctrine\Common\Collections\Collection
      */
-    private $grp=null;
+    private $organizations;
 
 
     /**
-     * Set grp
+     * Add organizations
      *
-     * @param \Organization\Entity\Organizations $grp
+     * @param \Organization\Entity\Organizations $organizations
      * @return Users
      */
-    public function setGrp(\Organization\Entity\Organizations $grp = null)
+    public function addOrganization(\Organization\Entity\Organizations $organizations)
     {
-        $this->grp = $grp;
+        $this->organizations[] = $organizations;
 
         return $this;
     }
 
     /**
-     * Get grp
+     * Remove organizations
      *
-     * @return \Organization\Entity\Organizations 
+     * @param \Organization\Entity\Organizations $organizations
      */
-    public function getGrp()
+    public function removeOrganization(\Organization\Entity\Organizations $organizations)
     {
-        return $this->grp;
+        $this->organizations->removeElement($organizations);
+    }
+
+    /**
+     * Get organizations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrganizations()
+    {
+        return $this->organizations;
     }
 }

@@ -1,63 +1,64 @@
 User\Entity\UserProfile:
     type: entity
     table: user_profile
+    uniqueConstraints:
+        uniq_d95ab405a76ed395:
+            columns:
+                - user_id
     id:
         id:
             type: integer
-            scale: 0
-            length: null
-            unique: false
             nullable: false
-            precision: 0
+            unsigned: false
+            comment: ''
             id: true
             generator:
                 strategy: SEQUENCE
     fields:
         firstName:
             type: string
-            scale: 0
-            length: 64
-            unique: false
             nullable: true
-            precision: 0
+            length: 64
+            fixed: false
+            options:
+                comment: 'Имя'
             column: first_name
         lastName:
             type: string
-            scale: 0
-            length: 64
-            unique: false
             nullable: true
-            precision: 0
+            length: 64
+            fixed: false
+            options:
+                comment: 'Фамилия'
             column: last_name
         middleName:
             type: string
-            scale: 0
-            length: 64
-            unique: false
             nullable: true
-            precision: 0
+            length: 64
+            fixed: false
+            options:
+                comment: 'Отчество'
             column: middle_name
         occupation:
             type: string
-            scale: 0
-            length: 64
-            unique: false
             nullable: true
-            precision: 0
+            length: 64
+            fixed: false
+            options:
+                comment: 'Должность'
         phone:
             type: string
-            scale: 0
-            length: 32
-            unique: false
             nullable: true
-            precision: 0 
- 
-    oneToOne:
+            length: 32
+            fixed: false
+            options:
+                comment: 'Телефон'
+    manyToOne:
         user:
             targetEntity: User\Entity\Users
             cascade: {  }
             mappedBy: null
-            inversedBy: profile
+            inversedBy: null
             joinColumns:
                 user_id:
                     referencedColumnName: id

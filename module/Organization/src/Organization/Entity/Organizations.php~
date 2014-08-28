@@ -68,13 +68,6 @@ class Organizations
      */
     private $type;
     
-    /**
-     *
-     * @var type 
-     * @ORM\OneToMany(targetEntity="User\Entity\Users", mappedBy="grp")
-     * 
-     */
-    private $users;
 
 
     /**
@@ -226,10 +219,6 @@ class Organizations
     }
     
     
-    public function getUsers(){
-        return $this->users;
-    }
-    
     /**
      * @var \DateTime
      */
@@ -294,5 +283,89 @@ class Organizations
     public function getBuiltIn()
     {
         return $this->builtIn;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $users;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $programs;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->programs = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add users
+     *
+     * @param \User\Entity\Users $users
+     * @return Organizations
+     */
+    public function addUser(\User\Entity\Users $users)
+    {
+        $this->users[] = $users;
+
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \User\Entity\Users $users
+     */
+    public function removeUser(\User\Entity\Users $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * Add programs
+     *
+     * @param \Program\Entity\Program $programs
+     * @return Organizations
+     */
+    public function addProgram(\Program\Entity\Program $programs)
+    {
+        $this->programs[] = $programs;
+
+        return $this;
+    }
+
+    /**
+     * Remove programs
+     *
+     * @param \Program\Entity\Program $programs
+     */
+    public function removeProgram(\Program\Entity\Program $programs)
+    {
+        $this->programs->removeElement($programs);
+    }
+
+    /**
+     * Get programs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPrograms()
+    {
+        return $this->programs;
     }
 }

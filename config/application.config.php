@@ -20,8 +20,6 @@ return array(
         'Log',
         'Update',
         'Organization',
-        'Program',
-        'File'
         ),
     'module_listener_options' => array(
         'module_paths' => array(

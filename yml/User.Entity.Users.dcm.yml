@@ -1,135 +1,94 @@
 User\Entity\Users:
     type: entity
     table: users
-    repositoryClass: \User\Repository\UsersRepository
+    repositoryClass: User\Repository\UsersRepository
     id:
         id:
             type: integer
-            scale: 0
-            length: null
-            unique: false
             nullable: false
-            precision: 0
+            unsigned: false
+            comment: ''
             id: true
             generator:
                 strategy: SEQUENCE
     fields:
         login:
             type: string
-            scale: 0
-            length: 64
-            unique: false
             nullable: false
-            precision: 0
+            length: 64
+            fixed: false
+            options:
+                comment: 'Логин для входа в систему'
         password:
             type: string
-            scale: 0
-            length: 256
-            unique: false
             nullable: false
-            precision: 0
+            length: 256
+            fixed: false
+            options:
+                comment: 'Пароль'
         email:
             type: string
-            scale: 0
-            length: 64
-            unique: false
             nullable: false
-            precision: 0
+            length: 64
+            fixed: false
+            options:
+                comment: 'Почта'
         status:
             type: smallint
-            scale: 0
-            length: null
-            unique: false
             nullable: false
-            precision: 0
+            unsigned: false
+            options:
+                comment: 'Действие'
         created:
             type: datetime
-            scale: 0
-            length: null
-            unique: false
             nullable: true
-            precision: 0
+            comment: ''
         lastLogin:
             type: datetime
-            scale: 0
-            length: null
-            unique: false
             nullable: true
-            precision: 0
+            options:
+                comment: 'Дата и время последнего входа'
             column: last_login
         builtIn:
             type: smallint
-            scale: 0
-            length: null
-            unique: false
-            nullable: true
-            precision: 0
+            nullable: true         
             column: built_in
-    oneToOne:
-        passwordChange:
-            targetEntity: User\Entity\UserPasswordChange
-            cascade:
-                - remove
-            mappedBy: user
-            inversedBy: null
-            joinColumns: {  }
-            orphanRemoval: false
-        userActivation:
-            targetEntity: User\Entity\UserActivation
-            cascade:
-                - remove
-                - persist
-            mappedBy: user
-            inversedBy: null
-            joinColumns: {  }
-            orphanRemoval: false
-        profile:
-            targetEntity: User\Entity\UserProfile
-            cascade:
-                - remove
-                - persist
-            mappedBy: user
-            inversedBy: null
-            joinColumns: {  }
-            orphanRemoval: false          
-    manyToOne:
-        grp:
-            targetEntity: Organization\Entity\Organizations
-            cascade: {  }
-            mappedBy: null
-            inversedBy: users
-            joinColumns:
-                grp:
-                    referencedColumnName: id
-            orphanRemoval: false
+            options:
+               unsigned: false
+               comment: 'Встроенный юзер'
     manyToMany:
         roles:
             targetEntity: Acl\Entity\AclRoles
-            cascade:
-                - persist
+            cascade: {  }
             mappedBy: null
             inversedBy: users
             joinTable:
                 name: acl_users_to_roles
-                schema: null
                 joinColumns:
                     -
                         name: users
-                        unique: false
-                        nullable: true
-                        onDelete: null
-                        columnDefinition: null
                         referencedColumnName: id
                 inverseJoinColumns:
                     -
                         name: roles
-                        unique: false
-                        nullable: true
-                        onDelete: null
-                        columnDefinition: null
                         referencedColumnName: id
             orderBy: null
-    
-    lifecycleCallbacks:
-        prePersist:
-            - prePersist
+        organizations:
+            targetEntity: Organization\Entity\Organizations
+            cascade: {  }
+            mappedBy: null
+            inversedBy: users
+            joinTable:
+                name: users_organizations
+                joinColumns:
+                    -
+                        name: users
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: organizations
+                        referencedColumnName: id
+            orderBy: null
+    lifecycleCallbacks: 
+            prePersist:
+                - prePersist

@@ -4,34 +4,32 @@ Email\Entity\EmailTemplates:
     id:
         id:
             type: integer
-            scale: 0
-            length: null
-            unique: false
             nullable: false
-            precision: 0
+            unsigned: false
+            comment: ''
             id: true
             generator:
                 strategy: SEQUENCE
     fields:
         key:
             type: string
-            scale: 0
-            length: 32
-            unique: false
             nullable: false
-            precision: 0
+            length: 32
+            fixed: false
+            options:
+                comment: 'Ключ для выбора шаблона'
         template:
             type: text
-            scale: 0
-            length: null
-            unique: false
             nullable: false
-            precision: 0
+            length: null
+            fixed: false
+            options:
+                comment: 'Шаблон письма'
         subject:
             type: string
-            scale: 0
-            length: 256
-            unique: false
             nullable: true
-            precision: 0
+            length: 256
+            fixed: false
+            options:
+                comment: 'Тема письма'
     lifecycleCallbacks: {  }

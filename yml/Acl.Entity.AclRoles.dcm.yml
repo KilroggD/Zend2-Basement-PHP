@@ -1,50 +1,40 @@
 Acl\Entity\AclRoles:
     type: entity
     table: acl_roles
-    repositoryClass: \Acl\Repository\AclRolesRepository
+    repositoryClass: Acl\Repository\AclRolesRepository
     id:
         id:
             type: integer
-            scale: 0
-            length: null
-            unique: false
             nullable: false
-            precision: 0
+            unsigned: false
+            comment: ''
             id: true
             generator:
                 strategy: SEQUENCE
     fields:
         name:
             type: string
-            scale: 0
-            length: 140
-            unique: false
             nullable: false
-            precision: 0
+            length: 140
+            fixed: false
+            column: name
+            options:
+                comment: 'Наименование роли'
         builtIn:
             type: smallint
-            scale: 0
-            length: null
-            unique: false
             nullable: true
-            precision: 0
+            unsigned: false
+            options:
+                comment: 'Встроенная в систему?'
             column: built_in
         hidden:
             type: smallint
-            scale: 0
-            length: null
-            unique: false
             nullable: true
-            precision: 0
+            unsigned: false
             column: hidden
+            options:
+                comment: 'Скрыта?'
     manyToMany:
-        users:
-            targetEntity: User\Entity\Users
-            cascade: {  }
-            mappedBy: roles
-            inversedBy: null
-            joinTable: {  }
-            orderBy: null
         permissions:
             targetEntity: Acl\Entity\AclPermissions
             cascade: {  }
@@ -52,22 +42,20 @@ Acl\Entity\AclRoles:
             inversedBy: roles
             joinTable:
                 name: acl_roles_to_permissions
-                schema: null
                 joinColumns:
                     -
                         name: roles
-                        unique: false
-                        nullable: true
-                        onDelete: null
-                        columnDefinition: null
                         referencedColumnName: id
                 inverseJoinColumns:
                     -
                         name: permissions
-                        unique: false
-                        nullable: true
-                        onDelete: null
-                        columnDefinition: null
                         referencedColumnName: id
+            orderBy: null
+        users:
+            targetEntity: User\Entity\Users
+            cascade: {  }
+            mappedBy: roles
+            inversedBy: null
+            joinTable: null
             orderBy: null
     lifecycleCallbacks: {  }

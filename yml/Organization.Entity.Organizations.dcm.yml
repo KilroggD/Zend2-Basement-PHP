@@ -1,72 +1,67 @@
 Organization\Entity\Organizations:
     type: entity
     table: organizations
+    repositoryClass: Organization\Repository\OrganizationsRepository
     indexes:
-        IDX_427C1C7F8CDE5729:
+        idx_427c1c7f8cde5729:
             columns:
                 - type
     id:
         id:
             type: integer
-            scale: 0
-            length: null
-            unique: false
             nullable: false
-            precision: 0
+            unsigned: false
+            comment: ''
             id: true
             generator:
                 strategy: SEQUENCE
     fields:
         name:
             type: string
-            scale: 0
-            length: 512
-            unique: false
             nullable: false
-            precision: 0
+            length: 512
+            fixed: false
+            options:
+                comment: 'Наименование организации'
         shortName:
             type: string
-            scale: 0
-            length: 255
-            unique: false
             nullable: true
-            precision: 0
+            length: 255
+            fixed: false
+            options:
+                comment: 'Сокращенное наименование'
             column: short_name
         inn:
             type: string
-            scale: 0
-            length: 12
-            unique: false
             nullable: true
-            precision: 0
+            length: 12
+            fixed: false
+            options:
+                comment: 'ИНН организации'
         kpp:
             type: string
-            scale: 0
-            length: 12
-            unique: false
             nullable: true
-            precision: 0
+            length: 12
+            fixed: false
+            options:
+                comment: 'КПП организации'
         address:
             type: string
-            scale: 0
-            length: 255
-            unique: false
             nullable: true
-            precision: 0
+            length: 255
+            fixed: false
+            options:
+                comment: 'Юридический адрес'
         created:
             type: datetime
-            scale: 0
-            length: null
-            unique: false
             nullable: true
-            precision: 0
+            comment: ''
         builtIn:
             type: smallint
-            scale: 0
-            length: null
-            unique: false
             nullable: true
-            precision: 0
+            unsigned: false
+            options:
+                comment: 'Встроенная в систему?'
             column: built_in
     manyToOne:
         type:
@@ -78,11 +73,14 @@ Organization\Entity\Organizations:
                 type:
                     referencedColumnName: id
             orphanRemoval: false
-    onetoMany:
+    manyToMany:
         users:
             targetEntity: User\Entity\Users
             cascade: {  }
-            mappedBy: grp
+            mappedBy: organizations
             inversedBy: null
-            orphanRemoval: false
-    lifecycleCallbacks: {  }
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks:
+        prePersist:
+            - prePersist

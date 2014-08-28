@@ -33,26 +33,38 @@ class AdminController extends MyAbstractController{
     public function addAction(){
                 $request=$this->getRequest();
                 $user=new \User\Entity\Users();
-                $form = $this->getFormByKey('User\Form\NewUser');
+                $form = $this->getFormByKey('User\Form\NewUser');                
                 $form->bind($user);
-                if($request->isPost()){
-                    $post=$request->getPost()->toArray();
+                if($request->isPost()){                    
+                    $post=$request->getPost()->toArray();                
                     $form->setData($post);
                     if($form->isValid()){           
-                       unset($post["user"]["password"]);
-                        if($user=$this->checkUserData($user, $post)){
-                        try{
-                            $this->getEntityManager()->persist($user);
+                       $post["user"]["password"]=null;
+                        if($user=$this->checkUserData($user, $post)){                            
+                        try{             
+                        if($post["user"]["grph"]){
+                            $user->getOrganizations()->clear();
+                          $groups=$this->getEntityManager()->getRepository("Organization\Entity\Organizations")->findBy(array("id"=>explode(",",$post["user"]["grph"])));
+                          $user->addGrp($groups);
+                        }
+                        $this->getEntityManager()->persist($user);
                         $this->getEntityManager()->flush();                         
                         }
                         catch (\Exception $e){
                             var_dump($e->getTrace());
-                            exit;
+                            die;
                         }
                         return $this->redirect()->toRoute("user\\admin");
                         }
                     }
-                }             
+                    else {
+                        $this->errors[]="Form is invalid";
+                        $this->errors[]=$form->getMessages("user");
+                    }
+                }     
+                if($form->get("user")->has("grph")){
+                    $form->get("user")->get("grph")->setAttribute("data-link",$this->url()->fromRoute("organizations"));
+                }
                 return array("form"=>$form, "errors"=>$this->errors, "back"=>$this->refUrl);
     }
     
@@ -65,16 +77,29 @@ class AdminController extends MyAbstractController{
                 $form = $this->getFormByKey('User\Form\User');
                 $form->bind($user);
                 if($request->isPost()){
-                    $post=$request->getPost()->toArray();
+                    $post=$request->getPost()->toArray();        
                     $form->setData($post);
-                    if($form->isValid()){            
+                    if($form->isValid()){                       
                         if($user=$this->checkUserData($user, $post)){
+                         if($post["user"]["grph"]){
+                          $user->getOrganizations()->clear();
+                          $groups=$this->getEntityManager()->getRepository("Organization\Entity\Organizations")->findBy(array("id"=>explode(",",$post["user"]["grph"])));
+                          $user->addGrp($groups);
+                        }
                         $this->getEntityManager()->persist($user);
                         $this->getEntityManager()->flush();                         
                         return $this->redirect()->toRoute("user\\admin");
                         }
                     }
+                    else {
+                        die(var_dump($form->getMessages()));
+                    }
                            }
+                            if($form->get("user")->has("grph")){
+                    $orgs=$user->getOrganizations()->map(function($entity){return $entity->getId();
+                    })->toArray();
+                    $form->get("user")->get("grph")->setAttribute("data-link",$this->url()->fromRoute("organizations"))->setValue(implode(",", $orgs));                    
+                }
                 return array("form"=>$form, "errors"=>$this->errors, "back"=>$this->refUrl);
             }
                     }
@@ -241,7 +266,7 @@ class AdminController extends MyAbstractController{
                 $this->errors["user"]["password"]="Пароль и подтверждение не совпадают";
                 return false;
             }
-        }
+        }      
         return $user;
     }
     

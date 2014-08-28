@@ -123,6 +123,7 @@ class Users
     
    public function __construct() {
        $this->roles=new \Doctrine\Common\Collections\ArrayCollection();
+       $this->organizations=new \Doctrine\Common\Collections\ArrayCollection();
    }
    
     /**
@@ -397,6 +398,77 @@ class Users
         return $this->roles;
     }
     
+   
+   
+
+        /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Organization\Entity\Organizations", inversedBy="users")
+     * @ORM\JoinTable(name="users_organizations",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="users", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="organizations", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $organizations;
+
+
+    /**
+     * Add organizations
+     *
+     * @param \Organization\Entity\Organizations $organizations
+     * @return Users
+     */
+    public function addOrganization(\Organization\Entity\Organizations $organizations)
+    {
+        $this->organizations[] = $organizations;
+
+        return $this;
+    }
+
+    /**
+     * Remove organizations
+     *
+     * @param \Organization\Entity\Organizations $organizations
+     */
+    public function removeOrganization(\Organization\Entity\Organizations $organizations)
+    {
+        $this->organizations->removeElement($organizations);
+    }
+
+        public function addGrp($roles) {
+        foreach($roles as $role){            
+            $this->addOrganization($role);
+            $role->addUser($this);            
+        }
+        return $this;
+    }
+    
+    
+    public function removeGrp($roles){
+        foreach($roles as $role){
+            $this->removeOrganization($role);
+            $role->removeUser($this);
+        }
+        return $this;
+    }
+    
+    
+    /**
+     * Get organizations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrganizations()
+    {
+        return $this->organizations;
+    }
+    
+    
 /**
 * @ORM\PrePersist
 */
@@ -411,40 +483,5 @@ class Users
         $this->setPassword(md5($this->password));
     }
 }
-    
-    /**
-     * 
-     * @var \Organization\Entity\Organizations
-          *
-     * @ORM\ManyToOne(targetEntity="Organization\Entity\Organizations", inversedBy="users")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="grp", referencedColumnName="id")
-     * })
-     *
-     */
-    private $grp=null;
-
-
-    /**
-     * Set grp
-     *
-     * @param \Organization\Entity\Organizations $grp
-     * @return Users
-     */
-    public function setGrp(\Organization\Entity\Organizations $grp = null)
-    {
-        $this->grp = $grp;
-
-        return $this;
-    }
-
-    /**
-     * Get grp
-     *
-     * @return \Organization\Entity\Organizations 
-     */
-    public function getGrp()
-    {
-        return $this->grp;
-    }
 }
+

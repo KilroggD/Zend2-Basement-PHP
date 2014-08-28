@@ -68,13 +68,6 @@ class Organizations
      */
     private $type;
     
-    /**
-     *
-     * @var type 
-     * @ORM\OneToMany(targetEntity="User\Entity\Users", mappedBy="grp")
-     * 
-     */
-    private $users;
 
 
     /**
@@ -226,10 +219,6 @@ class Organizations
     }
     
     
-    public function getUsers(){
-        return $this->users;
-    }
-    
     /**
      * @var \DateTime
      */
@@ -267,10 +256,12 @@ class Organizations
         $this->setCreated(new \DateTime());
     }
     }
-    /**
+          /**
      * @var integer
+     *
+     * @ORM\Column(name="built_in", type="smallint", nullable=true)
      */
-    private $builtIn=0;
+    private $builtIn='0';
 
 
     /**
@@ -295,4 +286,51 @@ class Organizations
     {
         return $this->builtIn;
     }
+  
+        /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="User\Entity\Users", mappedBy="organizations")
+     */
+    private $users;
+
+    public function __construct()
+    {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add users
+     *
+     * @param \User\Entity\Users $users
+     * @return Organizations
+     */
+    public function addUser(\User\Entity\Users $users)
+    {
+        $this->users[] = $users;
+
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \User\Entity\Users $users
+     */
+    public function removeUser(\User\Entity\Users $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+
 }

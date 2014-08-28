@@ -20,6 +20,19 @@ return array(
     ),
      'router' => array(
         'routes' => array(
+                "organizations"=>array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
+                          'options' => array(
+                    'route'    => '/organizations',
+                    'defaults' => array(
+                        'controller' => 'Organization\Controller\Organization',
+                        'action'     => 'index',
+                        'description'=> 'Просмотр списка организаций',
+                        'group'=>"organization",
+                    ),
+                ),
+                'may_terminate' => true,    
+                ),            
                  "organizations\admin"=>array(
             'type' => 'Zend\Mvc\Router\Http\Literal',
                           'options' => array(

@@ -35,6 +35,12 @@ class AclRoles
      * @ORM\Column(name="built_in", type="smallint", nullable=true)
      */
     private $builtIn = '0';
+            /**
+     * @var integer
+     *
+     * @ORM\Column(name="hidden", type="smallint", nullable=true)
+     */
+    private $hidden = '0';
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
@@ -121,6 +127,27 @@ class AclRoles
     {
         return $this->builtIn;
     }
+    
+      /**
+     * Set hidden
+     * 
+     * @param integer $hidden
+     * @return AclRoles
+     */
+    public function setHidden($hidden){
+        $this->hidden=$hidden;
+        return $this;
+    }
+    
+        /**
+     * Get hidden
+     *
+     * @return integer 
+     */
+    public function getHidden()
+    {
+        return $this->hidden;
+    }
     /**
      * Add users
      *
@@ -186,32 +213,5 @@ class AclRoles
     {
         return $this->permissions;
     }
-    /**
-     * @var integer
-     */
-    private $hidden;
 
-
-    /**
-     * Set hidden
-     *
-     * @param integer $hidden
-     * @return AclRoles
-     */
-    public function setHidden($hidden)
-    {
-        $this->hidden = $hidden;
-
-        return $this;
-    }
-
-    /**
-     * Get hidden
-     *
-     * @return integer 
-     */
-    public function getHidden()
-    {
-        return $this->hidden;
-    }
 }

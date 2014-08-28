@@ -1,67 +1,63 @@
 Acl\Entity\AclPermissions:
     type: entity
     table: acl_permissions
-    repositoryClass: \Acl\Repository\AclPermissionsRepository
+    repositoryClass: Acl\Repository\AclPermissionsRepository
     id:
         id:
             type: integer
-            scale: 0
-            length: null
-            unique: false
             nullable: false
-            precision: 0
+            unsigned: false
+            comment: ''
             id: true
             generator:
                 strategy: SEQUENCE
     fields:
         controller:
             type: string
-            scale: 0
-            length: 255
-            unique: false
             nullable: false
-            precision: 0
+            length: 255
+            fixed: false
+            options:
+                comment: 'Контроллер'
         action:
             type: string
-            scale: 0
-            length: 255
-            unique: false
             nullable: true
-            precision: 0
+            length: 255
+            fixed: false
+            options:
+                comment: 'Действие'
         description:
             type: string
-            scale: 0
-            length: 255
-            unique: false
             nullable: true
-            precision: 0
+            length: 255
+            fixed: false
+            options:
+                comment: 'Описание разрешенич'
         system:
             type: smallint
-            scale: 0
-            length: null
-            unique: false
             nullable: true
-            precision: 0
+            unsigned: false
+            options:
+                comment: 'Системное или нет?'
         exclude:
             type: smallint
-            scale: 0
-            length: null
-            unique: false
             nullable: true
-            precision: 0
+            unsigned: false
+            options:
+                comment: 'Исключить из проверок?'
         grp:
             type: string
-            scale: 0
-            length: 140
-            unique: false
             nullable: true
-            precision: 0
+            length: 140
+            fixed: false
+            options:
+                comment: 'Группа разрешений'
     manyToMany:
         roles:
             targetEntity: Acl\Entity\AclRoles
             cascade: {  }
             mappedBy: permissions
             inversedBy: null
-            joinTable: {  }
+            joinTable: null
             orderBy: null
     lifecycleCallbacks: {  }

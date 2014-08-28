@@ -14,9 +14,21 @@ namespace Organization\Controller;
 class OrganizationController extends MyAbstractController {
     //put your code here
     public function indexAction(){
-        
-    }
-    
-    
+        //В случае автокомплита 
+         $autocomplete=$this->params()->fromQuery("autocomplete");         
+          if($autocomplete){
+          $query=$this->params()->fromQuery("query");          
+          $val=$this->params()->fromQuery("val");
+          $repository=$this->getRepository("Organization\Entity\Organizations");
+          if($query){
+          $result=$repository->autocomplete($query);
+          }
+          if($val){
+              $result=$repository->getByVal(explode(",", $val));
+          }
+         $this->getResponse()->getHeaders()->addHeaderLine('Content-Type', 'application/json');
+        return   $this->getResponse()->setContent(\Zend\Json\Json::encode($result)); 
+        }
+    }            
     
 }

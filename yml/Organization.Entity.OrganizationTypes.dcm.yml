@@ -4,28 +4,25 @@ Organization\Entity\OrganizationTypes:
     id:
         id:
             type: integer
-            scale: 0
-            length: null
-            unique: false
             nullable: false
-            precision: 0
+            unsigned: false
+            comment: ''
             id: true
             generator:
                 strategy: SEQUENCE
     fields:
         name:
             type: string
-            scale: 0
-            length: 512
-            unique: false
             nullable: true
-            precision: 0
+            length: 512
+            fixed: false
+            options:
+                comment: 'Наименование типа'
         builtIn:
             type: smallint
-            scale: 0
-            length: null
-            unique: false
             nullable: true
-            precision: 0
+            unsigned: false
+            options:
+                comment: 'Встроенный тип?'
             column: built_in
     lifecycleCallbacks: {  }

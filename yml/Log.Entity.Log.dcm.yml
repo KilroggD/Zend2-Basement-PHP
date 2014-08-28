@@ -4,48 +4,43 @@ Log\Entity\Log:
     id:
         id:
             type: integer
-            scale: 0
-            length: null
-            unique: false
             nullable: false
-            precision: 0
+            unsigned: false
+            comment: ''
             id: true
             generator:
                 strategy: SEQUENCE
     fields:
         category:
             type: string
-            scale: 0
-            length: 140
-            unique: false
             nullable: true
-            precision: 0
+            length: 140
+            fixed: false
+            options:
+                comment: 'Категория события'
         importance:
             type: string
-            scale: 0
-            length: 140
-            unique: false
             nullable: true
-            precision: 0
+            length: 140
+            fixed: false
+            options:
+                comment: 'Важность события'
         text:
             type: text
-            scale: 0
-            length: null
-            unique: false
             nullable: true
-            precision: 0
+            length: null
+            fixed: false
+            options:
+                comment: 'Текст события'
         url:
             type: string
-            scale: 0
-            length: 140
-            unique: false
             nullable: true
-            precision: 0
+            length: 140
+            fixed: false
+            options:
+                comment: 'Ссылка, вызвавшая событие'
         timestamp:
             type: datetime
-            scale: 0
-            length: null
-            unique: false
             nullable: true
-            precision: 0
+            comment: ''
     lifecycleCallbacks: {  }

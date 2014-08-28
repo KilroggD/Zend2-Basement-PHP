@@ -86,9 +86,7 @@ implements InputFilterProviderInterface
         ),
     ),
     ),  
-        "grp"=>array(
-            "required"=>true
-        )
+
 );
     //put your code here
     public function __construct($em, $name = null, $options = array()) {
@@ -228,26 +226,25 @@ return $this->ifSpec;
     public function addOrgField(){
         $this->add(
                           array(
-        'type' => 'DoctrineModule\Form\Element\ObjectSelect',
-        'name' => 'grp',
+        'type' => 'hidden',
+        'name' => 'grph',
        'required' => false,
-        'options' => array(
-                            'label' => 'Организация',
-            'object_manager'     => $this->em,
-            'target_class'       => 'Organization\Entity\Organizations',
-            'property'           => 'name',   
-                      'is_method'      => true,
-            'find_method'    => array(
-                'name'   => 'findBy',
-                'params' => array(
-                    'criteria' => array(),
-                    // Use key 'orderBy' if using ORM
-                    'orderBy'  => array('name' => 'ASC'),
-                ),
-                ),
+        'attributes'=>array(
+            "class"=>'multiselect org-multiselect',
+            "data-role"=>"multiselect-remote",
+           "placeholder"=>"Введите часть ИНН или наименования организации"
         ),
+       
+        "options"=>array(
+            "label"=>"Организации:",
+             "label_attributes"=>array(
+          "class"=>"grp-select-label"  
+        ),
+        )
     )
                          );  
     }
+    
+
     
 }
