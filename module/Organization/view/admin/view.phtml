@@ -26,11 +26,13 @@ $users=$this->users
         }
        ?>        
     </div>
+<?php if($users){ ?>
 <div class="org-user-container">
-    <label>Пользователи:</labek>
+    <label>Пользователи:</label>
     <ul>
         <?php foreach($users as $user){ ?>
         <li><a href="<?=$this->url("user\\admin/edit",array("id"=>$user->getId()))?>"><?=$user->getLogin() ?></a></li>        
         <?php } ?>
         </ul>
     </div>
+<?php } ?>

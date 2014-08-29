@@ -51,7 +51,10 @@ class AdminController extends MyAbstractController{
      */
     public function viewAction(){
         $id=(int)$this->params()->fromRoute("id");
+        $organization=array();
+        $users=array();
         $org=$this->orgRepository->find($id);
+        if(!$org){            
         $organization=array(
             "name"=>$org->getName(),
             "shortName"=>$org->getShortName(),
@@ -61,6 +64,7 @@ class AdminController extends MyAbstractController{
             "type"=>$org->getType()->getName()
         );
         $users=$org->getUsers();
+        }
         return array("org"=>$organization,"users"=>$users, "messages"=>$this->flashMessenger()->getMessages());
     }
     
