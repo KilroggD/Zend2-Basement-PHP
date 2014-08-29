@@ -103,9 +103,7 @@ class AdminController extends MyAbstractController{
                 return array("form"=>$form, "errors"=>$this->errors, "back"=>$this->refUrl);
             }
                     }
-        else {
             return $this->redirect()->toRoute("user\\admin");
-        }
       }
     
     /**
