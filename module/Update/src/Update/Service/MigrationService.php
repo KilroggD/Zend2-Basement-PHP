@@ -98,7 +98,7 @@ class MigrationService {
        $classes=$this->getDest();
        $messages=array();
        foreach($classes as $filter=>$path){
-       $cmd=$this->exec("orm::entities", array("dest-path"=>$path,"--filter"=>$filter));
+       $cmd=$this->exec("orm::entities", array("dest-path"=>$path,"--filter"=>$filter, "--generate-annotations"=>1));
        $messages[]=$cmd->getDisplay();
        }
        return $messages;
