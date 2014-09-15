@@ -10,3 +10,4 @@ composer.lock
 vendor/bin
 local.php
 vendor
+sql/migrations
