@@ -19,6 +19,7 @@
 
 namespace Doctrine\DBAL\Platforms;
 
+use Doctrine\DBAL\Schema\Identifier;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\TableDiff;
 
@@ -171,25 +172,21 @@ class DB2Platform extends AbstractPlatform
     /**
      * {@inheritdoc}
      */
-    public function getDateAddDaysExpression($date, $days)
+    protected function getDateArithmeticIntervalExpression($date, $operator, $interval, $unit)
     {
-        return $date . ' + ' . $days . ' days';
-    }
+        switch ($unit) {
+            case self::DATE_INTERVAL_UNIT_WEEK:
+                $interval *= 7;
+                $unit = self::DATE_INTERVAL_UNIT_DAY;
+                break;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDateAddHourExpression($date, $hours)
-    {
-        return $date . ' + ' . $hours . ' hours';
-    }
+            case self::DATE_INTERVAL_UNIT_QUARTER:
+                $interval *= 3;
+                $unit = self::DATE_INTERVAL_UNIT_MONTH;
+                break;
+        }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDateAddMonthExpression($date, $months)
-    {
-        return $date . ' + ' . $months . ' months';
+        return $date . ' ' . $operator . ' ' . $interval . ' ' . $unit;
     }
 
     /**
@@ -198,30 +195,6 @@ class DB2Platform extends AbstractPlatform
     public function getDateDiffExpression($date1, $date2)
     {
         return 'DAYS(' . $date1 . ') - DAYS(' . $date2 . ')';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDateSubDaysExpression($date, $days)
-    {
-        return $date . ' - ' . $days . ' days';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDateSubHourExpression($date, $hours)
-    {
-        return $date . ' - ' . $hours . ' hours';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDateSubMonthExpression($date, $months)
-    {
-        return $date . ' - ' . $months . ' months';
     }
 
     /**
@@ -261,7 +234,7 @@ class DB2Platform extends AbstractPlatform
     }
 
     /**
-     * This code fragment is originally from the Zend_Db_Adapter_Db2 class.
+     * This code fragment is originally from the Zend_Db_Adapter_Db2 class, but has been edited.
      *
      * @license New BSD License
      *
@@ -272,22 +245,47 @@ class DB2Platform extends AbstractPlatform
      */
     public function getListTableColumnsSQL($table, $database = null)
     {
-        return "SELECT DISTINCT c.tabschema, c.tabname, c.colname, c.colno,
-                c.typename, c.default, c.nulls, c.length, c.scale,
-                c.identity, tc.type AS tabconsttype, k.colseq,
-                CASE
-                    WHEN c.generated = 'D' THEN 1
-                    ELSE 0
-                END AS autoincrement
-                FROM syscat.columns c
-                LEFT JOIN (syscat.keycoluse k JOIN syscat.tabconst tc
-                ON (k.tabschema = tc.tabschema
-                    AND k.tabname = tc.tabname
-                    AND tc.type = 'P'))
-                ON (c.tabschema = k.tabschema
-                    AND c.tabname = k.tabname
-                    AND c.colname = k.colname)
-                WHERE UPPER(c.tabname) = UPPER('" . $table . "') ORDER BY c.colno";
+        // We do the funky subquery and join syscat.columns.default this crazy way because
+        // as of db2 v10, the column is CLOB(64k) and the distinct operator won't allow a CLOB,
+        // it wants shorter stuff like a varchar.
+        return "
+        SELECT
+          cols.default,
+          subq.*
+        FROM (
+               SELECT DISTINCT
+                 c.tabschema,
+                 c.tabname,
+                 c.colname,
+                 c.colno,
+                 c.typename,
+                 c.nulls,
+                 c.length,
+                 c.scale,
+                 c.identity,
+                 tc.type AS tabconsttype,
+                 k.colseq,
+                 CASE
+                 WHEN c.generated = 'D' THEN 1
+                 ELSE 0
+                 END     AS autoincrement
+               FROM syscat.columns c
+                 LEFT JOIN (syscat.keycoluse k JOIN syscat.tabconst tc
+                     ON (k.tabschema = tc.tabschema
+                         AND k.tabname = tc.tabname
+                         AND tc.type = 'P'))
+                   ON (c.tabschema = k.tabschema
+                       AND c.tabname = k.tabname
+                       AND c.colname = k.colname)
+               WHERE UPPER(c.tabname) = UPPER('" . $table . "')
+               ORDER BY c.colno
+             ) subq
+          JOIN syscat.columns cols
+            ON subq.tabschema = cols.tabschema
+               AND subq.tabname = cols.tabname
+               AND subq.colno = cols.colno
+        ORDER BY subq.colno
+        ";
     }
 
     /**
@@ -511,7 +509,10 @@ class DB2Platform extends AbstractPlatform
                 continue;
             }
 
-            $queryParts[] =  'RENAME COLUMN ' . $oldColumnName . ' TO ' . $column->getQuotedName($this);
+            $oldColumnName = new Identifier($oldColumnName);
+
+            $queryParts[] =  'RENAME COLUMN ' . $oldColumnName->getQuotedName($this) .
+                ' TO ' . $column->getQuotedName($this);
         }
 
         $tableSql = array();
@@ -579,6 +580,11 @@ class DB2Platform extends AbstractPlatform
      */
     protected function getRenameIndexSQL($oldIndexName, Index $index, $tableName)
     {
+        if (strpos($tableName, '.') !== false) {
+            list($schema) = explode('.', $tableName);
+            $oldIndexName = $schema . '.' . $oldIndexName;
+        }
+
         return array('RENAME INDEX ' . $oldIndexName . ' TO ' . $index->getQuotedName($this));
     }
 

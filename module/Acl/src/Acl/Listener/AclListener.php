@@ -81,6 +81,9 @@ const ACL="Acl\Controller\Acl";
     public function checkAcl($e){
         $routeMatch = $e->getRouteMatch();
         $controller=$e->getTarget();
+                if(!$this->_sm->get("aclService")->checkAclExistance() && !($controller instanceof \Install\Controller\InstallController)) {
+                    $controller->plugin('redirect')->toRoute('install');
+                }
         $controllerName=$routeMatch->getParam('controller');
         $actionName=$routeMatch->getParam('action');
         $user=$controller->userParams;      

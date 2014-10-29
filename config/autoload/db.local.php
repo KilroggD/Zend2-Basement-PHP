@@ -14,7 +14,7 @@
 $db=array(
       'host' => 'localhost',
        'port' => '5432',
-       'dbname' => 'scimc1',
+       'dbname' => 'scimc',
        'user'=>'rcp',
        'password'=>'rcp',
        'charset'  => 'utf8'
