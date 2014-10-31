@@ -1,13 +1,48 @@
 <?php
-$form=$this->form;
-$errors=$this->errors;
+$form = $this->form;
+$errors = $this->errors;
+$attempts = $this->attempts;
 ?>
-<?=$this->form()->openTag($form) ?>
-<?=$this->formCollection($form) ?>
-<?=$this->form()->closeTag($form) ?>
-<div class="forgot-link-container">
-    <a href="<?=$this->url("password") ?>">Забыли пароль?</a>
+<div class="login-form-container">
+    <?= $this->form()->openTag($form) ?>
+    <div class="body bg-gray">
+
+        <?php if ($this->errors) { ?>
+            <div class="box box-solid bg-red">
+
+                <div class="box-body">
+                    <p> <?= $this->htmlList($this->errors); ?></p>
+                </div>
+            </div>
+        <?php } ?>
+        <div class="form-group">
+            <?= $this->formInput($form->get('login')) ?>
+        </div>
+
+        <div class="form-group">
+            <?= $this->formInput($form->get('password')) ?>
+        </div>
+        
+        <?php if ($form->has('captcha')) {  ?>
+            <div class="form-group">    
+            <?= $this->formLabel($form->get('captcha')) ?>    
+            <?= $this->formCaptcha($form->get('captcha')) ?>
+            </div>  
+        <?php } ?>
+
+        <div class="form-group">
+            <?= $this->formCheckbox($form->get('rememberme')) ?>
+            <?= $this->formLabel($form->get('rememberme')) ?>
+        </div>
+
+    </div>  
+    <div class="footer">    
+        <?= $this->formRow($form->get('submit')) ?>
+        <a href="<?= $this->url("password") ?>">Забыли пароль?</a>
     </div>
-<div class="login-errors">
-       <?=$this->htmlList($this->errors); ?>
-    </div>
+
+    <?= $this->form()->closeTag($form) ?>
+</div>
+<div class="forgot-link-container text-center">
+
+</div>

@@ -51,4 +51,8 @@ class AclRolesRepository extends EntityRepository{
         return $this;
     }
     
+    public function getAdmin(){
+        return $this->find(self::ADMIN);
+    }
+    
 }

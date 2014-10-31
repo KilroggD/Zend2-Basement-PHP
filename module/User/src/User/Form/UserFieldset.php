@@ -43,12 +43,21 @@ implements InputFilterProviderInterface
                     )
                               ),
                                        ),
+									   		  	  "filters"=>array(
+				  array("name"=>'StripTags')
+				  )
   ),
     'login'=>array(
       'required'=>true,
+	  		  	  "filters"=>array(
+				  array("name"=>'StripTags')
+				  )
            ),
       'roles'=>array(
       'required'=>false,
+	  		  	  "filters"=>array(
+				  array("name"=>'StripTags')
+				  )
   ),
     'password'=>array(
         'required'=>true,        
@@ -64,6 +73,9 @@ implements InputFilterProviderInterface
                               ),
           
         ),
+				  	  "filters"=>array(
+				  array("name"=>'StripTags')
+				  )
     ),
     'confirmpassword'=>array(
         'required'=>true,
@@ -85,6 +97,9 @@ implements InputFilterProviderInterface
             ),
         ),
     ),
+			  	  "filters"=>array(
+				  array("name"=>'StripTags')
+				  )
     ),  
 
 );
@@ -232,7 +247,7 @@ return $this->ifSpec;
         'attributes'=>array(
             "class"=>'multiselect org-multiselect',
             "data-role"=>"multiselect-remote",
-           "placeholder"=>"Введите часть ИНН или наименования организации"
+           "data-placeholder"=>"Введите часть ИНН или наименования организации"
         ),
        
         "options"=>array(

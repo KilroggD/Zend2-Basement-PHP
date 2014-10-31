@@ -1,6 +1,7 @@
 <?php
 namespace Organization\Controller;
 use Zend\View\Model\ViewModel;
+use Application\Common\MyHelper;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,6 +14,9 @@ use Zend\View\Model\ViewModel;
  * @author kopychev
  */
 class AdminController extends MyAbstractController{
+    
+    public static $versionableFields=array("name","inn","kpp","address");
+    
     /**
      * Просмотр списка организаций
      */
@@ -54,7 +58,7 @@ class AdminController extends MyAbstractController{
         $organization=array();
         $users=array();
         $org=$this->orgRepository->find($id);
-        if(!$org){            
+        if($org){            
         $organization=array(
             "name"=>$org->getName(),
             "shortName"=>$org->getShortName(),
@@ -78,13 +82,13 @@ class AdminController extends MyAbstractController{
                     $form->setData($post);
                     if($form->isValid()){           
                         try{
-                        $type=$this->typeRepository->find($post["type"]);
+                        $type=$this->typeRepository->find($post["actualVersion"]["type"]);
                         $org->setType($type);
                         $this->getEntityManager()->persist($org);
                         $this->getEntityManager()->flush();                         
-                        }
+                       }
                         catch (\Exception $e){
-                            var_dump($e->getTrace());
+                            var_dump($e->getMessage());
                             exit;
                         }
                         return $this->redirect()->toRoute("organizations\\admin");
@@ -104,18 +108,27 @@ class AdminController extends MyAbstractController{
         $request=$this->getRequest();
         if($id){
             $org=$this->getRepository('Organization\Entity\Organizations')->find($id);
+            $act=$org->getActualVersion();
             if($org){
                 $form = $this->getFormByKey('Organization\Form\OrgForm');
-                $form->bind($org);
                 if($request->isPost()){
+					$version=new \Organization\Entity\OrganizationProfile();
                     $post=$request->getPost();
+					$form->get("actualVersion")->setObject($version);
                     $form->setData($post);
-                    if($form->isValid()){            
-                        $this->getEntityManager()->persist($org);
-                        $this->getEntityManager()->flush();                         
-                        return $this->redirect()->toRoute("organizations\\admin/view",array("id"=>$id));
+                    if($form->isValid()){
+                        if(MyHelper::versionDiff(self::$versionableFields, $act, $version)){
+                      
+						$org->addVersion($version);
+						$org->setActualVersion($version);
+							$this->getEntityManager()->flush();
+                        }
+			return $this->redirect()->toRoute("organizations\\admin");				
                     }
                            }
+						   else {
+						   $form->bind($org);
+						   }
                 return array("form"=>$form, "errors"=>$this->errors);
             }
                     }
@@ -132,11 +145,11 @@ class AdminController extends MyAbstractController{
                             $org=$this->orgRepository->find($id);
                             if($org){
                                 $this->getEntityManager()->remove($org);
+                                //$org->setStatus(0);
                                 $this->getEntityManager()->flush();
                                 $this->flashMessenger()->addMessage("Организация удалена");
                             }
-                        }
-                                  
+                        }                                 
             $this->redirect()->toRoute("organizations\admin");     
     }
         

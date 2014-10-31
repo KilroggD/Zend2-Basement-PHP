@@ -81,7 +81,7 @@ const ACL="Acl\Controller\Acl";
     public function checkAcl($e){
         $routeMatch = $e->getRouteMatch();
         $controller=$e->getTarget();
-                if(!$this->_sm->get("aclService")->checkAclExistance() && !($controller instanceof \Install\Controller\InstallController)) {
+                 if(!$this->_sm->get("aclService")->checkAclExistance() && !($controller instanceof \Install\Controller\InstallController)) {
                     $controller->plugin('redirect')->toRoute('install');
                 }
         $controllerName=$routeMatch->getParam('controller');
@@ -91,6 +91,7 @@ const ACL="Acl\Controller\Acl";
         $roles=$this->getUserRoles($user);
         $e->getViewModel()->currentRoles=$roles;
         $e->getViewModel()->acl=$this->acl;
+        $e->getViewModel()->isAdmin=$this->_sm->get("aclService")->isAdmin($user);
         //if(!$this->_sm->get("aclService")->allowed($this->acl,$roles,$controllerName,$actionName)){      
         if(!$this->acl->isAllowed($roles,$controllerName,$actionName)){
           $e->setError('ACL_ACCESS_DENIED'); 

@@ -1,0 +1,62 @@
+<?php echo $this->doctype(); ?>
+
+<html class="bg-custom">
+    <head>
+        <meta charset="UTF-8">
+        <?php echo $this->headTitle('ZF2 ' . $this->translate('Skeleton Application -login'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php
+        echo $this->headMeta()
+                ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+                ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <!-- Ionicons -->
+        <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+
+        <?php
+        echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                ->prependStylesheet($this->basePath() . '/css/AdminLTE.css')
+                ->prependStylesheet($this->basePath() . '/css/morris/morris.css')
+                ->prependStylesheet($this->basePath() . 'css/admin.css')
+                ->prependStylesheet($this->basePath() . 'css/iCheck/square/green.css')
+        //     ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
+        ?>
+
+        <!-- Scripts -->
+        <?php
+        echo $this->headScript()
+                ->prependFile($this->basePath() . '/js/index.js')
+                ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+                ->prependFile($this->basePath() . '/js/plugins/iCheck/add_icheck.js')
+                ->prependFile($this->basePath() . '/js/plugins/iCheck/icheck.min.js')
+                ->prependFile($this->basePath() . '/js/jquery.min.js')
+                ->prependFile($this->basePath() . '/js/plugins/iCheck/icheck.min.js')
+                ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+                ->prependFile($this->basePath() . '/js/html5shiv.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+        ;
+        ?>
+
+    </head>
+    <body class="bg-custom-gradient">
+        <!-- wrapper -->
+        <div class="form-box" id="login-box">
+            <div class="text-center"><img src="/img/logo_rcp.png"/></div>
+            <div class="header"><i class="fa fa-sign-in"></i>  Вход в систему</div>
+            <div>
+                <?php echo $this->content; ?>          
+            </div> <!-- /container -->
+        </div>
+        <!-- /wrapper -->
+        <!-- footer -->
+        <footer>
+            <p>&copy; 2005 - <?php echo date('Y') ?> by Zend Technologies Ltd. <?php echo $this->translate('All rights reserved.') ?></p>
+        </footer>
+        <!-- /footer -->
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>

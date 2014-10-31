@@ -16,6 +16,7 @@
       "gedmo/doctrine-extensions": "2.3.*",     
       "doctrine/doctrine-mongo-odm-module": "dev-master",
       "doctrine/migrations": "*",
-      "symfony/yaml": "dev-master"
+      "symfony/yaml": "dev-master",
+      "rwoverdijk/assetmanager":"*"
     }
 }

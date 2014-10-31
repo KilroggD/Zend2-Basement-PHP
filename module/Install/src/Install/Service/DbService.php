@@ -29,11 +29,12 @@ class DbService {
         public function installPg(){        
         try {
         $classes=array();
+        $paths=$this->getYmls();
               $cache = new \Doctrine\Common\Cache\ArrayCache();
         $conn=$this->em->getConnection();
           $config=$this->em->getConfiguration();
-        $yml=new YamlDriverORM("./yml");
-          $drv=$config->newDefaultAnnotationDriver("./yml");
+        $yml=new YamlDriverORM($paths);
+          $drv=$config->newDefaultAnnotationDriver($paths);
           $evm=$this->em->getEventManager();          
           $config->setMetadataDriverImpl($yml);
           $config->setMetadataCacheImpl($cache);
@@ -136,5 +137,20 @@ $app->addCommands(array(
         }
     }
     
+    
+        private function getYmls(){
+                $paths=array();
+                foreach (glob("module/*", GLOB_ONLYDIR) as $module) {
+                    $path='module/' . basename($module) . '/yml/';
+            if (file_exists($path)) {
+                $files_in_directory = scandir($path);
+                $items_count = count($files_in_directory);
+                if ($items_count >= 2) {
+                $paths[]='./module/' . basename($module) . '/yml/';
+                }
+            }
+        }
+        return $paths;
+    }
     
 }

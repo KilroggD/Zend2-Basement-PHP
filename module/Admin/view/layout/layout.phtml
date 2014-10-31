@@ -14,12 +14,14 @@
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
                         ->prependStylesheet($this->basePath() . '/css/select2.min.css')
                        ->prependStylesheet($this->basePath() . '/css/admin.css')
+                        ->prependStylesheet($this->basePath() . '/css/footer.css')
                         ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
                         ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') ?>
         
         <!-- Scripts /standart/ -->
 
          <?php echo $this->headScript()
+                             ->prependFile($this->basePath() . '/js/common/select2_locale_ru.js')
             ->prependFile($this->basePath() . '/js/common/select2.js')
             ->prependFile($this->basePath() . '/js/bootstrap.min.js')
             ->prependFile($this->basePath() . '/js/jquery.min.js')
@@ -31,6 +33,7 @@
 
     </head>
     <body>
+        <div class="wrapper">
         <nav class="navbar navbar-inverse" role="navigation">
             <div class="container">
                 <div class="navbar-header">
@@ -53,8 +56,8 @@ echo $this->navigation('admin_navigation')->setAcl($this->acl)->setRole($this->c
         <div class="container">
                      <?php echo $this->content; ?>
                     </div> <!-- /container -->
-                    <div class="push"></div>
 </div>
+            </div>
             <footer>
                 <p>&copy; 2005 - <?php echo date('Y') ?> by Zend Technologies Ltd. <?php echo $this->translate('All rights reserved.') ?></p>
             </footer>

@@ -14,7 +14,10 @@ return array(
       ),
                   //админская навигация
        'admin'=>array(
-           
+                        array(
+            'label' => 'Вернуться на сайт',
+            'route' => 'home'
+        ),
            array(
             'label' => 'Пользователи',
             'route' => 'user\admin',
@@ -90,6 +93,7 @@ return array(
                 ),
                             ),
         ),  
+
      array(
             'label' => 'Обновление БД',
             'route' => 'admin\update',
@@ -97,10 +101,7 @@ return array(
             'privilege' => 'index',
       
         ),   
-             array(
-            'label' => 'Вернуться на сайт',
-            'route' => 'home'
-        ),
+
        ),
            ),
 );

@@ -48,6 +48,7 @@ class UpdateController extends AbstractActionController{
         }
         $response=$this->getServiceLocator()->get("MigrationService")->migrate($version);
               if($response instanceof \Exception){
+                  echo ($e->getMessage());
             die($response->getMessage());
         }
         $this->flashMessenger()->addMessage($response);

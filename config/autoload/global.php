@@ -78,7 +78,7 @@ return array(
 
         // Metadata Mapping driver configuration
         'driver' => array(
-            'ApplicationYamlDriver' => array(
+        /*    'ApplicationYamlDriver' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\YamlDriver',
                 'cache' => 'array',
                 'extension' => '.dcm.yml',
@@ -89,7 +89,7 @@ return array(
                 'cache' => 'array',
                 'extension' => '.dcm.yml',
                 'paths' => array('./yml_m')
-            ),
+            ),*/
             // Configuration for service `doctrine.driver.orm_default` service
             'orm_default' => array(
                 // By default, the ORM module uses a driver chain. This allows multiple

@@ -22,6 +22,8 @@ class PasswordController extends MyAbstractController{
          */
     public function sendpassAction(){
         $error=array();
+        $layout = $this->layout();
+        $layout->setTemplate('login/layout');
         $form=$this->getFormByKey('User\Form\ForgotPassword');        
             if($this->getRequest()->isPost()){
             $form->setData($this->getRequest()->getPost());

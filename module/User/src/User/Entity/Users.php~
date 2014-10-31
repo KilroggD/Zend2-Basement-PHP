@@ -123,6 +123,7 @@ class Users
     
    public function __construct() {
        $this->roles=new \Doctrine\Common\Collections\ArrayCollection();
+       $this->organizations=new \Doctrine\Common\Collections\ArrayCollection();
    }
    
     /**
@@ -411,10 +412,20 @@ class Users
         $this->setPassword(md5($this->password));
     }
 }
-    
    
-    /**
+   
+        /**
      * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Organization\Entity\Organizations", inversedBy="users")
+     * @ORM\JoinTable(name="users_organizations",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="users", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="organizations", referencedColumnName="id")
+     *   }
+     * )
      */
     private $organizations;
 
@@ -442,6 +453,25 @@ class Users
         $this->organizations->removeElement($organizations);
     }
 
+        public function addGrp($roles) {
+        foreach($roles as $role){            
+            $this->addOrganization($role);
+            $role->addUser($this);            
+        }
+        return $this;
+    }
+    
+    
+    public function removeGrp($roles){
+        foreach($roles as $role){
+            $this->removeOrganization($role);
+            $role->removeUser($this);
+        }
+        return $this;
+    }
+    
+    
+   
     /**
      * Get organizations
      *
@@ -451,4 +481,7 @@ class Users
     {
         return $this->organizations;
     }
+    
+   
+
 }

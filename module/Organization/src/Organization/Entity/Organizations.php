@@ -23,53 +23,13 @@ class Organizations
      */
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=512, nullable=false)
-     */
-    private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="short_name", type="string", length=255, nullable=true)
-     */
-    private $shortName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="inn", type="string", length=12, nullable=true)
-     */
-    private $inn;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="kpp", type="string", length=12, nullable=true)
-     */
-    private $kpp;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="address", type="string", length=255, nullable=true)
-     */
-    private $address;
-
-    /**
-     * @var \Organization\Entity\OrganizationTypes
-     *
-     * @ORM\ManyToOne(targetEntity="Organization\Entity\OrganizationTypes")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="type", referencedColumnName="id")
-     * })
-     */
-    private $type;
+  /**
+   *
+   * @var string 
+   * @ORM\Column(name="name", type="string", length=512, nullable=false)
+   */
     
-
-
+    private $name;
     /**
      * Get id
      *
@@ -103,6 +63,7 @@ class Organizations
         return $this->name;
     }
 
+    
     /**
      * Set shortName
      *
@@ -123,7 +84,7 @@ class Organizations
      */
     public function getShortName()
     {
-        return $this->shortName;
+        return $this->getActualVersion()->getShortName();
     }
 
     /**
@@ -146,7 +107,7 @@ class Organizations
      */
     public function getInn()
     {
-        return $this->inn;
+        return $this->getActualVersion()->getInn();
     }
 
     /**
@@ -169,7 +130,7 @@ class Organizations
      */
     public function getKpp()
     {
-        return $this->kpp;
+        return $this->getActualVersion()->getKpp();
     }
 
     /**
@@ -192,7 +153,7 @@ class Organizations
      */
     public function getAddress()
     {
-        return $this->address;
+        return $this->getActualVersion()->getAddress();
     }
 
     /**
@@ -215,7 +176,7 @@ class Organizations
      */
     public function getType()
     {
-        return $this->type;
+        return $this->getActualVersion()->getType();
     }
     
     
@@ -247,15 +208,7 @@ class Organizations
     {
         return $this->created;
     }
-    
-    /**
-* @ORM\PrePersist
-*/
-    public function prePersist() {
-    if(!$this->created){
-        $this->setCreated(new \DateTime());
-    }
-    }
+
           /**
      * @var integer
      *
@@ -293,10 +246,15 @@ class Organizations
      * @ORM\ManyToMany(targetEntity="User\Entity\Users", mappedBy="organizations")
      */
     private $users;
+   
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->activities = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -331,6 +289,132 @@ class Organizations
     {
         return $this->users;
     }
+ 
+   
+    /**
+     * @var \Organization\Entity\OrganizationProfile
+     *
+     * @ORM\OneToOne(targetEntity="Organization\Entity\OrganizationProfile", cascade={"all"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="actual_version", referencedColumnName="id",  unique=true)
+     * })
+     */
+    private $actualVersion;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="Organization\Entity\OrganizationProfile", mappedBy="organization", cascade={"all"}, orphanRemoval=true)
+     */
+    private $versions;
 
 
+    /**
+     * Set actualVersion
+     *
+     * @param \Organization\Entity\OrganizationProfile $actualVersion
+     * @return Organizations
+     */
+    public function setActualVersion(\Organization\Entity\OrganizationProfile $actualVersion = null)
+    {  	
+	
+	$this->actualVersion=$actualVersion;
+	if($actualVersion){
+                $this->setName($actualVersion->getName());
+		$actualVersion->setOrganization($this);
+		}
+   //     $this->addVersion($actualVersion);    
+        return $this;
+    }
+
+    /**
+     * Get actualVersion
+     *
+     * @return \Organization\Entity\OrganizationProfile 
+     */
+    public function getActualVersion()
+    {
+        return $this->actualVersion;
+    }
+
+    /**
+     * Add versions
+     *
+     * @param \Organization\Entity\OrganizationProfile $versions
+     * @return Organizations
+     */
+    public function addVersion(\Organization\Entity\OrganizationProfile $versions)
+    {
+        $this->versions[] = $versions;
+		$versions->setOrganization($this);
+        return $this;
+    }
+
+    /**
+     * Remove versions
+     *
+     * @param \Organization\Entity\OrganizationProfile $versions
+     */
+    public function removeVersion(\Organization\Entity\OrganizationProfile $versions)
+    {
+        $this->versions->removeElement($versions);
+    }
+
+    /**
+     * Get versions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVersions()
+    {
+        return $this->versions;
+    }
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="status", type="smallint", nullable=false)
+     */
+    private $status=1;
+
+
+    /**
+     * Set status
+     *
+     * @param integer $status
+     * @return Organizations
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+    
+    
+/**
+* @ORM\PrePersist
+*/
+    public function prePersist() {
+    if(!$this->created){
+        $this->setCreated(new \DateTime());
+    }
+    }     
+       /**
+* @ORM\PrePersist
+* @ORM\PreUpdate
+*/ 
+   /* public function actual(){
+	$this->actualVersion=end($this->versions);
+	}*/
+	
 }

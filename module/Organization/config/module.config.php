@@ -169,9 +169,10 @@ return array(
     $locator=$sm->getServiceLocator();
                 $em = $locator->get('doctrine.entitymanager.orm_default');
                 $form = new \Organization\Form\OrganizationForm($em);                
-                $form->setInputFilter(new \Organization\Form\OrganizationFilter());
-                $form->setHydrator(new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($em))
-                      ->setObject(new \Organization\Entity\Organizations());;
+                $form->setInputFilter(new \Zend\InputFilter\InputFilter());
+				$form->setHydrator(new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($em))
+                      ->setObject(new \Organization\Entity\Organizations());
+					  //$form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods());
                 return $form;
             },  
                     'Organization\Form\TypeForm'=>function(){
@@ -184,8 +185,13 @@ return array(
                 $form= new \Organization\Form\SearchForm();
                 $form->setHydrator(new Zend\Stdlib\Hydrator\ObjectProperty());
                 return $form;
-                  },             
-               
+                  },                            
+                       'OrganizationProfileFieldset'=>function($sm){
+                $locator=$sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $fieldset=new Organization\Form\ProfileFieldset($em);
+                return $fieldset;
+                       }
                     
                     )
                  ),

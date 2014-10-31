@@ -11,3 +11,22 @@ and open the template in the editor.
 .grp-select-label {
     width:300px;
 }
+
+.program-status-form input, select {
+    margin:5px;
+}
+
+div.wrapper {
+    padding-top:0px;
+}
+
+p.status-roles-set input.checkbox-inline {
+    margin: 0px 4px 0px 4px!important;
+} 
+input[type="text"].captcha{
+    margin-top:15px;
+}
+
+label {
+    margin-left: 5px;
+}

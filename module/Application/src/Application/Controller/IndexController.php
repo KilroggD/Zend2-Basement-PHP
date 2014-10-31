@@ -16,7 +16,7 @@ class IndexController extends AbstractActionController
 {
     public $userParams;
     public function indexAction()
-    {
+    {   
         return array("messages"=>$this->flashMessenger()->getMessages());
     }
 }

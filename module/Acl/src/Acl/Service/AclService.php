@@ -117,6 +117,16 @@ class AclService {
         return $schemaManager->tablesExist(array('acl_permissions'));
     }
     
+    public function isAdmin($user){
+        if($user instanceof \User\Entity\Users){
+        $roles=$user->getRoles();
+        return $roles->contains($this->_em->getRepository("Acl\Entity\AclRoles")->getAdmin());
+        }
+        else {
+            return false;
+        }
+    }
+    
     private function scanDir(){
         $modules=array();
                 foreach (glob("module/*", GLOB_ONLYDIR) as $module) {

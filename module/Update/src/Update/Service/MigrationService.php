@@ -28,22 +28,20 @@ class MigrationService {
      * @param type $em
      */
     public function __construct(\Doctrine\ORM\EntityManager $em) {
+        $paths=$this->getYmls();
         $this->main_em=$em;
               $classLoader = new ClassLoader('Doctrine\DBAL\Migrations', './vendor/doctrine/migrations/lib');
         $classLoader->register();
             $cache = new \Doctrine\Common\Cache\ArrayCache;
-          $yml=new YamlDriverORM("./yml");
+          $yml=new YamlDriverORM($paths);
           $this->yml=$yml;
           $conn=$em->getConnection();
           $config=$em->getConfiguration();
-          $drv=$config->newDefaultAnnotationDriver("./yml");
+          $drv=$config->newDefaultAnnotationDriver($paths);
           $evm=$em->getEventManager();          
           $config->setMetadataDriverImpl($yml);
           $config->setMetadataCacheImpl($cache);
           $this->em=  \Doctrine\ORM\EntityManager::create($conn, $config, $evm);
-        //  var_dump($em->getMetadataFactory());
-          //var_dump($em->getMetadataFactory()->getAllMetadata());
-    //      die(var_dump($this->em->getMetadataFactory()->getAllMetadata()));
         $this->getApplication();     
         $this->conf=new \Doctrine\DBAL\Migrations\Configuration\YamlConfiguration($this->em->getConnection());        
         $this->conf->load(self::CONF_PATH);
@@ -98,7 +96,7 @@ class MigrationService {
        $classes=$this->getDest();
        $messages=array();
        foreach($classes as $filter=>$path){
-       $cmd=$this->exec("orm::entities", array("dest-path"=>$path,"--filter"=>$filter, "--generate-annotations"=>1));
+       $cmd=$this->exec("orm::entities", array("dest-path"=>$path,"--filter"=>$filter,"--generate-annotations"=>1));
        $messages[]=$cmd->getDisplay();
        }
        return $messages;
@@ -159,6 +157,21 @@ class MigrationService {
             }
 
             return $classes;
+    }
+    
+    private function getYmls(){
+                $paths=array();
+                foreach (glob("module/*", GLOB_ONLYDIR) as $module) {
+                    $path='module/' . basename($module) . '/yml/';
+            if (file_exists($path)) {
+                $files_in_directory = scandir($path);
+                $items_count = count($files_in_directory);
+                if ($items_count >= 2) {
+                $paths[]='./module/' . basename($module) . '/yml/';
+                }
+            }
+        }
+        return $paths;
     }
     
 }

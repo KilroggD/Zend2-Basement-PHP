@@ -6,14 +6,14 @@
 $(document).ready(function(){
    $("input[data-role='multiselect-remote']").each(function(){
       var url=$(this).attr("data-link");
-      var placeholder=$(this).attr("placeholder");
+      var placeholder=$(this).attr("placeholder")||$(this).attr("data-placeholder");
        $(this).select2({
     placeholder: placeholder,
-   // minimumInputLength: 3,
-  //  containerCssClass:'col-md-12',
+   minimumInputLength: 3,
+ //containerCssClass:'col-md-12',
     width:'100%',
     multiple:true,
-    closeOnSelect:false,
+    closeOnSelect:true,
      maximumSelectionSize: 5,
 initSelection:function (element, callback) {
         var id=$(element).val();

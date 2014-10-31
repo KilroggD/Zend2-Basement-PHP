@@ -1,0 +1,64 @@
+Organization\Entity\Organizations:
+    type: entity
+    table: organizations
+    repositoryClass: Organization\Repository\OrganizationsRepository
+
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:   
+        name:
+            type: string
+            nullable: true
+            options:
+                comment: текущее наменование организации
+        created:
+            type: datetime
+            nullable: true
+            comment: ''
+        builtIn:
+            type: smallint
+            nullable: true
+            unsigned: false
+            options:
+                comment: 'Встроенная в систему?'
+                default: 0
+            column: built_in
+        status:
+            type: smallint
+            nullable: false
+            unsigned: false
+            options:
+                comment: 'Статус'
+                default: 1
+    oneToOne:
+        actualVersion:
+            targetEntity: Organization\Entity\OrganizationProfile
+            joinColumn:
+                name: actual_version
+                referencedColumnName: id
+    oneToMany:
+        versions:
+            targetEntity: Organization\Entity\OrganizationProfile
+            cascade: ["all"]
+            mappedBy: organization
+            inversedBy: null
+            orphanRemoval: true
+    manyToMany:
+        users:
+            targetEntity: User\Entity\Users
+            cascade: {  }
+            mappedBy: organizations
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+
+    lifecycleCallbacks:
+        prePersist:
+            - prePersist

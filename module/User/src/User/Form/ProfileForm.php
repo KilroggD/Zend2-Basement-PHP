@@ -34,7 +34,7 @@ class ProfileForm extends MyAbstractForm{
             'options'=>array(
                 'label'=>'E-mail:',
                 'label_attributes'=>array(
-                    'class'=>'col-md-3 control-label'
+                    'class'=>'control-label'
                 )
             )
         ));
@@ -50,7 +50,7 @@ class ProfileForm extends MyAbstractForm{
             'options'=>array(
                 'label'=>'Имя:',
                 'label_attributes'=>array(
-                    'class'=>'col-md-4 control-label',
+                    'class'=>'control-label',
                 )
             )
         ));
@@ -66,7 +66,7 @@ class ProfileForm extends MyAbstractForm{
             'options'=>array(
                 'label'=>'Фамилия:',
                 'label_attributes'=>array(
-                    'class'=>'col-md-4 control-label',
+                    'class'=>'control-label',
                 )
             )
         ));
@@ -82,7 +82,7 @@ class ProfileForm extends MyAbstractForm{
             'options'=>array(
                 'label'=>'Отчество:',
                 'label_attributes'=>array(
-                    'class'=>'col-md-4 control-label',
+                    'class'=>'control-label',
                 )
             )
         ));
@@ -98,7 +98,7 @@ class ProfileForm extends MyAbstractForm{
             'options'=>array(
                 'label'=>'Должность:',
                 'label_attributes'=>array(
-                    'class'=>'col-md-4 control-label',
+                    'class'=>'control-label',
                 )
             )
         ));
@@ -114,7 +114,7 @@ class ProfileForm extends MyAbstractForm{
             'options'=>array(
                 'label'=>'Телефон:',
                 'label_attributes'=>array(
-                    'class'=>'col-md-4 control-label',
+                    'class'=>'control-label',
                 )
             )
         ));
@@ -131,7 +131,7 @@ class ProfileForm extends MyAbstractForm{
             'options' => array(
                'label'=>'Старый пароль:',
                 'label_attributes'=>array(
-                    'class'=>'col-md-3 control-label'
+                    'class'=>'control-label'
                 )
             )              
                 
@@ -149,7 +149,7 @@ class ProfileForm extends MyAbstractForm{
             'options' => array(
                'label'=>'Новый пароль:',
                 'label_attributes'=>array(
-                    'class'=>'col-md-3 control-label'
+                    'class'=>'control-label'
                 )
             )
         ));
@@ -165,7 +165,7 @@ class ProfileForm extends MyAbstractForm{
             'options' => array(
                'label'=>'Подтверждение пароля:',
                 'label_attributes'=>array(
-                    'class'=>'col-md-3 control-label'
+                    'class'=>'control-label'
                 )
             )
         ));

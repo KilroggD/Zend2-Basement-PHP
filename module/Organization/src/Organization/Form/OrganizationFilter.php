@@ -28,7 +28,10 @@ class OrganizationFilter extends InputFilter{
                         )
                     )
                               ),
-            )
+            ),
+					  	  "filters"=>array(
+				  array("name"=>'StripTags')
+				  )
 ));
                   $this->add(array(
    'name'=>'shortName',
@@ -43,7 +46,10 @@ class OrganizationFilter extends InputFilter{
                         )
                     )
                               ),
-            )
+            ),
+					  	  "filters"=>array(
+				  array("name"=>'StripTags')
+				  )
 ));  
   
                    $this->add(array(

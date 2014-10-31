@@ -398,9 +398,22 @@ class Users
         return $this->roles;
     }
     
+/**
+* @ORM\PrePersist
+*/
+    public function prePersist() {
+    if(!$this->created){
+        $this->setCreated(new \DateTime());
+    }
+    if(is_null($this->status)){
+        $this->setStatus(self::INACTIVE);
+    }
+    if(!is_null($this->password)){
+        $this->setPassword(md5($this->password));
+    }
+}
    
    
-
         /**
      * @var \Doctrine\Common\Collections\Collection
      *
@@ -458,6 +471,7 @@ class Users
     }
     
     
+   
     /**
      * Get organizations
      *
@@ -468,20 +482,6 @@ class Users
         return $this->organizations;
     }
     
-    
-/**
-* @ORM\PrePersist
-*/
-    public function prePersist() {
-    if(!$this->created){
-        $this->setCreated(new \DateTime());
-    }
-    if(is_null($this->status)){
-        $this->setStatus(self::INACTIVE);
-    }
-    if(!is_null($this->password)){
-        $this->setPassword(md5($this->password));
-    }
-}
-}
+   
 
+}

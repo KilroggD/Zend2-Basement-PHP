@@ -1,6 +1,7 @@
 <?php
 namespace Acl\Controller;
 use Acl\Entity;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,7 +13,7 @@ use Acl\Entity;
  * Управление ролями пользователей
  * @author kopychev
  */
-class RoleController extends MyAbstractController{
+class RoleController extends MyAbstractController implements \Application\Interfaces\SimpleCrudInterface{
     private $repository;
     //put your code here
     public function onDispatch(\Zend\Mvc\MvcEvent $e) {
