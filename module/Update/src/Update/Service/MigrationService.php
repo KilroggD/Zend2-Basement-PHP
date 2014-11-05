@@ -74,8 +74,9 @@ class MigrationService {
         //экземпляр миграции
         $migration=new Migration($this->conf);    
         try {
-            return "Осуществлена миграция ".print_r($migration->migrate($version));            
+            return "Осуществлена миграция ".implode("; ",$migration->migrate($version));            
         } catch (\Doctrine\DBAL\Migrations\MigrationException $ex) {
+            echo 1;
             return $ex;
         }
     }
@@ -159,7 +160,7 @@ class MigrationService {
             return $classes;
     }
     
-    private function getYmls(){
+    public function getYmls(){
                 $paths=array();
                 foreach (glob("module/*", GLOB_ONLYDIR) as $module) {
                     $path='module/' . basename($module) . '/yml/';

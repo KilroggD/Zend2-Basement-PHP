@@ -10,6 +10,7 @@ return array(
         'DoctrineModule',
         'DoctrineORMModule',
         'DoctrineMongoODMModule',
+        'AssetManager',        
         'Install',
         'Application',
         'Email',

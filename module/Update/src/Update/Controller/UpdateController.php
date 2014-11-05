@@ -21,7 +21,7 @@ class UpdateController extends AbstractActionController{
         $migrations=$this->getServiceLocator()->get("MigrationService")->getMigrations();       
         $new=  array_diff($migrations["available"], $migrations["migrated"]);
         $migrations["new"]=$new;
-        $yml=new YamlDriverORM("./yml");
+        $yml=new YamlDriverORM($this->getServiceLocator()->get("MigrationService")->getYmls());
         $pgTables=$yml->getAllClassNames();
         
         return array("migrations"=>$migrations,"messages"=>$this->flashMessenger()->getMessages());
@@ -48,8 +48,7 @@ class UpdateController extends AbstractActionController{
         }
         $response=$this->getServiceLocator()->get("MigrationService")->migrate($version);
               if($response instanceof \Exception){
-                  echo ($e->getMessage());
-            die($response->getMessage());
+              die($response->getMessage());
         }
         $this->flashMessenger()->addMessage($response);
         return $this->redirect()->toRoute("admin\\update");

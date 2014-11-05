@@ -35,6 +35,8 @@ Organization\Entity\OrganizationProfile:
             nullable: true
             precision: 0
             column: short_name
+            options:
+                comment: 'Сокращенное наименование организации'
         inn:
             type: string
             scale: 0

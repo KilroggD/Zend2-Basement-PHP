@@ -17,6 +17,7 @@
       "doctrine/doctrine-mongo-odm-module": "dev-master",
       "doctrine/migrations": "*",
       "symfony/yaml": "dev-master",
+      "kriswallsmith/assetic":"*",
       "rwoverdijk/assetmanager":"*"
     }
 }
