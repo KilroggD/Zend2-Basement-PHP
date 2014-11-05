@@ -74,7 +74,7 @@ class MigrationService {
         //экземпляр миграции
         $migration=new Migration($this->conf);    
         try {
-            return "Осуществлена миграция ".implode("; ",$migration->migrate($version));            
+            return "Осуществлена миграция ".$version;            
         } catch (\Doctrine\DBAL\Migrations\MigrationException $ex) {
             echo 1;
             return $ex;
