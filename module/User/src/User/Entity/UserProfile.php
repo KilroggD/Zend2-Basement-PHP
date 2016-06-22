@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user_profile")
  * @ORM\Entity
  */
-class UserProfile
-{
+class UserProfile {
+
     /**
      * @var integer
      *
@@ -67,15 +67,12 @@ class UserProfile
      */
     private $user;
 
-
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -85,8 +82,7 @@ class UserProfile
      * @param string $firstName
      * @return UserProfile
      */
-    public function setFirstName($firstName)
-    {
+    public function setFirstName($firstName) {
         $this->firstName = $firstName;
 
         return $this;
@@ -97,8 +93,7 @@ class UserProfile
      *
      * @return string 
      */
-    public function getFirstName()
-    {
+    public function getFirstName() {
         return $this->firstName;
     }
 
@@ -108,8 +103,7 @@ class UserProfile
      * @param string $lastName
      * @return UserProfile
      */
-    public function setLastName($lastName)
-    {
+    public function setLastName($lastName) {
         $this->lastName = $lastName;
 
         return $this;
@@ -120,8 +114,7 @@ class UserProfile
      *
      * @return string 
      */
-    public function getLastName()
-    {
+    public function getLastName() {
         return $this->lastName;
     }
 
@@ -131,8 +124,7 @@ class UserProfile
      * @param string $middleName
      * @return UserProfile
      */
-    public function setMiddleName($middleName)
-    {
+    public function setMiddleName($middleName) {
         $this->middleName = $middleName;
 
         return $this;
@@ -143,8 +135,7 @@ class UserProfile
      *
      * @return string 
      */
-    public function getMiddleName()
-    {
+    public function getMiddleName() {
         return $this->middleName;
     }
 
@@ -154,8 +145,7 @@ class UserProfile
      * @param string $occupation
      * @return UserProfile
      */
-    public function setOccupation($occupation)
-    {
+    public function setOccupation($occupation) {
         $this->occupation = $occupation;
 
         return $this;
@@ -166,8 +156,7 @@ class UserProfile
      *
      * @return string 
      */
-    public function getOccupation()
-    {
+    public function getOccupation() {
         return $this->occupation;
     }
 
@@ -177,8 +166,7 @@ class UserProfile
      * @param string $phone
      * @return UserProfile
      */
-    public function setPhone($phone)
-    {
+    public function setPhone($phone) {
         $this->phone = $phone;
 
         return $this;
@@ -189,8 +177,7 @@ class UserProfile
      *
      * @return string 
      */
-    public function getPhone()
-    {
+    public function getPhone() {
         return $this->phone;
     }
 
@@ -200,8 +187,7 @@ class UserProfile
      * @param \User\Entity\Users $user
      * @return UserProfile
      */
-    public function setUser(\User\Entity\Users $user = null)
-    {
+    public function setUser(\User\Entity\Users $user = null) {
         $this->user = $user;
 
         return $this;
@@ -212,17 +198,14 @@ class UserProfile
      *
      * @return \User\Entity\Users 
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
 
-   
     /**
      * @var string
      */
     private $address;
-
 
     /**
      * Set address
@@ -230,8 +213,7 @@ class UserProfile
      * @param string $address
      * @return UserProfile
      */
-    public function setAddress($address)
-    {
+    public function setAddress($address) {
         $this->address = $address;
 
         return $this;
@@ -242,17 +224,14 @@ class UserProfile
      *
      * @return string 
      */
-    public function getAddress()
-    {
+    public function getAddress() {
         return $this->address;
     }
-
 
     /**
      * @var string
      */
     private $fax;
-
 
     /**
      * Set fax
@@ -260,8 +239,7 @@ class UserProfile
      * @param string $fax
      * @return UserProfile
      */
-    public function setFax($fax)
-    {
+    public function setFax($fax) {
         $this->fax = $fax;
 
         return $this;
@@ -272,8 +250,8 @@ class UserProfile
      *
      * @return string 
      */
-    public function getFax()
-    {
+    public function getFax() {
         return $this->fax;
     }
+
 }

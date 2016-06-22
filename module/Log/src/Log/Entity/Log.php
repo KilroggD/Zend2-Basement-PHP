@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="log")
  * @ORM\Entity
  */
-class Log
-{
+class Log {
+
     /**
      * @var integer
      *
@@ -57,17 +57,16 @@ class Log
      */
     private $timestamp;
 
-
     public function __construct() {
-                $this->timestamp=new \DateTime();
+        $this->timestamp = new \DateTime();
     }
+
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -77,8 +76,7 @@ class Log
      * @param string $category
      * @return Log
      */
-    public function setCategory($category)
-    {
+    public function setCategory($category) {
         $this->category = $category;
 
         return $this;
@@ -89,8 +87,7 @@ class Log
      *
      * @return string 
      */
-    public function getCategory()
-    {
+    public function getCategory() {
         return $this->category;
     }
 
@@ -100,8 +97,7 @@ class Log
      * @param string $importance
      * @return Log
      */
-    public function setImportance($importance)
-    {
+    public function setImportance($importance) {
         $this->importance = $importance;
 
         return $this;
@@ -112,8 +108,7 @@ class Log
      *
      * @return string 
      */
-    public function getImportance()
-    {
+    public function getImportance() {
         return $this->importance;
     }
 
@@ -123,8 +118,7 @@ class Log
      * @param string $text
      * @return Log
      */
-    public function setText($text)
-    {
+    public function setText($text) {
         $this->text = $text;
 
         return $this;
@@ -135,8 +129,7 @@ class Log
      *
      * @return string 
      */
-    public function getText()
-    {
+    public function getText() {
         return $this->text;
     }
 
@@ -146,8 +139,7 @@ class Log
      * @param string $url
      * @return Log
      */
-    public function setUrl($url)
-    {
+    public function setUrl($url) {
         $this->url = $url;
 
         return $this;
@@ -158,8 +150,7 @@ class Log
      *
      * @return string 
      */
-    public function getUrl()
-    {
+    public function getUrl() {
         return $this->url;
     }
 
@@ -169,8 +160,7 @@ class Log
      * @param \DateTime $timestamp
      * @return Log
      */
-    public function setTimestamp($timestamp)
-    {
+    public function setTimestamp($timestamp) {
         $this->timestamp = $timestamp;
 
         return $this;
@@ -181,8 +171,8 @@ class Log
      *
      * @return \DateTime 
      */
-    public function getTimestamp()
-    {
+    public function getTimestamp() {
         return $this->timestamp;
     }
+
 }

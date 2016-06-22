@@ -22,11 +22,11 @@ $attempts = $this->attempts;
         <div class="form-group">
             <?= $this->formInput($form->get('password')) ?>
         </div>
-        
-        <?php if ($form->has('captcha')) {  ?>
+
+        <?php if ($form->has('captcha')) { ?>
             <div class="form-group">    
-            <?= $this->formLabel($form->get('captcha')) ?>    
-            <?= $this->formCaptcha($form->get('captcha')) ?>
+                <?= $this->formLabel($form->get('captcha')) ?>    
+                <?= $this->formCaptcha($form->get('captcha')) ?>
             </div>  
         <?php } ?>
 

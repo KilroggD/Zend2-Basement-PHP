@@ -209,19 +209,19 @@ return array(
     'service_manager' => array(
         'factories' => array(
             'userSession' => function() {
-        $sessionService = new \User\Service\SessionService();
-        return $sessionService->getSessionContainer();
-    },
+                $sessionService = new \User\Service\SessionService();
+                return $sessionService->getSessionContainer();
+            },
             'userStorage' => function() {
-        return new \User\Storage\UserStorage();
-    },
+                return new \User\Storage\UserStorage();
+            },
             'authService' => function($serviceManager) {
-        $authService = $serviceManager->get('doctrine.authenticationservice.orm_default');
-        return $authService;
-    },
+                $authService = $serviceManager->get('doctrine.authenticationservice.orm_default');
+                return $authService;
+            },
             'tokenService' => function() {
-        return new User\Service\TokenService();
-    }
+                return new User\Service\TokenService();
+            }
         ),
         'abstract_factories' => array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
@@ -235,188 +235,189 @@ return array(
         'factories' => array(
             //формы
             'User\Form\LoginForm' => function() {
-        $form = new \User\Form\LoginForm();
-        $form->setInputFilter(new \User\Form\LoginFilter());
-        $form->setHydrator(new \Zend\Stdlib\Hydrator\ObjectProperty());
-        return $form;
-    },
+                $form = new \User\Form\LoginForm();
+                $form->setInputFilter(new \User\Form\LoginFilter());
+                $form->setHydrator(new \Zend\Stdlib\Hydrator\ObjectProperty());
+                return $form;
+            },
             'User\Form\ForgotPassword' => function() {
-        $form = new \User\Form\ForgotPasswordForm();
-        $form->setInputFilter(new User\Form\ForgotPasswordFilter());
-        $form->setHydrator(new \Zend\Stdlib\Hydrator\ObjectProperty());
-        return $form;
-    },
+                $form = new \User\Form\ForgotPasswordForm();
+                $form->setInputFilter(new User\Form\ForgotPasswordFilter());
+                $form->setHydrator(new \Zend\Stdlib\Hydrator\ObjectProperty());
+                return $form;
+            },
             'User\Form\NewPassword' => function() {
-        $form = new \User\Form\NewPasswordForm();
-        $form->setInputFilter(new User\Form\NewPasswordFilter());
-        $form->setHydrator(new \Zend\Stdlib\Hydrator\ObjectProperty());
-        return $form;
-    },
+                $form = new \User\Form\NewPasswordForm();
+                $form->setInputFilter(new User\Form\NewPasswordFilter());
+                $form->setHydrator(new \Zend\Stdlib\Hydrator\ObjectProperty());
+                return $form;
+            },
             'User\Form\Profile' => function() {
-        $form = new \User\Form\ProfileForm();
-        $form->setInputFilter(new User\Form\ProfileFilter());
-        $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods());
-        return $form;
-    },
+                $form = new \User\Form\ProfileForm();
+                $form->setInputFilter(new User\Form\ProfileFilter());
+                $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods());
+                return $form;
+            },
             'User\Form\User' => function($sm) {
-        $locator = $sm->getServiceLocator();
-        $em = $locator->get('doctrine.entitymanager.orm_default');
-        $form = new \User\Form\UserForm($em);
-        $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods())->setInputFilter(new \Zend\InputFilter\InputFilter());
-        $vg = array(
-            "user" => array(
-                "login",
-                "email",
-                "roles",
-                "status",
-                "profile" => array(
-                    "firstName",
-                    "lastName",
-                    "middleName",
-                    "occupation",
-                    "phone"
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $form = new \User\Form\UserForm($em);
+                $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods())->setInputFilter(new \Zend\InputFilter\InputFilter());
+                $vg = array(
+                    "user" => array(
+                        "login",
+                        "email",
+                        "roles",
+                        "status",
+                        "profile" => array(
+                            "firstName",
+                            "lastName",
+                            "middleName",
+                            "occupation",
+                            "phone"
+                        ),
+                    ),
+                );
+                $mm = $locator->get("ModuleManager");
+                $modules = $mm->getModules();
+                if (in_array("Organization", $modules)) {
+                    // $vg["user"][]="grp";                   
+                }
+                $form->setValidationGroup($vg);
+                return $form;
+            },
+                    'User\Form\NewUser' => function($sm) {
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $form = new \User\Form\UserForm($em);
+                $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods())->setInputFilter(new \Zend\InputFilter\InputFilter());
+                return $form;
+            },
+                    'User\Form\Search' => function($sm) {
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $form = new \User\Form\SearchForm($em);
+                $form->setHydrator(new Zend\Stdlib\Hydrator\ObjectProperty());
+                return $form;
+            },
+                    'User\Form\Group' => function($sm) {
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $form = new \User\Form\GroupForm($em);
+                $form->setHydrator(new Zend\Stdlib\Hydrator\ObjectProperty());
+                return $form;
+            },
+                    'User\Form\Registration' => function($sm) {
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $form = new \User\Form\RegistrationForm($em);
+                $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods())->setInputFilter(new \Zend\InputFilter\InputFilter());
+                $vg = array(
+                    "user" => array(
+                        "login",
+                        "email",
+                        "password",
+                        "confirmpassword",
+                        "profile" => array(
+                            "firstName",
+                            "lastName",
+                            "middleName",
+                            "occupation",
+                            "phone"
+                        ),
+                    ),
+                    "captcha"
+                );
+                $form->setValidationGroup($vg);
+                return $form;
+            },
+                    //филдсеты
+                    'ProfileFieldset' => function($sm) {
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $fs = new \User\Form\ProfileFieldset($em);
+                return $fs;
+            },
+                    'UserFieldset' => function($sm) {
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $fs = new \User\Form\UserFieldset($em);
+                $mm = $locator->get("ModuleManager");
+                $modules = $mm->getModules();
+                if (in_array("Organization", $modules)) {
+                    $fs->addOrgField();
+                }
+                return $fs;
+            },
+                    'RoleFieldset' => function($sm) {
+                $locator = $sm->getServiceLocator();
+                $em = $locator->get('doctrine.entitymanager.orm_default');
+                $fs = new \User\Form\RoleFieldset($em);
+                return $fs;
+            },
+                ),
+            ),
+            'doctrine' => array(
+                'driver' => array(
+                    'User_driver' => array(
+                        'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                        'cache' => 'array',
+                        'paths' => array(__DIR__ . '/../src/User/Entity')
+                    ),
+                    'orm_default' => array(
+                        'drivers' => array(
+                            'User\Entity' => 'User_driver'
+                        ),
+                    ),
+                ),
+                'authentication' => array(
+                    // configuration for the `doctrine.authentication.orm_default` authentication service
+                    'orm_default' => array(
+                        // name of the object manager to use. By default, the EntityManager is used
+                        'objectManager' => 'doctrine.entitymanager.orm_default',
+                        'identityClass' => 'User\Entity\Users',
+                        'identityProperty' => 'login',
+                        'credential_property' => 'password', // 'password',
+                        'credential_callable' => function(User\Entity\Users $user, $passwordGiven) {
+                            if ($user->getPassword() == md5($passwordGiven) && $user->getStatus() == $user::ACTIVE) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        },),
+                ),
+            ),
+            'view_manager' => array(
+                'display_not_found_reason' => true,
+                'display_exceptions' => true,
+                'doctype' => 'HTML5',
+                'not_found_template' => 'error/404',
+                'exception_template' => 'error/index',
+                'template_map' => array(
+                    'layout/layout' => __DIR__ . '/../../Application/view/layout/layout.phtml',
+                    'error/404' => __DIR__ . '/../../Application/view/error/404.phtml',
+                    'error/index' => __DIR__ . '/../../Application/view/error/index.phtml',
+                    'login/layout' => __DIR__ . '/../../Application/view/layout/layout_login.phtml',
+                    'login/login' => __DIR__ . '/../view/user/login/login.phtml',
+                    'password/sendpass' => __DIR__ . '/../view/user/password/sendpass.phtml',
+                    'password/new' => __DIR__ . '/../view/user/password/new.phtml',
+                    'password/change' => __DIR__ . '/../view/user/password/changepass.phtml',
+                    'profile/index' => __DIR__ . '/../view/user/profile/index.phtml',
+                    'profile/edit' => __DIR__ . '/../view/user/profile/edit.phtml',
+                    'profile/profile' => __DIR__ . '/../view/user/profile/profile.phtml',
+                    'profile/info' => __DIR__ . '/../view/user/profile/info.phtml',
+                    'admin/edit' => __DIR__ . '/../view/user/admin/edit.phtml',
+                    "registration/register" => __DIR__ . '/../view/user/registration/register.phtml',
+                    "registration/activate" => __DIR__ . '/../view/user/registration/activate.phtml',
+                ),
+                'template_path_stack' => array(
+                    __DIR__ . '/../view',
+                ),
+            ),
+            'view_helpers' => array(
+                'invokables' => array(
+                    'pagination' => 'Application\View\Helper\PaginatorHelper',
                 ),
             ),
         );
-        $mm = $locator->get("ModuleManager");
-        $modules = $mm->getModules();
-        if (in_array("Organization", $modules)) {
-            // $vg["user"][]="grp";                   
-        }
-        $form->setValidationGroup($vg);
-        return $form;
-    },
-            'User\Form\NewUser' => function($sm) {
-        $locator = $sm->getServiceLocator();
-        $em = $locator->get('doctrine.entitymanager.orm_default');
-        $form = new \User\Form\UserForm($em);
-        $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods())->setInputFilter(new \Zend\InputFilter\InputFilter());
-        return $form;
-    },
-            'User\Form\Search' => function($sm) {
-        $locator = $sm->getServiceLocator();
-        $em = $locator->get('doctrine.entitymanager.orm_default');
-        $form = new \User\Form\SearchForm($em);
-        $form->setHydrator(new Zend\Stdlib\Hydrator\ObjectProperty());
-        return $form;
-    },
-            'User\Form\Group' => function($sm) {
-        $locator = $sm->getServiceLocator();
-        $em = $locator->get('doctrine.entitymanager.orm_default');
-        $form = new \User\Form\GroupForm($em);
-        $form->setHydrator(new Zend\Stdlib\Hydrator\ObjectProperty());
-        return $form;
-    },
-            'User\Form\Registration' => function($sm) {
-        $locator = $sm->getServiceLocator();
-        $em = $locator->get('doctrine.entitymanager.orm_default');
-        $form = new \User\Form\RegistrationForm($em);
-        $form->setHydrator(new Zend\Stdlib\Hydrator\ClassMethods())->setInputFilter(new \Zend\InputFilter\InputFilter());
-        $vg = array(
-            "user" => array(
-                "login",
-                "email",
-                "password",
-                "confirmpassword",
-                "profile" => array(
-                    "firstName",
-                    "lastName",
-                    "middleName",
-                    "occupation",
-                    "phone"
-                ),
-            ),
-            "captcha"
-        );
-        $form->setValidationGroup($vg);
-        return $form;
-    },
-            //филдсеты
-            'ProfileFieldset' => function($sm) {
-        $locator = $sm->getServiceLocator();
-        $em = $locator->get('doctrine.entitymanager.orm_default');
-        $fs = new \User\Form\ProfileFieldset($em);
-        return $fs;
-    },
-            'UserFieldset' => function($sm) {
-        $locator = $sm->getServiceLocator();
-        $em = $locator->get('doctrine.entitymanager.orm_default');
-        $fs = new \User\Form\UserFieldset($em);
-        $mm = $locator->get("ModuleManager");
-        $modules = $mm->getModules();
-        if (in_array("Organization", $modules)) {
-            $fs->addOrgField();
-        }
-        return $fs;
-    },
-            'RoleFieldset' => function($sm) {
-        $locator = $sm->getServiceLocator();
-        $em = $locator->get('doctrine.entitymanager.orm_default');
-        $fs = new \User\Form\RoleFieldset($em);
-        return $fs;
-    },
-        ),
-    ),
-    'doctrine' => array(
-        'driver' => array(
-            'User_driver' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/User/Entity')
-            ),
-            'orm_default' => array(
-                'drivers' => array(
-                    'User\Entity' => 'User_driver'
-                ),
-            ),
-        ),
-        'authentication' => array(
-            // configuration for the `doctrine.authentication.orm_default` authentication service
-            'orm_default' => array(
-                // name of the object manager to use. By default, the EntityManager is used
-                'objectManager' => 'doctrine.entitymanager.orm_default',
-                'identityClass' => 'User\Entity\Users',
-                'identityProperty' => 'login',
-                'credential_property' => 'password', // 'password',
-                'credential_callable' => function(User\Entity\Users $user, $passwordGiven) {
-            if ($user->getPassword() == md5($passwordGiven) && $user->getStatus() == $user::ACTIVE) {
-                return true;
-            } else {
-                return false;
-            }
-        },),
-        ),
-    ),
-    'view_manager' => array(
-        'display_not_found_reason' => true,
-        'display_exceptions' => true,
-        'doctype' => 'HTML5',
-        'not_found_template' => 'error/404',
-        'exception_template' => 'error/index',
-        'template_map' => array(
-            'layout/layout' => __DIR__ . '/../../Application/view/layout/layout.phtml',
-            'error/404' => __DIR__ . '/../../Application/view/error/404.phtml',
-            'error/index' => __DIR__ . '/../../Application/view/error/index.phtml',
-            'login/layout' => __DIR__ . '/../../Application/view/layout/layout_login.phtml',
-            'login/login' => __DIR__ . '/../view/user/login/login.phtml',
-            'password/sendpass' => __DIR__ . '/../view/user/password/sendpass.phtml',
-            'password/new' => __DIR__ . '/../view/user/password/new.phtml',
-            'password/change' => __DIR__ . '/../view/user/password/changepass.phtml',
-            'profile/index' => __DIR__ . '/../view/user/profile/index.phtml',
-            'profile/edit' => __DIR__ . '/../view/user/profile/edit.phtml',
-            'profile/profile' => __DIR__ . '/../view/user/profile/profile.phtml',
-            'profile/info' => __DIR__ . '/../view/user/profile/info.phtml',
-            'admin/edit' => __DIR__ . '/../view/user/admin/edit.phtml',
-            "registration/register" => __DIR__ . '/../view/user/registration/register.phtml',
-            "registration/activate" => __DIR__ . '/../view/user/registration/activate.phtml',
-        ),
-        'template_path_stack' => array(
-            __DIR__ . '/../view',
-        ),
-    ),
-    'view_helpers' => array(
-        'invokables' => array(
-            'pagination' => 'Application\View\Helper\PaginatorHelper',
-        ),
-    ),
-);
+        

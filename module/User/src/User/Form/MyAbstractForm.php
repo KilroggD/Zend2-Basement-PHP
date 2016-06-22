@@ -41,15 +41,15 @@ abstract class MyAbstractForm extends Form {
                 'dotNoiseLevel' => 20,
                 'lineNoiseLevel' => 2)
             );
-            $captchaImage->setMessages(array("badCaptcha"=>"Введен неверный код"));
+            $captchaImage->setMessages(array("badCaptcha" => "Введен неверный код"));
             $captchaImage->setImgDir($dirdata . '/../public/images/captcha');
             $captchaImage->setImgUrl('/images/captcha');
-            $captchaImage->setMessages(array("badCaptcha"=>"Введен неверный код"));
+            $captchaImage->setMessages(array("badCaptcha" => "Введен неверный код"));
             $captcha = new \Zend\Form\Element\Captcha('captcha');
             $captcha->setAttributes(array(
                 "id" => 'captcha'
             ));
-           
+
             $captcha->setOptions(array(
                 'label' => 'Введите код с картинки',
                 'label_attributes' => array(
@@ -57,7 +57,7 @@ abstract class MyAbstractForm extends Form {
                 ),
                 'captcha' => $captchaImage,
             ));
-            $captcha->setAttributes(array("class" => "captcha form-control","autocomplete"=>"off"));
+            $captcha->setAttributes(array("class" => "captcha form-control", "autocomplete" => "off"));
             $this->add($captcha);
         }
     }

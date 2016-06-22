@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="acl_roles")
  * @ORM\Entity(repositoryClass="\Acl\Repository\AclRolesRepository")
  */
-class AclRoles
-{
+class AclRoles {
+
     /**
      * @var integer
      *
@@ -28,19 +28,21 @@ class AclRoles
      * @ORM\Column(name="name", type="string", length=140, nullable=false)
      */
     private $name;
-    
-        /**
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="built_in", type="smallint", nullable=true)
      */
     private $builtIn = '0';
-            /**
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="hidden", type="smallint", nullable=true)
      */
     private $hidden = '0';
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
@@ -66,20 +68,17 @@ class AclRoles
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
         $this->permissions = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -89,8 +88,7 @@ class AclRoles
      * @param string $name
      * @return AclRoles
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -101,61 +99,57 @@ class AclRoles
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
-    
     /**
      * Set builtIn
      * 
      * @param integer $builtIn
      * @return AclRoles
      */
-    public function setBuiltIn($builtIn){
-        $this->builtIn=$builtIn;
+    public function setBuiltIn($builtIn) {
+        $this->builtIn = $builtIn;
         return $this;
     }
-    
-        /**
+
+    /**
      * Get builtIn
      *
      * @return integer 
      */
-    public function getBuiltIn()
-    {
+    public function getBuiltIn() {
         return $this->builtIn;
     }
-    
-      /**
+
+    /**
      * Set hidden
      * 
      * @param integer $hidden
      * @return AclRoles
      */
-    public function setHidden($hidden){
-        $this->hidden=$hidden;
+    public function setHidden($hidden) {
+        $this->hidden = $hidden;
         return $this;
     }
-    
-        /**
+
+    /**
      * Get hidden
      *
      * @return integer 
      */
-    public function getHidden()
-    {
+    public function getHidden() {
         return $this->hidden;
     }
+
     /**
      * Add users
      *
      * @param \User\Entity\Users $users
      * @return AclRoles
      */
-    public function addUser(\User\Entity\Users $users)
-    {
+    public function addUser(\User\Entity\Users $users) {
         $this->users[] = $users;
 
         return $this;
@@ -166,8 +160,7 @@ class AclRoles
      *
      * @param \User\Entity\Users $users
      */
-    public function removeUser(\User\Entity\Users $users)
-    {
+    public function removeUser(\User\Entity\Users $users) {
         $this->users->removeElement($users);
     }
 
@@ -176,8 +169,7 @@ class AclRoles
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getUsers()
-    {
+    public function getUsers() {
         return $this->users;
     }
 
@@ -187,8 +179,7 @@ class AclRoles
      * @param \Acl\Entity\AclPermissions $permissions
      * @return AclRoles
      */
-    public function addPermission(\Acl\Entity\AclPermissions $permissions)
-    {
+    public function addPermission(\Acl\Entity\AclPermissions $permissions) {
         $this->permissions[] = $permissions;
 
         return $this;
@@ -199,8 +190,7 @@ class AclRoles
      *
      * @param \Acl\Entity\AclPermissions $permissions
      */
-    public function removePermission(\Acl\Entity\AclPermissions $permissions)
-    {
+    public function removePermission(\Acl\Entity\AclPermissions $permissions) {
         $this->permissions->removeElement($permissions);
     }
 
@@ -209,8 +199,7 @@ class AclRoles
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getPermissions()
-    {
+    public function getPermissions() {
         return $this->permissions;
     }
 

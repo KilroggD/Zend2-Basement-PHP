@@ -1,13 +1,12 @@
 <?php
+
 return array(
-        'controllers' => array(
+    'controllers' => array(
         'invokables' => array(
             'Log\Controller\Log' => 'Log\Controller\LogController'
         ),
     ),
-      'doctrine' => array(
-
-
+    'doctrine' => array(
         'driver' => array(
             //драйверы для монго
             'Log_odm_driver' => array(
@@ -17,7 +16,7 @@ return array(
             ),
             'odm_default' => array(
                 'drivers' => array(
-                     'Log\Document' =>  'Log_odm_driver'
+                    'Log\Document' => 'Log_odm_driver'
                 ),
             ),
             //для постгри
@@ -28,50 +27,49 @@ return array(
             ),
             'orm_default' => array(
                 'drivers' => array(
-                     'Log\Entity' =>  'Log_driver'
+                    'Log\Entity' => 'Log_driver'
                 ),
             ),
         ),
-
     ),
-        'router' => array(
+    'router' => array(
         'routes' => array(
             'log' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/log',
+                    'route' => '/log',
                     'defaults' => array(
                         'controller' => 'Log\Controller\Log',
-                        'action'     => 'index',
-                        'description'=>'Тест логов',
-                        'group'=>'homepage',
-                         'exclude'=>1
+                        'action' => 'index',
+                        'description' => 'Тест логов',
+                        'group' => 'homepage',
+                        'exclude' => 1
                     ),
                 ),
-                'may_terminate'=>true,
-                         'child_routes' => array(
-                           'add' => array(
-                        'type'    => 'Zend\Mvc\Router\Http\Literal',
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'add' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Literal',
                         'options' => array(
-                            'route'    => '/add',
+                            'route' => '/add',
                             'defaults' => array(
-                                'action'     => 'add',
-                                'description'=> 'Добавить лог',
-                                'group'=>"admin",
-                                'exclude'=>1
+                                'action' => 'add',
+                                'description' => 'Добавить лог',
+                                'group' => "admin",
+                                'exclude' => 1
                             ),
-                           ),
+                        ),
                     ),
-                             )
+                )
             ),
-            )
-            ),
-        "service_manager"=>array(
+        )
+    ),
+    "service_manager" => array(
         'factories' => array(
-        "logService"=>function($sm){
-            $service=new Log\Service\LogService($sm);
-            return $service;
-        }
+            "logService" => function($sm) {
+                $service = new Log\Service\LogService($sm);
+                return $service;
+            }
         )
     )
 );

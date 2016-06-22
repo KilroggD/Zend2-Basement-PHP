@@ -42,11 +42,11 @@ return array(
         'factories' => array(
             //формы
             'InstallForm' => function() {
-        $form = new \Install\Form\InstallForm();
-        $form->setInputFilter(new \Install\Form\InstallFilter());
-        $form->setHydrator(new \Zend\Stdlib\Hydrator\ObjectProperty());
-        return $form;
-    },
+                $form = new \Install\Form\InstallForm();
+                $form->setInputFilter(new \Install\Form\InstallFilter());
+                $form->setHydrator(new \Zend\Stdlib\Hydrator\ObjectProperty());
+                return $form;
+            },
         )
     ),
     'view_manager' => array(
@@ -66,7 +66,7 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
-                 'asset_manager' => array(
+    'asset_manager' => array(
         'resolver_configs' => array(
             'paths' => array(
                 __DIR__ . '/../public',

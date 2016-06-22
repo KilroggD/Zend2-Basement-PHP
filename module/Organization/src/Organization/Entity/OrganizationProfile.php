@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class OrganizationProfile
-{
+class OrganizationProfile {
+
     /**
      * @var integer
      *
@@ -75,7 +75,6 @@ class OrganizationProfile
      */
     private $organization;
 
-
     /**
      * @var \Organization\Entity\OrganizationTypes
      *
@@ -86,14 +85,12 @@ class OrganizationProfile
      */
     private $type;
 
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -103,8 +100,7 @@ class OrganizationProfile
      * @param string $name
      * @return OrganizationProfile
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -115,19 +111,17 @@ class OrganizationProfile
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
-    
+
     /**
      * Set shortName
      *
      * @param string $shortName
      * @return OrganizationProfile
      */
-    public function setShortName($shortName)
-    {
+    public function setShortName($shortName) {
         $this->shortName = $shortName;
 
         return $this;
@@ -138,8 +132,7 @@ class OrganizationProfile
      *
      * @return string 
      */
-    public function getShortName()
-    {
+    public function getShortName() {
         return $this->shortName;
     }
 
@@ -149,8 +142,7 @@ class OrganizationProfile
      * @param string $inn
      * @return OrganizationProfile
      */
-    public function setInn($inn)
-    {
+    public function setInn($inn) {
         $this->inn = $inn;
 
         return $this;
@@ -161,8 +153,7 @@ class OrganizationProfile
      *
      * @return string 
      */
-    public function getInn()
-    {
+    public function getInn() {
         return $this->inn;
     }
 
@@ -172,8 +163,7 @@ class OrganizationProfile
      * @param string $kpp
      * @return OrganizationProfile
      */
-    public function setKpp($kpp)
-    {
+    public function setKpp($kpp) {
         $this->kpp = $kpp;
 
         return $this;
@@ -184,8 +174,7 @@ class OrganizationProfile
      *
      * @return string 
      */
-    public function getKpp()
-    {
+    public function getKpp() {
         return $this->kpp;
     }
 
@@ -195,8 +184,7 @@ class OrganizationProfile
      * @param string $address
      * @return OrganizationProfile
      */
-    public function setAddress($address)
-    {
+    public function setAddress($address) {
         $this->address = $address;
 
         return $this;
@@ -207,8 +195,7 @@ class OrganizationProfile
      *
      * @return string 
      */
-    public function getAddress()
-    {
+    public function getAddress() {
         return $this->address;
     }
 
@@ -218,8 +205,7 @@ class OrganizationProfile
      * @param \DateTime $created
      * @return OrganizationProfile
      */
-    public function setCreated($created)
-    {
+    public function setCreated($created) {
         $this->created = $created;
 
         return $this;
@@ -230,8 +216,7 @@ class OrganizationProfile
      *
      * @return \DateTime 
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
@@ -241,8 +226,7 @@ class OrganizationProfile
      * @param \Organization\Entity\Organizations $organization
      * @return OrganizationProfile
      */
-    public function setOrganization(\Organization\Entity\Organizations $organization = null)
-    {
+    public function setOrganization(\Organization\Entity\Organizations $organization = null) {
         $this->organization = $organization;
 
         return $this;
@@ -253,8 +237,7 @@ class OrganizationProfile
      *
      * @return \Organization\Entity\Organizations 
      */
-    public function getOrganization()
-    {
+    public function getOrganization() {
         return $this->organization;
     }
 
@@ -264,8 +247,7 @@ class OrganizationProfile
      * @param \Organization\Entity\OrganizationTypes $type
      * @return OrganizationProfile
      */
-    public function setType(\Organization\Entity\OrganizationTypes $type = null)
-    {
+    public function setType(\Organization\Entity\OrganizationTypes $type = null) {
         $this->type = $type;
 
         return $this;
@@ -276,18 +258,17 @@ class OrganizationProfile
      *
      * @return \Organization\Entity\OrganizationTypes 
      */
-    public function getType()
-    {
+    public function getType() {
         return $this->type;
     }
-    
-/**
-* @ORM\PrePersist
-*/
+
+    /**
+     * @ORM\PrePersist
+     */
     public function prePersist() {
-    if(!$this->created){
-        $this->setCreated(new \DateTime());
+        if (!$this->created) {
+            $this->setCreated(new \DateTime());
+        }
     }
-    }  
-    
+
 }

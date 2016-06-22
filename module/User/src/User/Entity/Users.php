@@ -11,24 +11,26 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="\User\Repository\UsersRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Users
-{
-        /*
+class Users {
+    /*
      * пользователь неактивен
      */
-    const INACTIVE=0;
-     /*
-      * активен
-      */
-    const ACTIVE=1;
+
+    const INACTIVE = 0;
+    /*
+     * активен
+     */
+    const ACTIVE = 1;
+
     /**
      * смена пароля
      */
-    const CHANGEPWD=2;
+    const CHANGEPWD = 2;
     /*
      * блокирован
      */
-    const BLOCKED=3;
+    const BLOCKED = 3;
+
     /**
      * @var integer
      *
@@ -80,32 +82,31 @@ class Users
      * @ORM\Column(name="last_login", type="datetime", nullable=true)
      */
     private $lastLogin;
-    
-            /**
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="built_in", type="smallint", nullable=true)
      */
     private $builtIn = '0';
-    
+
     /**
      * @ORM\OneToOne(targetEntity="User\Entity\UserPasswordChange", mappedBy="user", cascade={"remove"})
-     */    
+     */
     private $passwordChange;
-    
-        
+
     /**
      * @ORM\OneToOne(targetEntity="User\Entity\UserActivation", mappedBy="user", cascade={"persist","remove"})
-     */    
+     */
     private $userActivation;
-    
+
     /**
      *
      * @ORM\OneToOne(targetEntity="User\Entity\UserProfile", mappedBy="user", cascade={"persist","remove"})
      */
     private $profile;
 
-        /**
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Acl\Entity\AclRoles", inversedBy="users", cascade={"persist"})
@@ -118,21 +119,19 @@ class Users
      *   }
      * )
      */
-    
-   private $roles;
-    
-   public function __construct() {
-       $this->roles=new \Doctrine\Common\Collections\ArrayCollection();
-       $this->organizations=new \Doctrine\Common\Collections\ArrayCollection();
-   }
-   
+    private $roles;
+
+    public function __construct() {
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->organizations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -142,8 +141,7 @@ class Users
      * @param string $login
      * @return User
      */
-    public function setLogin($login)
-    {
+    public function setLogin($login) {
         $this->login = $login;
 
         return $this;
@@ -154,8 +152,7 @@ class Users
      *
      * @return string 
      */
-    public function getLogin()
-    {
+    public function getLogin() {
         return $this->login;
     }
 
@@ -165,8 +162,7 @@ class Users
      * @param string $password
      * @return User
      */
-    public function setPassword($password)
-    {
+    public function setPassword($password) {
         $this->password = $password;
 
         return $this;
@@ -177,8 +173,7 @@ class Users
      *
      * @return string 
      */
-    public function getPassword()
-    {
+    public function getPassword() {
         return $this->password;
     }
 
@@ -188,8 +183,7 @@ class Users
      * @param string $email
      * @return User
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
 
         return $this;
@@ -200,8 +194,7 @@ class Users
      *
      * @return string 
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
 
@@ -211,8 +204,7 @@ class Users
      * @param integer $status
      * @return User
      */
-    public function setStatus($status)
-    {
+    public function setStatus($status) {
         $this->status = $status;
 
         return $this;
@@ -223,8 +215,7 @@ class Users
      *
      * @return integer 
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
 
@@ -234,8 +225,7 @@ class Users
      * @param \DateTime $created
      * @return User
      */
-    public function setCreated($created)
-    {
+    public function setCreated($created) {
         $this->created = $created;
 
         return $this;
@@ -246,8 +236,7 @@ class Users
      *
      * @return \DateTime 
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
@@ -257,8 +246,7 @@ class Users
      * @param \DateTime $lastLogin
      * @return User
      */
-    public function setLastLogin($lastLogin)
-    {
+    public function setLastLogin($lastLogin) {
         $this->lastLogin = $lastLogin;
 
         return $this;
@@ -269,92 +257,89 @@ class Users
      *
      * @return \DateTime 
      */
-    public function getLastLogin()
-    {
+    public function getLastLogin() {
         return $this->lastLogin;
     }
-    
-        /**
+
+    /**
      * Set builtIn
      * 
      * @param integer $builtIn
      * @return Users
      */
-    public function setBuiltIn($builtIn){
-        $this->builtIn=$builtIn;
+    public function setBuiltIn($builtIn) {
+        $this->builtIn = $builtIn;
         return $this;
     }
-    
-        /**
+
+    /**
      * Get builtIn
      *
      * @return integer 
      */
-    public function getBuiltIn()
-    {
+    public function getBuiltIn() {
         return $this->builtIn;
     }
-    
+
     /**
      * Get password change request
      * @return User\Entity\UserPasswordChange
      */
-    public function getPasswordChange(){
+    public function getPasswordChange() {
         return $this->passwordChange;
     }
-    
+
     /**
      * Set password change request
      * @return User
-     */   
-    public function setPasswordChange(\User\Entity\UserPasswordChange $passwordChange){
-        $this->passwordChange=$passwordChange;
+     */
+    public function setPasswordChange(\User\Entity\UserPasswordChange $passwordChange) {
+        $this->passwordChange = $passwordChange;
         return $this;
     }
-   
-        /**
+
+    /**
      * Get activation request
      * @return User\Entity\UserActivation
      */
-    public function getUserActivation(){
+    public function getUserActivation() {
         return $this->userActivation;
     }
-    
+
     /**
      * Set password change request
      * @return User
-     */   
-    public function setUserActivation(\User\Entity\UserActivation $userActivation){
-        $this->userActivation=$userActivation;
+     */
+    public function setUserActivation(\User\Entity\UserActivation $userActivation) {
+        $this->userActivation = $userActivation;
         return $this;
     }
-    
-        /**
+
+    /**
      * Get user profile
      * @return User\Entity\UserProfile
      */
-    public function getProfile(){
+    public function getProfile() {
         return $this->profile;
     }
-    
+
     /**
      * Set password change request
      * @return User
-     */   
-    public function setProfile(\User\Entity\UserProfile $profile){
-        $this->profile=$profile;
+     */
+    public function setProfile(\User\Entity\UserProfile $profile) {
+        $this->profile = $profile;
         $profile->setUser($this);
         return $this;
     }
-    
+
     /**
      * Add roles
      *
      * @param \Acl\Entity\AclRoles $role
      * @return AclRoles
      */
-    public function addRole(\Acl\Entity\AclRoles $role)
-    {
+    public function addRole(\Acl\Entity\AclRoles $role) {
         $this->roles[] = $role;
 
         return $this;
@@ -365,56 +350,51 @@ class Users
      *
      * @param \Acl\Entity\AclRoles $role
      */
-    public function removeRole(\Acl\Entity\AclRoles $role)
-    {
+    public function removeRole(\Acl\Entity\AclRoles $role) {
         $this->roles->removeElement($role);
     }
-    
+
     public function addRoles($roles) {
-        foreach($roles as $role){
+        foreach ($roles as $role) {
             $this->addRole($role);
             $role->addUser($this);
         }
         return $this;
     }
-    
-    
-    public function removeRoles($roles){
-        foreach($roles as $role){
+
+    public function removeRoles($roles) {
+        foreach ($roles as $role) {
             $this->removeRole($role);
             $role->removeUser($this);
         }
         return $this;
     }
-    
-    
+
     /**
      * Get users
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getRoles()
-    {
+    public function getRoles() {
         return $this->roles;
     }
-    
-/**
-* @ORM\PrePersist
-*/
+
+    /**
+     * @ORM\PrePersist
+     */
     public function prePersist() {
-    if(!$this->created){
-        $this->setCreated(new \DateTime());
+        if (!$this->created) {
+            $this->setCreated(new \DateTime());
+        }
+        if (is_null($this->status)) {
+            $this->setStatus(self::INACTIVE);
+        }
+        if (!is_null($this->password)) {
+            $this->setPassword(md5($this->password));
+        }
     }
-    if(is_null($this->status)){
-        $this->setStatus(self::INACTIVE);
-    }
-    if(!is_null($this->password)){
-        $this->setPassword(md5($this->password));
-    }
-}
-   
-   
-        /**
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Organization\Entity\Organizations", inversedBy="users")
@@ -429,15 +409,13 @@ class Users
      */
     private $organizations;
 
-
     /**
      * Add organizations
      *
      * @param \Organization\Entity\Organizations $organizations
      * @return Users
      */
-    public function addOrganization(\Organization\Entity\Organizations $organizations)
-    {
+    public function addOrganization(\Organization\Entity\Organizations $organizations) {
         $this->organizations[] = $organizations;
 
         return $this;
@@ -448,40 +426,33 @@ class Users
      *
      * @param \Organization\Entity\Organizations $organizations
      */
-    public function removeOrganization(\Organization\Entity\Organizations $organizations)
-    {
+    public function removeOrganization(\Organization\Entity\Organizations $organizations) {
         $this->organizations->removeElement($organizations);
     }
 
-        public function addGrp($roles) {
-        foreach($roles as $role){            
+    public function addGrp($roles) {
+        foreach ($roles as $role) {
             $this->addOrganization($role);
-            $role->addUser($this);            
+            $role->addUser($this);
         }
         return $this;
     }
-    
-    
-    public function removeGrp($roles){
-        foreach($roles as $role){
+
+    public function removeGrp($roles) {
+        foreach ($roles as $role) {
             $this->removeOrganization($role);
             $role->removeUser($this);
         }
         return $this;
     }
-    
-    
-   
+
     /**
      * Get organizations
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getOrganizations()
-    {
+    public function getOrganizations() {
         return $this->organizations;
     }
-    
-   
 
 }

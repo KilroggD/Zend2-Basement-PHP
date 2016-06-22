@@ -1,61 +1,60 @@
 <div class="row flash-messages">
-                <?=$this->htmlList($this->messages); ?>
-    </div>
+    <?= $this->htmlList($this->messages); ?>
+</div>
 <div class="new-migrations-container">
-        <div class="row migrations-header">
+    <div class="row migrations-header">
         <div class="col-md-6 text-left">
             Версия            
-            </div>
+        </div>
         <div class="col-md-6 text-right">
             Действие
-            </div>
         </div>
+    </div>
     <div class="row migrations-subheader">
         <div class="col-md-12 text-left">Доступные миграции</div>
     </div>
     <?php
     //текущие миграции
-    foreach($this->migrations["new"] as $migration){        
-      
-    ?>
-    <div class="row migration-new-item">   
-    <div class="col-md-6 text-left">
-       <?=$migration?> 
-                </div>
-        <div class="col-md-6 text-right">
-            <span><a href="<?=$this->url("admin\\update/migrate",array("version"=>$migration))?>" class="migration-migrate-link">Миграция</a></span>
+    foreach ($this->migrations["new"] as $migration) {
+        ?>
+        <div class="row migration-new-item">   
+            <div class="col-md-6 text-left">
+                <?= $migration ?> 
+            </div>
+            <div class="col-md-6 text-right">
+                <span><a href="<?= $this->url("admin\\update/migrate", array("version" => $migration)) ?>" class="migration-migrate-link">Миграция</a></span>
+            </div>
+
         </div>
-        
-        </div>
-    <?php 
-    }    
+        <?php
+    }
     ?>
     <div class="row migrations-subheader">
         <div class="col-md-12 text-left">Осуществленные миграции</div>
     </div>
-  <?php
-  /**
-   * Осуществленные миграции
-   */
-  foreach($this->migrations["migrated"] as $migration) {
-  ?>
-    <div class="row migration-item">   
-    <div class="col-md-6 text-left">
-               <?=$migration?> 
-                </div>
+    <?php
+    /**
+     * Осуществленные миграции
+     */
+    foreach ($this->migrations["migrated"] as $migration) {
+        ?>
+        <div class="row migration-item">   
+            <div class="col-md-6 text-left">
+                <?= $migration ?> 
+            </div>
 
-        <div class="col-md-6 text-right">
-            <span><a href="<?=$this->url("admin\\update/migrate",array("version"=>$migration))?>" class="migration-migrate-link">Миграция</a></span>
-            <span><a href="<?=$this->url("admin\\update/delete",array("version"=>$migration))?>" class="migration-delete-link">Удалить</a></span>
-        </div>
-        
+            <div class="col-md-6 text-right">
+                <span><a href="<?= $this->url("admin\\update/migrate", array("version" => $migration)) ?>" class="migration-migrate-link">Миграция</a></span>
+                <span><a href="<?= $this->url("admin\\update/delete", array("version" => $migration)) ?>" class="migration-delete-link">Удалить</a></span>
+            </div>
+
         </div>
         <?php
     }
     ?>
 
-    </div>
+</div>
 <div id="buttons-container" class="btn-group-vertical">
-    <a href="<?=$this->url("admin\\update/entity")?>" class="btn btn-default">Обновить модели</a>
-    <a href="<?=$this->url("admin\\update/diff")?>" class="btn btn-default">Сгенерировать миграцию</a>
-    </div>
+    <a href="<?= $this->url("admin\\update/entity") ?>" class="btn btn-default">Обновить модели</a>
+    <a href="<?= $this->url("admin\\update/diff") ?>" class="btn btn-default">Сгенерировать миграцию</a>
+</div>

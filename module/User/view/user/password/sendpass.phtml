@@ -1,10 +1,10 @@
 <?php
-$form=$this->form;
-$errors=$this->errors;
+$form = $this->form;
+$errors = $this->errors;
 ?>
-<?=$this->form()->openTag($form) ?>
-<?=$this->formCollection($form) ?>
-<?=$this->form()->closeTag($form) ?>
+<?= $this->form()->openTag($form) ?>
+<?= $this->formCollection($form) ?>
+<?= $this->form()->closeTag($form) ?>
 <div class="login-errors">
-       <?=$this->htmlList($this->errors); ?>
-    </div>
+    <?= $this->htmlList($this->errors); ?>
+</div>

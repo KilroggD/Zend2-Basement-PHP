@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Конфигурация модуля
  */
 return array(
-               'doctrine' => array(
+    'doctrine' => array(
         'driver' => array(
             'Email_driver' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
@@ -12,17 +13,17 @@ return array(
             ),
             'orm_default' => array(
                 'drivers' => array(
-                     'Email\Entity' =>  'Email_driver'
+                    'Email\Entity' => 'Email_driver'
                 ),
             ),
         ),
-                   ),
-    "service_manager"=>array(
+    ),
+    "service_manager" => array(
         'factories' => array(
-        "emailService"=>function($sm){
-            $service=new Email\Service\EmailService($sm);
-            return $service;
-        }
+            "emailService" => function($sm) {
+                $service = new Email\Service\EmailService($sm);
+                return $service;
+            }
         )
     )
 );

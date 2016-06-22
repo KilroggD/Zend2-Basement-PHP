@@ -1,6 +1,8 @@
 <?php
+
 namespace Update\Controller;
-use  \Zend\Mvc\Controller\AbstractActionController;
+
+use \Zend\Mvc\Controller\AbstractActionController;
 use Doctrine\ORM\Mapping\Driver\YamlDriver as YamlDriverORM;
 
 /*
@@ -14,64 +16,68 @@ use Doctrine\ORM\Mapping\Driver\YamlDriver as YamlDriverORM;
  *
  * @author kopychev
  */
-class UpdateController extends AbstractActionController{
+class UpdateController extends AbstractActionController {
+
     //put your code here
     public $userParams;
-    public function indexAction(){
-        $migrations=$this->getServiceLocator()->get("MigrationService")->getMigrations();       
-        $new=  array_diff($migrations["available"], $migrations["migrated"]);
-        $migrations["new"]=$new;
-        $yml=new YamlDriverORM($this->getServiceLocator()->get("MigrationService")->getYmls());
-        $pgTables=$yml->getAllClassNames();
-        
-        return array("migrations"=>$migrations,"messages"=>$this->flashMessenger()->getMessages());
+
+    public function indexAction() {
+        $migrations = $this->getServiceLocator()->get("MigrationService")->getMigrations();
+        $new = array_diff($migrations["available"], $migrations["migrated"]);
+        $migrations["new"] = $new;
+        $yml = new YamlDriverORM($this->getServiceLocator()->get("MigrationService")->getYmls());
+        $pgTables = $yml->getAllClassNames();
+
+        return array("migrations" => $migrations, "messages" => $this->flashMessenger()->getMessages());
     }
+
     /**
      * Создание новых миграций, исходя из различий схемы и yml/entity
      */
-    public function diffAction(){
+    public function diffAction() {
 
-        $response=$this->getServiceLocator()->get("MigrationService")->createDiff();
-        if($response instanceof \Exception){
+        $response = $this->getServiceLocator()->get("MigrationService")->createDiff();
+        if ($response instanceof \Exception) {
             die($response->getMessage());
         }
         return $this->redirect()->toRoute("admin\\update");
-    }    
-    
+    }
+
     /**
      * Миграция к выбранной версии
      */
-    public function migrateAction(){
-        $version=0;
-        if($this->params()->fromRoute("version")){
-            $version=$this->params()->fromRoute("version");
+    public function migrateAction() {
+        $version = 0;
+        if ($this->params()->fromRoute("version")) {
+            $version = $this->params()->fromRoute("version");
         }
-        $response=$this->getServiceLocator()->get("MigrationService")->migrate($version);
-              if($response instanceof \Exception){
-              die($response->getMessage());
+        $response = $this->getServiceLocator()->get("MigrationService")->migrate($version);
+        if ($response instanceof \Exception) {
+            die($response->getMessage());
         }
         $this->flashMessenger()->addMessage($response);
         return $this->redirect()->toRoute("admin\\update");
     }
+
     /**
      * Обновляет entites по миграции
      */
-    public function entityAction(){
+    public function entityAction() {
         try {
-         $response=$this->getServiceLocator()->get("MigrationService")->updateEntity();
-        $this->flashMessenger()->addMessage($response);
+            $response = $this->getServiceLocator()->get("MigrationService")->updateEntity();
+            $this->flashMessenger()->addMessage($response);
             $this->flashMessenger()->addMessage("Модели обновлены");
             return $this->redirect()->toRoute("admin\\update");
         } catch (\Exception $ex) {
-            die ($ex->getMessage());
+            die($ex->getMessage());
         }
     }
-    
-    public function deleteAction(){
-        $version=$this->params()->fromRoute("version");
-        $response=$this->getServiceLocator()->get("MigrationService")->delete($version);
+
+    public function deleteAction() {
+        $version = $this->params()->fromRoute("version");
+        $response = $this->getServiceLocator()->get("MigrationService")->delete($version);
         $this->flashMessenger()->addMessage($response);
         return $this->redirect()->toRoute("admin\\update");
     }
-    
+
 }

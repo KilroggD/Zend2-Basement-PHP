@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="email_templates")
  * @ORM\Entity
  */
-class EmailTemplates
-{
+class EmailTemplates {
+
     /**
      * @var integer
      *
@@ -43,15 +43,12 @@ class EmailTemplates
      */
     private $subject;
 
-
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -61,8 +58,7 @@ class EmailTemplates
      * @param string $key
      * @return EmailTemplates
      */
-    public function setKey($key)
-    {
+    public function setKey($key) {
         $this->key = $key;
 
         return $this;
@@ -73,8 +69,7 @@ class EmailTemplates
      *
      * @return string 
      */
-    public function getKey()
-    {
+    public function getKey() {
         return $this->key;
     }
 
@@ -84,8 +79,7 @@ class EmailTemplates
      * @param string $template
      * @return EmailTemplates
      */
-    public function setTemplate($template)
-    {
+    public function setTemplate($template) {
         $this->template = $template;
 
         return $this;
@@ -96,8 +90,7 @@ class EmailTemplates
      *
      * @return string 
      */
-    public function getTemplate()
-    {
+    public function getTemplate() {
         return $this->template;
     }
 
@@ -107,8 +100,7 @@ class EmailTemplates
      * @param string $subject
      * @return EmailTemplates
      */
-    public function setSubject($subject)
-    {
+    public function setSubject($subject) {
         $this->subject = $subject;
 
         return $this;
@@ -119,8 +111,8 @@ class EmailTemplates
      *
      * @return string 
      */
-    public function getSubject()
-    {
+    public function getSubject() {
         return $this->subject;
     }
+
 }

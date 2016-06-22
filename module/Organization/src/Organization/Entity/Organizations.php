@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="\Organization\Repository\OrganizationsRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Organizations
-{
+class Organizations {
+
     /**
      * @var integer
      *
@@ -23,20 +23,19 @@ class Organizations
      */
     private $id;
 
-  /**
-   *
-   * @var string 
-   * @ORM\Column(name="name", type="string", length=512, nullable=false)
-   */
-    
+    /**
+     *
+     * @var string 
+     * @ORM\Column(name="name", type="string", length=512, nullable=false)
+     */
     private $name;
+
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -46,8 +45,7 @@ class Organizations
      * @param string $name
      * @return Organizations
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -58,20 +56,17 @@ class Organizations
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
-    
     /**
      * Set shortName
      *
      * @param string $shortName
      * @return Organizations
      */
-    public function setShortName($shortName)
-    {
+    public function setShortName($shortName) {
         $this->shortName = $shortName;
 
         return $this;
@@ -82,8 +77,7 @@ class Organizations
      *
      * @return string 
      */
-    public function getShortName()
-    {
+    public function getShortName() {
         return $this->getActualVersion()->getShortName();
     }
 
@@ -93,8 +87,7 @@ class Organizations
      * @param string $inn
      * @return Organizations
      */
-    public function setInn($inn)
-    {
+    public function setInn($inn) {
         $this->inn = $inn;
 
         return $this;
@@ -105,8 +98,7 @@ class Organizations
      *
      * @return string 
      */
-    public function getInn()
-    {
+    public function getInn() {
         return $this->getActualVersion()->getInn();
     }
 
@@ -116,8 +108,7 @@ class Organizations
      * @param string $kpp
      * @return Organizations
      */
-    public function setKpp($kpp)
-    {
+    public function setKpp($kpp) {
         $this->kpp = $kpp;
 
         return $this;
@@ -128,8 +119,7 @@ class Organizations
      *
      * @return string 
      */
-    public function getKpp()
-    {
+    public function getKpp() {
         return $this->getActualVersion()->getKpp();
     }
 
@@ -139,8 +129,7 @@ class Organizations
      * @param string $address
      * @return Organizations
      */
-    public function setAddress($address)
-    {
+    public function setAddress($address) {
         $this->address = $address;
 
         return $this;
@@ -151,8 +140,7 @@ class Organizations
      *
      * @return string 
      */
-    public function getAddress()
-    {
+    public function getAddress() {
         return $this->getActualVersion()->getAddress();
     }
 
@@ -162,8 +150,7 @@ class Organizations
      * @param \Organization\Entity\OrganizationTypes $type
      * @return Organizations
      */
-    public function setType(\Organization\Entity\OrganizationTypes $type = null)
-    {
+    public function setType(\Organization\Entity\OrganizationTypes $type = null) {
         $this->type = $type;
 
         return $this;
@@ -174,17 +161,14 @@ class Organizations
      *
      * @return \Organization\Entity\OrganizationTypes 
      */
-    public function getType()
-    {
+    public function getType() {
         return $this->getActualVersion()->getType();
     }
-    
-    
+
     /**
      * @var \DateTime
      */
     private $created;
-
 
     /**
      * Set created
@@ -192,8 +176,7 @@ class Organizations
      * @param \DateTime $created
      * @return Organizations
      */
-    public function setCreated($created)
-    {
+    public function setCreated($created) {
         $this->created = $created;
 
         return $this;
@@ -204,18 +187,16 @@ class Organizations
      *
      * @return \DateTime 
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
-          /**
+    /**
      * @var integer
      *
      * @ORM\Column(name="built_in", type="smallint", nullable=true)
      */
-    private $builtIn='0';
-
+    private $builtIn = '0';
 
     /**
      * Set builtIn
@@ -223,8 +204,7 @@ class Organizations
      * @param integer $builtIn
      * @return Organizations
      */
-    public function setBuiltIn($builtIn)
-    {
+    public function setBuiltIn($builtIn) {
         $this->builtIn = $builtIn;
 
         return $this;
@@ -235,24 +215,21 @@ class Organizations
      *
      * @return integer 
      */
-    public function getBuiltIn()
-    {
+    public function getBuiltIn() {
         return $this->builtIn;
     }
-  
-        /**
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="User\Entity\Users", mappedBy="organizations")
      */
     private $users;
-   
 
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
         $this->activities = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -263,8 +240,7 @@ class Organizations
      * @param \User\Entity\Users $users
      * @return Organizations
      */
-    public function addUser(\User\Entity\Users $users)
-    {
+    public function addUser(\User\Entity\Users $users) {
         $this->users[] = $users;
 
         return $this;
@@ -275,8 +251,7 @@ class Organizations
      *
      * @param \User\Entity\Users $users
      */
-    public function removeUser(\User\Entity\Users $users)
-    {
+    public function removeUser(\User\Entity\Users $users) {
         $this->users->removeElement($users);
     }
 
@@ -285,12 +260,10 @@ class Organizations
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getUsers()
-    {
+    public function getUsers() {
         return $this->users;
     }
- 
-   
+
     /**
      * @var \Organization\Entity\OrganizationProfile
      *
@@ -308,22 +281,20 @@ class Organizations
      */
     private $versions;
 
-
     /**
      * Set actualVersion
      *
      * @param \Organization\Entity\OrganizationProfile $actualVersion
      * @return Organizations
      */
-    public function setActualVersion(\Organization\Entity\OrganizationProfile $actualVersion = null)
-    {  	
-	
-	$this->actualVersion=$actualVersion;
-	if($actualVersion){
-                $this->setName($actualVersion->getName());
-		$actualVersion->setOrganization($this);
-		}
-   //     $this->addVersion($actualVersion);    
+    public function setActualVersion(\Organization\Entity\OrganizationProfile $actualVersion = null) {
+
+        $this->actualVersion = $actualVersion;
+        if ($actualVersion) {
+            $this->setName($actualVersion->getName());
+            $actualVersion->setOrganization($this);
+        }
+        //     $this->addVersion($actualVersion);    
         return $this;
     }
 
@@ -332,8 +303,7 @@ class Organizations
      *
      * @return \Organization\Entity\OrganizationProfile 
      */
-    public function getActualVersion()
-    {
+    public function getActualVersion() {
         return $this->actualVersion;
     }
 
@@ -343,10 +313,9 @@ class Organizations
      * @param \Organization\Entity\OrganizationProfile $versions
      * @return Organizations
      */
-    public function addVersion(\Organization\Entity\OrganizationProfile $versions)
-    {
+    public function addVersion(\Organization\Entity\OrganizationProfile $versions) {
         $this->versions[] = $versions;
-		$versions->setOrganization($this);
+        $versions->setOrganization($this);
         return $this;
     }
 
@@ -355,8 +324,7 @@ class Organizations
      *
      * @param \Organization\Entity\OrganizationProfile $versions
      */
-    public function removeVersion(\Organization\Entity\OrganizationProfile $versions)
-    {
+    public function removeVersion(\Organization\Entity\OrganizationProfile $versions) {
         $this->versions->removeElement($versions);
     }
 
@@ -365,17 +333,16 @@ class Organizations
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getVersions()
-    {
+    public function getVersions() {
         return $this->versions;
     }
+
     /**
      * @var integer
      *
      * @ORM\Column(name="status", type="smallint", nullable=false)
      */
-    private $status=1;
-
+    private $status = 1;
 
     /**
      * Set status
@@ -383,8 +350,7 @@ class Organizations
      * @param integer $status
      * @return Organizations
      */
-    public function setStatus($status)
-    {
+    public function setStatus($status) {
         $this->status = $status;
 
         return $this;
@@ -395,26 +361,24 @@ class Organizations
      *
      * @return integer 
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         return $this->status;
     }
-    
-    
-/**
-* @ORM\PrePersist
-*/
+
+    /**
+     * @ORM\PrePersist
+     */
     public function prePersist() {
-    if(!$this->created){
-        $this->setCreated(new \DateTime());
+        if (!$this->created) {
+            $this->setCreated(new \DateTime());
+        }
     }
-    }     
-       /**
-* @ORM\PrePersist
-* @ORM\PreUpdate
-*/ 
-   /* public function actual(){
-	$this->actualVersion=end($this->versions);
-	}*/
-	
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    /* public function actual(){
+      $this->actualVersion=end($this->versions);
+      } */
 }

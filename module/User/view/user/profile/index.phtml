@@ -1,32 +1,31 @@
 <?php
 //
-$labelsArray=array(
-  "email"=>"Электронная почта",
-  "login"=>"Имя пользователя",
-  "firstName"=>"Имя",
-  "lastName"=>"Фамилия",
-  "middleName"=>"Отчество",
-  "occupation"=>"Должность",
-   "phone"=>"Телефон",
+$labelsArray = array(
+    "email" => "Электронная почта",
+    "login" => "Имя пользователя",
+    "firstName" => "Имя",
+    "lastName" => "Фамилия",
+    "middleName" => "Отчество",
+    "occupation" => "Должность",
+    "phone" => "Телефон",
 );
-$profile=$this->profile;
+$profile = $this->profile;
 ?>
 <div class="profile-container" id="profile-container">
-        <?php 
-        if(!$profile) {
+    <?php
+    if (!$profile) {
         ?>
         <p>Ошибка! Информация не найдена</p>
-    <?php    
-        }
-        else {
-            foreach($labelsArray as $key=>$value){
-    ?>
-        <div class="row"><div class="col-md-3"><label class="profile-element-label"><?=$value ?></label></div><div class="col-md-9"><p class="profile-element"><?=isset($profile[$key])?$profile[$key]:"" ?></p></div></div>
         <?php
+    } else {
+        foreach ($labelsArray as $key => $value) {
+            ?>
+            <div class="row"><div class="col-md-3"><label class="profile-element-label"><?= $value ?></label></div><div class="col-md-9"><p class="profile-element"><?= isset($profile[$key]) ? $profile[$key] : "" ?></p></div></div>
+            <?php
         }
-        }
-       ?>        
-    </div>
+    }
+    ?>        
+</div>
 <div class="profile-control-container">
-    <a class="profile-control profile-link" href="<?=$this->url("profile/edit")?>">Редактировать профайл</a>
-    </div>
+    <a class="profile-control profile-link" href="<?= $this->url("profile/edit") ?>">Редактировать профайл</a>
+</div>

@@ -1,5 +1,7 @@
 <?php
+
 namespace Navigation\Service;
+
 use Zend\Navigation\Service\DefaultNavigationFactory;
 
 /*
@@ -14,9 +16,10 @@ use Zend\Navigation\Service\DefaultNavigationFactory;
  * @author kopychev
  */
 class MainNavigationFactory extends DefaultNavigationFactory {
+
     //put your code here
-        protected function getName()
-    {
+    protected function getName() {
         return 'main';
     }
+
 }

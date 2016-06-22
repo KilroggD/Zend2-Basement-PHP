@@ -22,12 +22,12 @@ class Module {
 
     public function onBootstrap(MvcEvent $e) {
         $eventManager = $e->getTarget()->getEventManager();
-                           try {
-                       $em=@$e->getApplication()->getServiceManager()->get('doctrine.entitymanager.orm_default');
-                       $em->getConnection();
-                   } catch (\Exception $ex) {
-                       die(self::NON_CONNECTION_MESSAGE);
-                   }
+        try {
+            $em = @$e->getApplication()->getServiceManager()->get('doctrine.entitymanager.orm_default');
+            $em->getConnection();
+        } catch (\Exception $ex) {
+            die(self::NON_CONNECTION_MESSAGE);
+        }
         $eventManager->attach(new Listener\InstallListener());
     }
 

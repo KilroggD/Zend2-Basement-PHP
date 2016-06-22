@@ -14,9 +14,9 @@
 $db=array(
       'host' => 'localhost',
        'port' => '5432',
-       'dbname' => 'scimc',
-       'user'=>'rcp',
-       'password'=>'rcp',
+       'dbname' => 'basement',
+       'user'=>'basement',
+       'password'=>'basement',
        'charset'  => 'utf8'
 );
 return array(
@@ -44,9 +44,9 @@ return array(
                 'server'           => 'localhost',
                 'port'             => '27017',
 //                'connectionString' => null,
-                'user'             => "scimc",
-                'password'         =>  "scimc",                
-                'dbname'           => "scimc", 
+                'user'             => "mongo",
+                'password'         =>  "mongo",                
+                'dbname'           => "mongo", 
                 'options'          => array()
             ),     
         ),

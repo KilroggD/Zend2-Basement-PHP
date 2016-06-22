@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="organization_types")
  * @ORM\Entity
  */
-class OrganizationTypes
-{
+class OrganizationTypes {
+
     /**
      * @var integer
      *
@@ -29,15 +29,12 @@ class OrganizationTypes
      */
     private $name;
 
-
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -47,8 +44,7 @@ class OrganizationTypes
      * @param string $name
      * @return OrganizationTypes
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -59,15 +55,14 @@ class OrganizationTypes
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
+
     /**
      * @var integer
      */
-    private $builtIn=0;
-
+    private $builtIn = 0;
 
     /**
      * Set builtIn
@@ -75,8 +70,7 @@ class OrganizationTypes
      * @param integer $builtIn
      * @return OrganizationTypes
      */
-    public function setBuiltIn($builtIn)
-    {
+    public function setBuiltIn($builtIn) {
         $this->builtIn = $builtIn;
 
         return $this;
@@ -87,8 +81,8 @@ class OrganizationTypes
      *
      * @return integer 
      */
-    public function getBuiltIn()
-    {
+    public function getBuiltIn() {
         return $this->builtIn;
     }
+
 }

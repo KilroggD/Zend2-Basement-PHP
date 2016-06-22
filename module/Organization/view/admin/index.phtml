@@ -1,133 +1,136 @@
-<?php  $this->headScript()->prependFile($this->basePath() .    '/js/common/empty_filter.js'); ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/js/common/empty_filter.js'); ?>
 <?php
-$searchquery=$this->query;
+$searchquery = $this->query;
 //при поиске вернуть 1ю страницу
-$searchquery["page"]=1;
-$this->form->setAttribute("action", $this->url("organizations\admin",array(),array()))->prepare();
+$searchquery["page"] = 1;
+$this->form->setAttribute("action", $this->url("organizations\admin", array(), array()))->prepare();
 //при повторном нажатии на сортировку надо поменять порядок
-$sortquery=$this->query;
-if(isset($this->query["sortorder"]) && $this->query["sortorder"]==='asc'){
-    $sortquery["sortorder"]='desc';
-}
-else {
-    $sortquery["sortorder"]='asc';
+$sortquery = $this->query;
+if (isset($this->query["sortorder"]) && $this->query["sortorder"] === 'asc') {
+    $sortquery["sortorder"] = 'desc';
+} else {
+    $sortquery["sortorder"] = 'asc';
 }
 ?>
 <div class="org-nav">
     <?php
     ?>
-    <?=$this->navigation('organization_navigation')
+    <?=
+            $this->navigation('organization_navigation')
             ->setAcl($this->layout()->acl)
             ->setRole($this->layout()->currentRoles)
             ->menu()
             ->setMinDepth(0)
             ->setMaxDepth(0)
             ->setUlClass('nav profile-nav nav-tabs')
-            ->render() ?>
-    </div>
+            ->render()
+    ?>
+</div>
 <div class="row add-organization-container">
     <?php
-    if($this->layout()->acl->isAllowed($this->layout()->currentRoles,'Organization\Controller\Admin','add')){
-    ?>
-    <a class="add-organization-link btn btn-default" href="<?=$this->url("organizations\admin/add")?>">Добавить организацию</a>
-            
-            <?php
+    if ($this->layout()->acl->isAllowed($this->layout()->currentRoles, 'Organization\Controller\Admin', 'add')) {
+        ?>
+        <a class="add-organization-link btn btn-default" href="<?= $this->url("organizations\admin/add") ?>">Добавить организацию</a>
+
+        <?php
     }
-            ?>
+    ?>
 </div>    
 <div class="row search-form-container">
     <div class="col-md-12">
-    <?=$this->form()->openTag($this->form) ?>
+        <?= $this->form()->openTag($this->form) ?>
         <div class="row">
-          <label class="col-md-3 text-center">Показать организации:</label>
+            <label class="col-md-3 text-center">Показать организации:</label>
+        </div>
+        <div class="row">
+            <div class="col-md-3 text-right">
+                <?= $this->formRow($this->form->get('name'), 'prepend', false); ?>
             </div>
-    <div class="row">
-        <div class="col-md-3 text-right">
-        <?=$this->formRow($this->form->get('name'),'prepend',false); ?>
+            <div class="col-md-3 text-right">
+                <?= $this->formRow($this->form->get('inn'), 'prepend', false); ?>
             </div>
-        <div class="col-md-3 text-right">
-        <?=$this->formRow($this->form->get('inn'),'prepend',false); ?>
-            </div>
-        <div class="col-md-2 text-center">
-            <?=$this->formInput($this->form->get('submit')) ?>
-                              <a class="btn btn-link" href="<?=$this->url("organizations\admin")?>">Сброс</a>       
+            <div class="col-md-2 text-center">
+                <?= $this->formInput($this->form->get('submit')) ?>
+                <a class="btn btn-link" href="<?= $this->url("organizations\admin") ?>">Сброс</a>       
 
             </div>
         </div>
 
-    <?=$this->form()->closeTag($this->form) ?>
-        </div>
+        <?= $this->form()->closeTag($this->form) ?>
+    </div>
 </div>
 
 <div class="row flash-messages">
-            <?=$this->htmlList($this->messages); ?>
-    </div>
+    <?= $this->htmlList($this->messages); ?>
+</div>
 <div class="orgs-container">
-        <div class="row roles-header">
-     
-            <div class="col-md-3 text-left">
-        <?php $logquery=$sortquery;
-            $logquery["sortby"]='name';
-        ?>
-      <a class="sort-link" href="<?=$this->url("organizations\admin", array(),array("query"=>$logquery))?>">Наименование</a>
-             </div>
-    <div class="col-md-2 text-left">
-        <?php $logquery=$sortquery;
-            $logquery["sortby"]='shortName';
-        ?>
-      <a class="sort-link" href="<?=$this->url("organizations\admin", array(),array("query"=>$logquery))?>">Сокращенное наименование</a>
-             </div>
-          <div class="col-md-1 text-left">
-              ИНН
-       </div>
-                <div class="col-md-1 text-left">
-                   КПП
-       </div>
-            <div class="col-md-2 text-left">
-                  Юр. адрес 
-       </div>
-            <div class="col-md-1 text-left">
-                   Тип
-       </div>
-             <div class="col-md-2 text-center">
-                 Действия
+    <div class="row roles-header">
+
+        <div class="col-md-3 text-left">
+            <?php
+            $logquery = $sortquery;
+            $logquery["sortby"] = 'name';
+            ?>
+            <a class="sort-link" href="<?= $this->url("organizations\admin", array(), array("query" => $logquery)) ?>">Наименование</a>
         </div>
-        </div>
-  <?php
-  foreach($this->orgs as $org) {
-  ?>
-    <div class="row role-item">  
-  
-    <div class="col-md-3 text-left">
-     <?=$org->getName() ?>
-       </div>
-          <div class="col-md-2 text-left">
-        <a href="<?=$this->url("organizations\admin/view", array("id"=>$org->getId()))?>" target="_blank"><?=$org->getShortName(); ?></a>
-       </div>
-          <div class="col-md-1 text-left">
-        <?=$org->getInn(); ?>
-       </div>                
-        <div class="col-md-1 text-left">
-        <?=$org->getKpp(); ?>
-       </div>
         <div class="col-md-2 text-left">
-        <?=$org->getAddress(); ?>
-       </div>        
-           <div class="col-md-1 text-left">
-        <?=$org->getType()->getName(); ?>
-       </div>      
-                     <div class="col-md-2 text-center">
-            <span class='acl-editable-links'>
-<a href="<?=$this->url("organizations\admin/edit",array("id"=>$org->getId())) ?>" class='btn btn-sm btn-default'><span class='glyphicon glyphicon-pencil'></span></a>
-<a href="<?=$this->url("organizations\admin/delete",array("id"=>$org->getId())) ?>" class='btn btn-sm btn-danger'><span class='glyphicon glyphicon-remove'></span></a>
-            </span>
-                </div>
+            <?php
+            $logquery = $sortquery;
+            $logquery["sortby"] = 'shortName';
+            ?>
+            <a class="sort-link" href="<?= $this->url("organizations\admin", array(), array("query" => $logquery)) ?>">Сокращенное наименование</a>
+        </div>
+        <div class="col-md-1 text-left">
+            ИНН
+        </div>
+        <div class="col-md-1 text-left">
+            КПП
+        </div>
+        <div class="col-md-2 text-left">
+            Юр. адрес 
+        </div>
+        <div class="col-md-1 text-left">
+            Тип
+        </div>
+        <div class="col-md-2 text-center">
+            Действия
+        </div>
+    </div>
+    <?php
+    foreach ($this->orgs as $org) {
+        ?>
+        <div class="row role-item">  
+
+            <div class="col-md-3 text-left">
+                <?= $org->getName() ?>
+            </div>
+            <div class="col-md-2 text-left">
+                <a href="<?= $this->url("organizations\admin/view", array("id" => $org->getId())) ?>" target="_blank"><?= $org->getShortName(); ?></a>
+            </div>
+            <div class="col-md-1 text-left">
+                <?= $org->getInn(); ?>
+            </div>                
+            <div class="col-md-1 text-left">
+                <?= $org->getKpp(); ?>
+            </div>
+            <div class="col-md-2 text-left">
+                <?= $org->getAddress(); ?>
+            </div>        
+            <div class="col-md-1 text-left">
+                <?= $org->getType()->getName(); ?>
+            </div>      
+            <div class="col-md-2 text-center">
+                <span class='acl-editable-links'>
+                    <a href="<?= $this->url("organizations\admin/edit", array("id" => $org->getId())) ?>" class='btn btn-sm btn-default'><span class='glyphicon glyphicon-pencil'></span></a>
+                    <a href="<?= $this->url("organizations\admin/delete", array("id" => $org->getId())) ?>" class='btn btn-sm btn-danger'><span class='glyphicon glyphicon-remove'></span></a>
+                </span>
+            </div>
         </div>
         <?php
     }
     ?>
-        <div class="row paginator text-center" id="paginator">
-<?=$this->pagination($this->pages,$this->pagelimit,$this->currentPage,'organizations\admin',$this->query) ?>
-     </div>
+    <div class="row paginator text-center" id="paginator">
+        <?= $this->pagination($this->pages, $this->pagelimit, $this->currentPage, 'organizations\admin', $this->query) ?>
     </div>
+</div>
 

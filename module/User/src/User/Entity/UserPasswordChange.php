@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class UserPasswordChange
-{
+class UserPasswordChange {
+
     /**
      * @var integer
      *
@@ -47,15 +47,12 @@ class UserPasswordChange
      */
     private $user;
 
-
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -65,8 +62,7 @@ class UserPasswordChange
      * @param string $token
      * @return UserPasswordChange
      */
-    public function setToken($token)
-    {
+    public function setToken($token) {
         $this->token = $token;
 
         return $this;
@@ -77,8 +73,7 @@ class UserPasswordChange
      *
      * @return string 
      */
-    public function getToken()
-    {
+    public function getToken() {
         return $this->token;
     }
 
@@ -88,8 +83,7 @@ class UserPasswordChange
      * @param \DateTime $created
      * @return UserPasswordChange
      */
-    public function setCreated($created)
-    {
+    public function setCreated($created) {
         $this->created = $created;
 
         return $this;
@@ -100,8 +94,7 @@ class UserPasswordChange
      *
      * @return \DateTime 
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
@@ -111,8 +104,7 @@ class UserPasswordChange
      * @param \User\Entity\Users $user
      * @return UserPasswordChange
      */
-    public function setUser(\User\Entity\Users $user = null)
-    {
+    public function setUser(\User\Entity\Users $user = null) {
         $this->user = $user;
 
         return $this;
@@ -123,17 +115,17 @@ class UserPasswordChange
      *
      * @return \User\Entity\Users 
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
-    
-/**
-* @ORM\PrePersist
-*/
+
+    /**
+     * @ORM\PrePersist
+     */
     public function prePersist() {
-    if(!$this->created){
-        $this->setCreated(new \DateTime());
+        if (!$this->created) {
+            $this->setCreated(new \DateTime());
+        }
     }
-}
+
 }

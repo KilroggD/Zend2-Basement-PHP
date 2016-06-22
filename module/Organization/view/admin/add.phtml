@@ -1,8 +1,9 @@
 <?php
+
 //$this->form->setWrapElements(true);
 $this->form->prepare();
 ?>
-<?=$this->form()->openTag($this->form)?>
-<?=$this->formCollection($this->form) ?>
-<?=$this->form()->closeTag($this->form) ?>
-<?=$this->htmlList($this->errors) ?>
+<?= $this->form()->openTag($this->form) ?>
+<?= $this->formCollection($this->form) ?>
+<?= $this->form()->closeTag($this->form) ?>
+<?= $this->htmlList($this->errors) ?>

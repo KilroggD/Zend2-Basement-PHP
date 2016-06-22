@@ -1,5 +1,7 @@
 <?php
+
 namespace Application\Interfaces;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,10 +14,13 @@ namespace Application\Interfaces;
  * @author kopychev
  */
 interface SimpleCrudInterface {
+
     //put your code here
     public function indexAction();
+
     public function addAction();
+
     public function editAction();
+
     public function deleteAction();
-    
 }

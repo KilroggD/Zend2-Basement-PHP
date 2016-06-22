@@ -1,5 +1,7 @@
 <?php
+
 namespace Acl\Controller;
+
 use Acl\Entity;
 
 /*
@@ -13,94 +15,98 @@ use Acl\Entity;
  * Управление ролями пользователей
  * @author kopychev
  */
-class RoleController extends MyAbstractController implements \Application\Interfaces\SimpleCrudInterface{
+class RoleController extends MyAbstractController implements \Application\Interfaces\SimpleCrudInterface {
+
     private $repository;
+
     //put your code here
     public function onDispatch(\Zend\Mvc\MvcEvent $e) {
-        $this->repository=$this->getRepository("Acl\Entity\AclRoles");
+        $this->repository = $this->getRepository("Acl\Entity\AclRoles");
         parent::onDispatch($e);
     }
+
     /**
      * Список доступных ролей в системе
      */
-    public function indexAction(){
-         $roles=array();
-        $records=$this->repository->findBy(array(),array('name'=>'ASC'));
-        foreach ($records as $role){
-            $roles[]=array(
-              "id"=>$role->getId(),
-               "name"=>$role->getName(),
-                "builtIn"=>$role->getBuiltIn(),
+    public function indexAction() {
+        $roles = array();
+        $records = $this->repository->findBy(array(), array('name' => 'ASC'));
+        foreach ($records as $role) {
+            $roles[] = array(
+                "id" => $role->getId(),
+                "name" => $role->getName(),
+                "builtIn" => $role->getBuiltIn(),
             );
         }
-        $form=$this->getFormByKey("Acl\Form\RoleForm");
-        $form->setAttribute("action",$this->url()->fromRoute("acl\\admin\\roles/add"));
-        return array("roles"=>$roles, "form"=>$form, "messages"=>$this->flashMessenger()->getMessages());
+        $form = $this->getFormByKey("Acl\Form\RoleForm");
+        $form->setAttribute("action", $this->url()->fromRoute("acl\\admin\\roles/add"));
+        return array("roles" => $roles, "form" => $form, "messages" => $this->flashMessenger()->getMessages());
     }
+
     /**
      * Добавить роль
      */
-    public function addAction(){
-                $request=$this->getRequest();
-        $form=$this->getFormByKey("Acl\Form\RoleForm");
-        $id=$this->params()->fromRoute("id");
-        $role=new Entity\AclRoles();        
-        if($id){
-            $role=$this->repository->find($id);
+    public function addAction() {
+        $request = $this->getRequest();
+        $form = $this->getFormByKey("Acl\Form\RoleForm");
+        $id = $this->params()->fromRoute("id");
+        $role = new Entity\AclRoles();
+        if ($id) {
+            $role = $this->repository->find($id);
         }
-        if($request->isPost()){
+        if ($request->isPost()) {
             $form->bind($role);
-            $post=$request->getPost();
-            $roleFound=$this->repository->findOneByName($post["name"]);
-            if($roleFound){
-            $this->flashMessenger()->addMessage("Роль с таким именем уже существует");
-                        }
-        else {
-            $form->setData($post);
-            if($form->isValid()){
-            $this->getEntityManager()->persist($role);
-            $this->getEntityManager()->flush();
-            $this->flashMessenger()->addMessage("Роль успешно добавлена");
+            $post = $request->getPost();
+            $roleFound = $this->repository->findOneByName($post["name"]);
+            if ($roleFound) {
+                $this->flashMessenger()->addMessage("Роль с таким именем уже существует");
+            } else {
+                $form->setData($post);
+                if ($form->isValid()) {
+                    $this->getEntityManager()->persist($role);
+                    $this->getEntityManager()->flush();
+                    $this->flashMessenger()->addMessage("Роль успешно добавлена");
+                } else {
+                    $this->flashMessenger()->addMessage($form->get('name')->getMessages('isEmpty'));
+                }
             }
-            else {
-                $this->flashMessenger()->addMessage($form->get('name')->getMessages('isEmpty'));
-            }
-        }
         }
         $this->redirect()->toRoute("acl\\admin\\roles");
     }
+
     /**
      * Редактировать роль
      */
-    public function editAction(){
-                $id=$this->params()->fromRoute('id');
-        if(!$id) {
+    public function editAction() {
+        $id = $this->params()->fromRoute('id');
+        if (!$id) {
             $this->redirect()->toRoute("acl\\admin\\roles");
         }
-        $role=$this->repository->find($id);
-        if(!$role){
+        $role = $this->repository->find($id);
+        if (!$role) {
             $this->flashMessenger()->addMessage("Роль не найдена");
         }
-        $form=$this->getFormByKey('Acl\Form\RoleForm');
+        $form = $this->getFormByKey('Acl\Form\RoleForm');
         $form->bind($role);
-        $form->setAttribute("action",$this->url()->fromRoute("acl\\admin\\roles/add",array("id"=>$id)));
-        return array("form"=>$form);
+        $form->setAttribute("action", $this->url()->fromRoute("acl\\admin\\roles/add", array("id" => $id)));
+        return array("form" => $form);
     }
+
     /**
      * Удалить роль
      */
-    public function deleteAction(){
-                        $id=$this->params()->fromRoute('id');
-                        if($id){
-                            $role=$this->getRepository('Acl\Entity\AclRoles')->find($id);
-                            if($role){
-                                $this->getEntityManager()->remove($role);
-                                $this->getEntityManager()->flush();
-                                $this->flashMessenger()->addMessage("Роль удалена");
-                            }
-                        }
-                                  
-            $this->redirect()->toRoute("acl\\admin\\roles");     
-    }   
-    
+    public function deleteAction() {
+        $id = $this->params()->fromRoute('id');
+        if ($id) {
+            $role = $this->getRepository('Acl\Entity\AclRoles')->find($id);
+            if ($role) {
+                $this->getEntityManager()->remove($role);
+                $this->getEntityManager()->flush();
+                $this->flashMessenger()->addMessage("Роль удалена");
+            }
+        }
+
+        $this->redirect()->toRoute("acl\\admin\\roles");
+    }
+
 }

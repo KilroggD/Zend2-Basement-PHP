@@ -1,6 +1,9 @@
 <?php
+
 namespace Admin\Controller;
+
 use Zend\Mvc\Controller\AbstractActionController;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,13 +15,15 @@ use Zend\Mvc\Controller\AbstractActionController;
  *
  * @author kopychev
  */
-class IndexController extends AbstractActionController{
+class IndexController extends AbstractActionController {
+
     //put your code here
     public $userParams;
+
     public function indexAction() {
-       $mm=$this->getServiceLocator()->get("ModuleManager");
-       $modules=$mm->getModules("Log");
-       return array("modules"=>$modules);
+        $mm = $this->getServiceLocator()->get("ModuleManager");
+        $modules = $mm->getModules("Log");
+        return array("modules" => $modules);
     }
-    
+
 }

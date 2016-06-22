@@ -2,10 +2,10 @@
 $this->form->prepare();
 ?>
 <div class="install-form-container">
-    <?=$this->form()->openTag($this->form)?>
-    <?=$this->formCollection($this->form) ?>
-    <?=$this->form()->closeTag($this->form)?>
+    <?= $this->form()->openTag($this->form) ?>
+    <?= $this->formCollection($this->form) ?>
+    <?= $this->form()->closeTag($this->form) ?>
 </div>
 <div class="error-list-container">
-    <?=$this->htmlList($this->messages) ?>
+    <?= $this->htmlList($this->messages) ?>
 </div>

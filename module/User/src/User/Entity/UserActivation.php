@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user_activation")
  * @ORM\Entity
  */
-class UserActivation
-{
+class UserActivation {
+
     /**
      * @var integer
      *
@@ -32,22 +32,19 @@ class UserActivation
     /**
      * @var \User\Entity\Users
      *
-      * @ORM\OneToOne(targetEntity="User\Entity\Users", inversedBy="userActivation")
+     * @ORM\OneToOne(targetEntity="User\Entity\Users", inversedBy="userActivation")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
     private $user;
 
-
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -57,8 +54,7 @@ class UserActivation
      * @param string $token
      * @return UserActivation
      */
-    public function setToken($token)
-    {
+    public function setToken($token) {
         $this->token = $token;
 
         return $this;
@@ -69,8 +65,7 @@ class UserActivation
      *
      * @return string 
      */
-    public function getToken()
-    {
+    public function getToken() {
         return $this->token;
     }
 
@@ -80,8 +75,7 @@ class UserActivation
      * @param \User\Entity\Users $user
      * @return UserActivation
      */
-    public function setUser(\User\Entity\Users $user = null)
-    {
+    public function setUser(\User\Entity\Users $user = null) {
         $this->user = $user;
 
         return $this;
@@ -92,8 +86,8 @@ class UserActivation
      *
      * @return \User\Entity\Users 
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
+
 }

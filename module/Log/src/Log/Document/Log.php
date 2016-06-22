@@ -12,8 +12,8 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  * )
  * @ODM\ChangeTrackingPolicy("DEFERRED_IMPLICIT")
  */
-class Log
-{
+class Log {
+
     /**
      * @var $id
      *
@@ -34,7 +34,8 @@ class Log
      * @ODM\Field(name="category", type="string", options={})
      */
     protected $category;
-  /**
+
+    /**
      * @var string $url
      *
      * @ODM\Field(name="url", type="string", options={})
@@ -47,24 +48,24 @@ class Log
      * @ODM\Field(name="text", type="string", options={})
      */
     protected $text;
-/**
+
+    /**
      * @var string $text
      *
      * @ODM\Field(name="timestamp", type="int", options={})
      */
     protected $timestamp;
+
     /**
      * Get id
      *
      * @return id $id
      */
     public function __construct() {
-        $this->timestamp=time();
+        $this->timestamp = time();
     }
-    
-    
-    public function getId()
-    {
+
+    public function getId() {
         return $this->id;
     }
 
@@ -74,8 +75,7 @@ class Log
      * @param string $importance
      * @return self
      */
-    public function setImportance($importance)
-    {
+    public function setImportance($importance) {
         $this->importance = $importance;
         return $this;
     }
@@ -85,8 +85,7 @@ class Log
      *
      * @return string $importance
      */
-    public function getImportance()
-    {
+    public function getImportance() {
         return $this->importance;
     }
 
@@ -96,8 +95,7 @@ class Log
      * @param string $category
      * @return self
      */
-    public function setCategory($category)
-    {
+    public function setCategory($category) {
         $this->category = $category;
         return $this;
     }
@@ -107,18 +105,17 @@ class Log
      *
      * @return string $category
      */
-    public function getCategory()
-    {
+    public function getCategory() {
         return $this->category;
     }
- /**
+
+    /**
      * Set category
      *
      * @param string $category
      * @return self
      */
-    public function setUrl($url)
-    {
+    public function setUrl($url) {
         $this->url = $url;
         return $this;
     }
@@ -128,18 +125,17 @@ class Log
      *
      * @return string $category
      */
-    public function getUrl()
-    {
+    public function getUrl() {
         return $this->url;
     }
+
     /**
      * Set text
      *
      * @param string $text
      * @return self
      */
-    public function setText($text)
-    {
+    public function setText($text) {
         $this->text = $text;
         return $this;
     }
@@ -149,8 +145,7 @@ class Log
      *
      * @return string $text
      */
-    public function getText()
-    {
+    public function getText() {
         return $this->text;
     }
 
@@ -160,8 +155,7 @@ class Log
      * @param int $timestamp
      * @return self
      */
-    public function setTimestamp($timestamp)
-    {
+    public function setTimestamp($timestamp) {
         $this->timestamp = $timestamp;
         return $this;
     }
@@ -171,10 +165,10 @@ class Log
      *
      * @return int $timestamp
      */
-    public function getTimestamp()
-    {
+    public function getTimestamp() {
         return $this->timestamp;
     }
+
     /**
      * @var string $user
      */
@@ -185,15 +179,13 @@ class Log
      */
     protected $lifecycleCallbacks;
 
-
     /**
      * Set user
      *
      * @param string $user
      * @return self
      */
-    public function setUser($user)
-    {
+    public function setUser($user) {
         $this->user = $user;
         return $this;
     }
@@ -203,8 +195,7 @@ class Log
      *
      * @return string $user
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
 
@@ -214,8 +205,7 @@ class Log
      * @param $lifecycleCallbacks
      * @return self
      */
-    public function setLifecycleCallbacks($lifecycleCallbacks)
-    {
+    public function setLifecycleCallbacks($lifecycleCallbacks) {
         $this->lifecycleCallbacks = $lifecycleCallbacks;
         return $this;
     }
@@ -225,8 +215,8 @@ class Log
      *
      * @return $lifecycleCallbacks
      */
-    public function getLifecycleCallbacks()
-    {
+    public function getLifecycleCallbacks() {
         return $this->lifecycleCallbacks;
     }
+
 }
